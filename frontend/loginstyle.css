@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+    font-family: AApple Chancery, cursive;
+}
+body { font-size: medium;
+background-color: rgba(39, 216, 247, 0.89);}
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+section{
+    border: 2px solid black;
+    margin: auto;
+    width: 450px;
+    height: 550px;
+    background-color: lightblue;
+    position: relative;
+    margin-top: 30px;
+}
+input{
+    font-size: 20px;
+    border-radius: 20px;
+}
+#logdiv{
+    margin: 50px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 28px;
+}
+#signdiv{
+    margin: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+p#log, p#sup{
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+	font-weight: bold;
+    border: 1px solid black;
+    padding: 5x;
+    margin: 0px;
+}
+p{ clear: right;}
+#log { background-color: rgb(134, 230, 134); float: right;}
+#sup {background-color: orange; float: right;}
+
+.subm{ margin-left: 10px; background-color: rgb(9, 133, 9);
+    border-radius: 10px;
+    font-size: 25px;
+    color: white;
+}
+.res{ margin-left: 80px; background-color: rgb(247, 7, 7);
+    border-radius: 10px;
+    color: white;
+    font-size: 25px;
+}
+@media (min-width: 992px) {
+
+	.col-lg-4 {
+		width: 50%;
+		float: left;
+	}
+}
+
+
+
+@media (max-width: 767px) {
+
+	section {
+		width: 80%;
+	}
+	div {
+		margin-right: 20px;
+		margin-bottom: 20px;
+	}
+}
