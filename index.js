@@ -57,8 +57,6 @@ let uid;
 let month;
 
 
-    //res.send("data recieved");
-})
 
 
 
