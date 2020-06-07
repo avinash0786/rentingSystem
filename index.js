@@ -5,60 +5,39 @@ var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb+srv://admin:ADMIN@cluster0786-eve5j.mongodb.net/FIRST?retryWrites=true&w=majority";
 
 const app=express();
-app.use(express.static('frontend'));
+const homeroute=require('./routes/homepage');  // routing homepage
+
+app.use("/logged",homeroute);  //logged in routes
+app.use(express.static('images'));
+app.use(express.static('css'));  //css files
 app.use(bodyparser.urlencoded({extended:true}));
-//app.get("/", function(req,res){
-    //res.sendFile(__dirname+"/newLogin.html")
-//})//  e:\rentingSystem\backend
+app.get("/", function(req,res){
+    res.sendFile(__dirname+"/index.html")
+})//  e:\rentingSystem\backend
 
-app.post("/login", function(req,res){                  // LANDLORD INITIALLY
-    //res.send("request seding")
-    let username=req.body.name;
-    let pswd=req.body.password;
-    console.log("Username: "+username," password: "+pswd)
-    res.sendFile("/frontend/landertest.html")
-/*Name 
-Unique ID
-Month
-Received payments, Count ** tenant ID, Name, Amount
-Pending payments, Count ** tenant ID, Name, Amount
-Total profit
-User approval and count
-total tenant count
-Account balance
-New user form last 3 months
-Landlord’s rent metrics
-  let totalprofit;
-const userid=1;
-  const pswd=1234;
-  let name;
-  let recPay;
-  let recPayCount;
-  let pendPay;
-  let pendPayCount;
-  let totalprofit;
-  let aprov;
-  let approvCount;
-  let baserent;
-  let electricity;
-  let water;
-  let totaltenant;
-  let security;
-  let maintainance;//  
-*/
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-var d = new Date();
-let date=  days[d.getDay()]+" "+ d.getDate()+"-"+months[d.getMonth()]+"-"+d.getFullYear();
-console.log(date)
-let name;
-let uid;
-let month;
-
-
-
-
+// verfying user 
+app.post("/login", function(req,res){
+  let check=false;
+  let username=parseInt(req.body.name);   // username
+  let pswd=req.body.password;   // password
+  console.log("Username: "+username," password: "+pswd)
+  MongoClient.connect(url, {useUnifiedTopology:true},function(err,db){
+    if(err) throw err;
+    var dbo=db.db("renting");
+    dbo.collection("landlord").find( {landlordID:username,pswd: pswd}).toArray(function(err,res){
+      if(err) throw err;
+      if(res.length==0)
+      {
+        console.log("User not found res: ")
+      }
+      else{
+        console.log("user found successful ");
+        check=true;
+      }
+    })
+  })
+  res.sendFile(__dirname+"/landertest.html")
+})
 
 
 ///  LISITING SERVER  DONT EDIT   //

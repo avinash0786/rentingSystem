@@ -26,6 +26,7 @@ MongoClient.connect(url,{ useUnifiedTopology: true } ,function(err, db) {
         console.log("User not found")
       }
       else{
+        console.log("user found");
         console.log(res)
         //console.log(res[0].address)
         name=res[0].fname;
