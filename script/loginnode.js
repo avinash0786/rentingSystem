@@ -7,15 +7,16 @@ var url = "mongodb+srv://admin:ADMIN@cluster0786-eve5j.mongodb.net/FIRST?retryWr
 const app=express();
 app.use(express.static('frontend'));
 app.use(bodyparser.urlencoded({extended:true}));
-app.get("/newLogin", function(req,res){
-    res.sendFile(__dirname+"/newLogin.html")
-})//  e:\rentingSystem\backend
+//app.get("/", function(req,res){
+    //res.sendFile(__dirname+"/newLogin.html")
+//})//  e:\rentingSystem\backend
 
 app.post("/login", function(req,res){                  // LANDLORD INITIALLY
     //res.send("request seding")
     let username=req.body.name;
     let pswd=req.body.password;
     console.log("Username: "+username," password: "+pswd)
+    res.sendFile("/frontend/landertest.html")
 /*Name 
 Unique ID
 Month
@@ -56,7 +57,7 @@ let uid;
 let month;
 
 
-    res.send("data recieved");
+    //res.send("data recieved");
 })
 
 
