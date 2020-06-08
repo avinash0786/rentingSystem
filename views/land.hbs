@@ -6,8 +6,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </head>
 <body>
-    <h3>TENANT LANDING PAGE DATA</h3>
-    <h4>User Name: {{username}}  User ID: {{userid}}</h4>
+    <h3 style="align-items: center;">TENANT LANDING PAGE DATA</h3>
 <div id="main">
     <table class="table table-striped">
         <thead>
@@ -21,22 +20,22 @@
           <tr>
             <th scope="row">1</th>
             <td>Name </td>
-            <td>Waiting..</td>
+            <td>{{username}}</td>
           </tr>
           <tr>
             <th scope="row">2</th>
             <td>Id </td>
-            <td>Waiting..</td>
+            <td>{{userid}}</td>
           </tr>
           <tr>
             <th scope="row">3</th>
             <td>Date </td>
-            <td>Waiting..</td>
+            <td>{{date}}</td>
           </tr>
           <tr>
             <th scope="row">5</th>
             <td>Recieved Payment COunt </td>
-            <td>Waiting..</td>
+            <td>{{recpaycount}}</td>
             <td><table class="table table-striped">
                 <thead>
                   <tr>
@@ -46,21 +45,14 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {{#each recpay}}
                   <tr>
                     <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Waiting</td>
+                    <td>{{this.tid}}</td>
+                    <td>{{this.tenantID}}</td>
                   </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Waiting</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>Waiting</td>
-                  </tr>
+                  {{/each}}
+                
                 </tbody>
               </table></td>
           </tr>
@@ -68,7 +60,7 @@
           <tr>
             <th scope="row">6</th>
             <td>Pending Payment Count </td>
-            <td>Waiting..</td>
+            <td>{{penpaycount}}</td>
             <td><table class="table table-striped">
                 <thead>
                   <tr>
@@ -78,21 +70,13 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {{#each pendpay}}
                   <tr>
                     <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Waiting</td>
+                    <td>{{this.tid}}</td>
+                    <td>{{this.tenantID}}</td>
                   </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Waiting</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>Waiting</td>
-                  </tr>
+                  {{/each}}
                 </tbody>
               </table></td>
           </tr>
@@ -104,25 +88,25 @@
                 <thead>
                   <tr>
                     <th scope="col">Base Rent</th>
-                    <th scope="col">Waiting</th>
+                    <th scope="col">{{baserent}}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">Water</th>
-                    <td>Waiting</td>
+                    <td>{{water}}</td>
                   </tr>
                   <tr>
                     <th scope="row">Electricity</th>
-                    <td>Waiting</td>
+                    <td>{{electricity}}</td>
                   </tr>
                   <tr>
                     <th scope="row">Security</th>
-                    <td>Waiting</td>
+                    <td>{{security}}</td>
                   </tr>
                   <tr>
                     <th scope="row">Maintenance</th>
-                    <td>Waiting</td>
+                    <td>{{maintenance}}</td>
                   </tr>
                 </tbody>
               </table></td>
@@ -130,35 +114,27 @@
           <tr>
             <th scope="row">8</th>
             <td>Total profit </td>
-            <td>Waiting..</td>
+            <td>{{totalprofit}}</td>
           </tr>
           <tr>
             <th scope="row">9</th>
             <td>Tenant count </td>
-            <td>Waiting..</td>
+            <td>{{tenantcount}}</td>
           </tr>
           <tr>
             <th scope="row">10</th>
             <td>User  approval count </td>
+            <td>{{approvalcount}}</td>
             <td><table class="table table-striped">
                 
                 <tbody>
-                  <tr>
+                  {{#each aprov}}
+                    <tr>
                     <th scope="row">User1 </th>
-                    <td>Waiting</td>
+                    <td>{{this.fname}}</td>
                   </tr>
-                  <tr>
-                    <th scope="row">User2</th>
-                    <td>Waiting</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">User3</th>
-                    <td>Waiting</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">User4</th>
-                    <td>Waiting</td>
-                  </tr>
+                  {{/each}}
+        
                 </tbody>
               </table></td>
           </tr>
