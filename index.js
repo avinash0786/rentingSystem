@@ -46,7 +46,7 @@ app.post("/login", function(req,res){
         console.log("user found successful ");
         name=result[0].fname;
         console.log("name: "+name)
-        res.render("land",{username:result[0].fname, userid: username })
+        res.render("land",{username:result[0].fname, userid:username })
       }
     })
   })
