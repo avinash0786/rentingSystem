@@ -6,8 +6,6 @@ const app=express();
 
 app.use(session({secret:"1234asdf",resave:false, saveUninitialized:true}))
 app.set('views',__dirname+'/views');
-app.engine("hbs", handlebars({extname:'hbs', layoutsDir:__dirname+"/views"}))
-app.set('view engine', 'hbs');
 
 ///     DATABASE CONNECTION     ///
 var MongoClient = require('mongodb').MongoClient;
