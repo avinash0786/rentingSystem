@@ -1,11 +1,11 @@
 const express=require("express");
 const bodyparser= require('body-parser');
-const handlebars = require('express-handlebars');
+const hbs = require('hbs');
 const session=require("express-session");
 const app=express();
 
 app.use(session({secret:"1234asdf",resave:false, saveUninitialized:true}))
-app.set('views',__dirname+'/views');
+app.set('view engine', 'hbs');
 
 ///     DATABASE CONNECTION     ///
 var MongoClient = require('mongodb').MongoClient;

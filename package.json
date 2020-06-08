@@ -4,6 +4,7 @@
   "description": "This acts like a interface between a Landlord and tenant...",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.4",
