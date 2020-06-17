@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        .table-fixed thead {
+  width: 97%;
+}
+.container{
+    width: 600px;
+}
+.panel-heading{
+    height: 40px;
+    padding: 10px 10px;
+    font-size: 15px;}
+.inputHeader{width:100%}
+.table-fixed tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+    </style>
+</head>
+<html>
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <p class="col-xs-10">Pending payments</p><p class="col-xs-2">Count: {{pendPayCount}}</p>
+              </div>
+              <table class="table table-fixed">
+                <thead>
+                  <tr>
+                    <th class="col-xs-2">TID</th>
+                    <th class="col-xs-5">Name</th>
+                    <th class="col-xs-3">Date</th>
+                    <th class="col-xs-2">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {{#each pendpay}}
+                  <tr>
+                    <td class="col-xs-2">{{this.tid}}</td>
+                    <td class="col-xs-5">{{this.tenantname}}</td>
+                    <td class="col-xs-3">{{this.amount}}</td>
+                    <td class="col-xs-2">{{this.amount}}</td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+</html>

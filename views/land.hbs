@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html>
     <head>
+
+      
         <title>TEST lander page</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<style>
+     .table-fixed thead {
+  width: 97%;
+}
+.container{
+    width: 600px;
+}
+.panel-heading{
+    height: 40px;
+    padding: 10px 10px;
+    font-size: 15px;}
+.inputHeader{width:100%}
+.table-fixed tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
+</style>
     </head>
 <body>
-    <h3 style="align-items: center;">TENANT LANDING PAGE DATA</h3>
+    <h3 style="align-items: center;">LANDLORD LANDING PAGE DATA</h3>
 <div id="main">
     <table class="table table-striped">
         <thead>
@@ -39,17 +67,19 @@
             <td><table class="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Tenant ID</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Transaction ID</th>
+                    <th scope="col">Tenant Name</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   {{#each recpay}}
                   <tr>
-                    <th scope="row">1</th>
                     <td>{{this.tid}}</td>
-                    <td>{{this.tenantID}}</td>
+                    <td>{{this.fname}}</td>
+                    <td>{{this.paidON}}</td>
+                    <td>{{this.amount}}</td>
                   </tr>
                   {{/each}}
                 
@@ -64,17 +94,19 @@
             <td><table class="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Tenant ID</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Transaction ID</th>
+                    <th scope="col">Tenant Name</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
                   {{#each pendpay}}
                   <tr>
-                    <th scope="row">1</th>
                     <td>{{this.tid}}</td>
-                    <td>{{this.tenantID}}</td>
+                    <td>{{this.fname}}</td>
+                    <td>{{this.dateGenerated}}</td>
+                    <td>{{this.amount}}</td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -130,7 +162,6 @@
                 <tbody>
                   {{#each aprov}}
                     <tr>
-                    <th scope="row">User1 </th>
                     <td>{{this.fname}}</td>
                   </tr>
                   {{/each}}

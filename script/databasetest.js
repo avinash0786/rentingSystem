@@ -18,7 +18,41 @@ MongoClient.connect(url,{ useUnifiedTopology: true } ,function(err, db) {
   let water;
   let totaltenant;
   let security;
-  let maintainance; // basic details
+  let maintainance; 
+  var pendtenantId
+  var pednamearr=[]
+  var rectenantId
+  var recnamearr=[]
+  // basic details
+  dbo.collection("transaction").find( {landlordID:1 , paidON: null}, {projection: {_id:0,tenantID:1,tid:1, dateGenerated:1}}).toArray( function(err,result){
+    if(err) throw err;
+    pendtenantId=result
+    pendPayCount=result.length;
+    var i;
+    for(i=0;i<result.length;i++)
+    {
+      pednamearr.push(result[i].tenantID);
+      var temp=result[i].dateGenerated.toString();
+      console.log(temp.slice(0,10));
+      result[i].dateGenerated=temp.slice(0,10);
+    }
+    console.log(pednamearr)
+  })
+
+  dbo.collection("transaction").find( {landlordID:1 , paidON: {$ne:null}}, {projection: {_id:0,tenantID:1,tid:1, paidON:1}}).toArray( function(err,result){
+    if(err) throw err;
+    rectenantId=result
+    recPayCount=result.length;
+    var i;
+    for(i=0;i<result.length;i++)
+    {
+      recnamearr.push(result[i].tenantID);
+      var temp=result[i].paidON.toString();
+      console.log(temp.slice(0,10));
+      result[i].paidON=temp.slice(0,10);
+    }
+    console.log(recnamearr)
+  })
     dbo.collection("landlord").find( {landlordID:userid}).toArray(function(err,res){
       if(err) throw err;
       if(res.length==0)
@@ -49,25 +83,9 @@ MongoClient.connect(url,{ useUnifiedTopology: true } ,function(err, db) {
       aprov=res;
       //console.log(aprov)
     }) // pending payments
-    dbo.collection("transaction").find( {landlordID:userid , paidON: null}, {projection: {tid:1, tenantID:1, _id:0}}).toArray( function(err,res){
-      if(err) throw err;
-      console.log("pending payments : ")
-      console.log(res)
-      pendPay=res;
-      console.log("pending payments COUNT : ")
-      console.log(res.length)
-      pendPayCount=res.length;
-    })
+    
     // recieved payments
-    dbo.collection("transaction").find( {paidON: {$ne:null}}, {projection: {tid:1, tenantID:1, _id:0}}).toArray( function(err,res){
-      if(err) throw err;
-      console.log("Recieved payments: ")
-      console.log(res)
-      recPay=res;
-      console.log("RECIEVED payments COUNT : ")
-      console.log(res.length)
-      recPayCount=res.length;
-    })
+    
     dbo.collection("tenant").find ({ verified: true}).count(function(err,res){
       console.log("Total verified Tenants: ")
       console.log(res);
@@ -83,6 +101,16 @@ db.employee.aggregate([
       totalprofit=res[0].TotalSum;
     })
 
+    
+
+    dbo.collection("tenant").find({tenantID: {$in: pednamearr}}, {projection:{_id:0, fname:1}}).toArray(function(err,result){
+      console.log("names:")
+      console.log(result)
+    })
+    dbo.collection("tenant").find({tenantID: {$in: recnamearr}}, {projection:{_id:0, fname:1}}).toArray(function(err,result){
+      console.log("names:")
+      console.log(result)
+    })
      
   /*dbo.collection("tenant").find({ verified: true},{projection:{fname:1,lname:1,_id:0}}).toArray(function(err, result) {
     if (err) throw err;

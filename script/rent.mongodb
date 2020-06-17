@@ -1,19 +1,15 @@
 use('renting');
-db.tenant.find();
-db.runCommand( { count:'tenantID',
+
+//db.tenant.find({landlordID:1, verified:false},{_id:0,fname:1,})
+//db.transaction.find({landlordID:1, paidON:null},{_id:0,tenantID:1,tid:1, dateGenerated:1});
+db.tenant.find({tenantID:{$in:[4,5,1]}, { _id:0,fname:1})
+
+
+//db.tenant.find();
+/*db.runCommand( { count:'tenantID',
                  query: { idcreatedON: { $gt: new Date('2012-02-23') } }
-               } )
-db.tenant.aggregate(
-  [
-    /**
-     * specifications: The fields to
-     *   include or exclude.
-     */
-    $project: {
-      totalcount: {$sum: "tenantID"}
-    }
-  ]
-)
+               } )*/
+
 
 
 // MongoDB Playground
