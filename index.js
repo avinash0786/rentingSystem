@@ -22,6 +22,24 @@ app.get("/", function(req,res){
     res.render("main")
 })//  e:\rentingSystem\backend
 
+app.get("/generatebills",(req,res)=>{// generating bills
+  //we first need to check if bill is generated for this month
+  var d = new Date();
+  console.log(d)
+  res.render("generatebill" ,{success:""})
+})
+
+app.post("/generatebills",(req,res)=>{
+  console.log("Request body val "+req.body.selection)
+  
+
+
+  res.send("waiting..")
+  //return res.redirect('/admin');
+})
+
+
+
 // verfying user 
 app.post("/login", function(req,res){
   var userid=parseInt(req.body.name);   // username
@@ -188,13 +206,16 @@ app.post("/login", function(req,res){
         console.log(recnames)
         var i=0;
         for (x in rectenantId){
-          rectenantId[x]['fname']=recnames[i].fname.toString();
+          rectenantId[x]["fname'"]=recnames[i].fname.toString();
           i++;
         }
         console.log(rectenantId)
+        return rectenantId;
       })
 
-    }).then(()=>{
+    }).then((sv)=>{
+      console.log("RENDERING")
+      console.log(pendtenantId)
       res.render("land",
   {
     username:name,

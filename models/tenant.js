@@ -1,0 +1,62 @@
+const mongoose=require("mongoose");
+
+const tenant=mongoose.Schema({
+    tenantID:{
+        type:Number,
+        min:0,
+        unique:true,
+        required:true
+    },
+    fname:{
+        type:String,
+        trim:true,
+        required:true
+    },
+    lname:{
+        type:String,
+        trim:true,
+        required:true
+    },
+    mobile:{
+        type:String,
+        unique:true,
+        trim:true
+    },
+    email:{
+        type:String,
+        unique:true,
+        trim:true,
+    },
+    room:{
+        type:Number,
+        min:0,
+        unique:true,
+        required:true
+    },
+    verified:{
+        type:Boolean,
+        required:true
+    },
+    landlordID:{
+        type:Number,
+        min:0,
+        required:true
+    },
+    idcreatedON:{
+        type:Date,
+        required:true,
+        default:Date.now
+    },
+    allotON:{
+        type:Date,
+        required:true,
+        default:Date.now
+    },
+    pswd:{
+        type:String,
+        required:true
+    }
+});
+
+mongoose.model('tenant',tenant);
+module.exports=mongoose.model("tenant");
