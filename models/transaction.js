@@ -30,7 +30,9 @@ const transaction=mongoose.Schema({
         require:true,
         min:0
     }
-})
+},
+{ collection : 'transaction' }
+)
 
 mongoose.model('transaction',transaction);
 module.exports=mongoose.model("transaction");

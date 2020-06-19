@@ -56,7 +56,9 @@ const tenant=mongoose.Schema({
         type:String,
         required:true
     }
-});
+},
+{ collection : 'tenant' }
+);
 
 mongoose.model('tenant',tenant);
 module.exports=mongoose.model("tenant");

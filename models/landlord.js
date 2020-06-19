@@ -19,23 +19,28 @@ const landlord=mongoose.Schema({
     },
     mobile:{
         type:String,
-        unique:true,
         trim:true,
+        default:"",
     },
     baserent:{
         type:Number,
+        default:0,
     },
     water:{
         type:Number,
+        default:0,
     },
     electricity:{
         type:Number,
+        default:0,
     },
     security:{
         type:Number,
+        default:0,
     },
     maintenance:{
         type:Number,
+        default:0
     },
     createdON:{
         type:Date,
@@ -48,11 +53,13 @@ const landlord=mongoose.Schema({
     },
     startRoom:{
         type:Number,
+        default:0,
         //required:true,
         min:0
     },
     endRoom:{
         type:Number,
+        default:0,
         //require:true,
         min:0
     },
@@ -60,7 +67,9 @@ const landlord=mongoose.Schema({
         type:String,
         required:true
     }
-})
+},
+{ collection : 'landlord' }
+)
 
 mongoose.model('landlord',landlord);
 module.exports=mongoose.model("landlord");

@@ -5,6 +5,8 @@ const hbs = require('hbs');
 const session=require("express-session");
 const database=require("./database");
 const landlord=require("./models/landlord")
+const tenant=require("./models/tenant")
+const transaction=require("./models/transaction")
 
 const url=process.env.DB_URL;
 const app=express();
@@ -48,44 +50,68 @@ app.post("/generatebills",(req,res)=>{
 
 //landlord signup
 app.post("/register",function(req,res){
-  landlord.find(function(e,r){
-    if(e)
-    {
-      console.log(e)
-    }
-    else{
-      console.log(r)
-    }
-  });
-
 //getting new ID of landlord 
   console.log("registering USER")
   var newID;
-  landlord.countDocuments( {},function(err,r){
-    newID=r;
-    console.log("results: "+r)
-    console.log("new user id: "+newID)
+
+  const qq=new Promise((resole,reject)=>{
+    landlord.countDocuments( {},function(err,r){
+      newID=r+1;
+      resole(newID)
+    })
   })
-
-  landlord.create({
-    landlordID: newID,
-    fname:  req.body.fname,
-    lname:  req.body.lname,
-    address:req.body.address,
-    pswd:req.body.spassword
-  },
-  function(err,result){
-    if(err){
+  qq.then((a)=>{
+    let newlandlord= new landlord({
+      landlordID: a,
+      fname:  req.body.fname,
+      lname:  req.body.lname,
+      address:req.body.address,
+      pswd:req.body.spassword
+    })
+    newlandlord.save().then((doc)=>{
+      res.render("main",{message2:"SIGNUP SUCCESSFULL ID:"+newID})
+    }).catch(err=>{
       console.log(err)
-      return res.send("insert error")
-    }
-    else{
-      res.render(main,{message2:"SIGNUP SUCCESS: ID:"+newID})
-    }
-  });
-
+        return res.send("insert error")
+    })
+  })
 })
 
+//creating new user by landlord
+app.get("/createuser", function(req,res){
+  res.render("createuser")
+})
+
+app.post("/createnewuser", function(req,res){
+  console.log("CREATING NEW USER")
+  var newID;
+
+  const qq=new Promise((resole,reject)=>{
+    tenant.countDocuments( {},function(err,r){
+      newID=r+1;
+      resole(newID)
+    })
+  })
+  qq.then((a)=>{
+    let newtenant= new tenant({
+      tenantID:a,
+      room:a,
+      landlordID: req.session.userid ,
+      verified:true,
+      fname: req.body.fname,
+      lname: req.body.lname,
+      email:req.body.email,
+      mobile:req.body.mobile,
+      pswd: req.body.password
+    })
+    newtenant.save().then((doc)=>{
+      res.render("createuser",{message2:"USER CREATED SUCCESSFULLY ID:"+newID})
+    }).catch(err=>{
+      console.log(err)
+        return res.send("insert error")
+    })
+  })
+})
 
 // verfying user 
 app.post("/login", function(req,res){
