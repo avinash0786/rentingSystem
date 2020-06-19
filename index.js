@@ -1,7 +1,12 @@
+require("dotenv").config();
 const express=require("express");
 const bodyparser= require('body-parser');
 const hbs = require('hbs');
 const session=require("express-session");
+const database=require("./database");
+const landlord=require("./models/landlord")
+
+const url=process.env.DB_URL;
 const app=express();
 
 app.use(session({secret:"1234asdf",resave:false, saveUninitialized:false}))
@@ -9,18 +14,21 @@ app.set('view engine', 'hbs');
 
 ///     DATABASE CONNECTION     ///
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb+srv://admin:ADMIN@cluster0786-eve5j.mongodb.net/FIRST?retryWrites=true&w=majority";
+//var url = "mongodb+srv://admin:ADMIN@cluster0786-eve5j.mongodb.net/FIRST?retryWrites=true&w=majority";
 
 const homeroute=require('./routes/homepage');  // routing homepage
+const e = require("express");
 
 app.use("/logged",homeroute);  //logged in routes
 app.use(express.static('images'));
 app.use(express.static('css'));  //css files
 app.use(bodyparser.urlencoded({extended:true}));
+
 app.get("/", function(req,res){
     //result.sendFile(__dirname+"/index.html")
     res.render("main")
 })//  e:\rentingSystem\backend
+
 
 app.get("/generatebills",(req,res)=>{// generating bills
   //we first need to check if bill is generated for this month
@@ -38,6 +46,45 @@ app.post("/generatebills",(req,res)=>{
   //return res.redirect('/admin');
 })
 
+//landlord signup
+app.post("/register",function(req,res){
+  landlord.find(function(e,r){
+    if(e)
+    {
+      console.log(e)
+    }
+    else{
+      console.log(r)
+    }
+  });
+
+//getting new ID of landlord 
+  console.log("registering USER")
+  var newID;
+  landlord.countDocuments( {},function(err,r){
+    newID=r;
+    console.log("results: "+r)
+    console.log("new user id: "+newID)
+  })
+
+  landlord.create({
+    landlordID: newID,
+    fname:  req.body.fname,
+    lname:  req.body.lname,
+    address:req.body.address,
+    pswd:req.body.spassword
+  },
+  function(err,result){
+    if(err){
+      console.log(err)
+      return res.send("insert error")
+    }
+    else{
+      res.render(main,{message2:"SIGNUP SUCCESS: ID:"+newID})
+    }
+  });
+
+})
 
 
 // verfying user 

@@ -39,7 +39,7 @@ const landlord=mongoose.Schema({
     },
     createdON:{
         type:Date,
-        required:true,
+        //required:true,
         default:Date.now
     },
     address:{
@@ -48,12 +48,12 @@ const landlord=mongoose.Schema({
     },
     startRoom:{
         type:Number,
-        required:true,
+        //required:true,
         min:0
     },
     endRoom:{
         type:Number,
-        require:true,
+        //require:true,
         min:0
     },
     pswd:{
