@@ -7,6 +7,7 @@ const database=require("./database");
 const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
+const val = require("express-validator")
 
 const url=process.env.DB_URL;
 const app=express();
