@@ -3,13 +3,16 @@ const express=require("express");
 const bodyparser= require('body-parser');
 const hbs = require('hbs');
 const session=require("express-session");
-const database=require("./database");
+require("./database");
 const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
 const val = require("express-validator")
-
 const url=process.env.DB_URL;
+
+const userRoute=require('./routes/landlord');  // routing user
+const landlordRoute=require('./routes/user');  // routing landlord
+
 const app=express();
 
 app.use(session({secret:"1234asdf",resave:false, saveUninitialized:false}))
@@ -17,20 +20,18 @@ app.set('view engine', 'hbs');
 
 ///     DATABASE CONNECTION     ///
 var MongoClient = require('mongodb').MongoClient;
-//var url = "mongodb+srv://admin:ADMIN@cluster0786-eve5j.mongodb.net/FIRST?retryWrites=true&w=majority";
 
-const homeroute=require('./routes/homepage');  // routing homepage
-const e = require("express");
 
-app.use("/logged",homeroute);  //logged in routes
+app.use(userRoute);  //USER routes
+app.use(landlordRoute);  //LANDLORD routes
+
 app.use(express.static('images'));
 app.use(express.static('css'));  //css files
 app.use(bodyparser.urlencoded({extended:true}));
 
 app.get("/", function(req,res){
-    //result.sendFile(__dirname+"/index.html")
     res.render("main")
-})//  e:\rentingSystem\backend
+})
 
 
 app.get("/generatebills",(req,res)=>{// generating bills
@@ -42,7 +43,6 @@ app.get("/generatebills",(req,res)=>{// generating bills
 
 app.post("/generatebills",(req,res)=>{
   console.log("Request body val "+req.body.selection)
-  
 
 
   res.send("waiting..")
