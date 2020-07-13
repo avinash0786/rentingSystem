@@ -14,7 +14,18 @@ router.use(bodyparser.json({ limit: "50mb" }));
 router.use(express.static('images'));
 router.use(express.static('css'));
 
-router.get('/tenant-login',function(req, res, next) {
+const tenantlogged=(req,res,next)=>{
+    if(!req.session.tenantID){
+        console.log("Tenant Session not defined, logging in");
+        res.redirect('/tenant-login')
+    }
+    else {
+        console.log("Tenant Session uid: "+req.session.tenantID+" redirected")
+        next()
+    }
+}
+
+router.get('/tenant-login',tenantlogged,function(req, res, next) {
     res.send("/tenant-login Recieved request ")
 });
 
