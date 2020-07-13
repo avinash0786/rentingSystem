@@ -8,8 +8,10 @@ const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
 const val = require("express-validator")
-const url=process.env.DB_URL;
+var bcrypt =require('bcrypt');
 
+const url=process.env.DB_URL;
+const saltRound=2312;
 const userRoute=require('./routes/landlord');  // routing user
 const landlordRoute=require('./routes/user');  // routing landlord
 
@@ -28,6 +30,18 @@ app.use(landlordRoute);  //LANDLORD routes
 app.use(express.static('images'));
 app.use(express.static('css'));  //css files
 app.use(bodyparser.urlencoded({extended:true}));
+
+//testing
+bcrypt.hash("1234",saltRound,function (err,hash) {
+if(err)
+{
+  console.log("Error in password")
+}
+else {
+  console.log("hashed password for: 1234")
+  console.log(hash)
+}
+})
 
 app.get("/", function(req,res){
     res.render("main")
