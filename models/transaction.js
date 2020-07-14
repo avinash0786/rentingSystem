@@ -29,7 +29,33 @@ const transaction=mongoose.Schema({
         type:Number,
         require:true,
         min:0
+    },
+    baseRent:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    water:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    electricity:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    maintenance:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    security:{
+        type:Number,
+        require:true,
+        min:0
     }
+
 },
 { collection : 'transaction' }
 )

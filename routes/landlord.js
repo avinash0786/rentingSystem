@@ -206,18 +206,38 @@ router.get('/landlord-profile',redirectLogin,function(req, res, next) {
     res.send("/landlord-profile Recieved request ")
 });
 
-router.get('/landlord-trans',redirectLogin,function(req, res, next) {
-    if(req.query.fetch=="paid")
+router.get('/landlord-trans',redirectLogin,async(req, res)=> {
+    var trans;
+    if(req.query.fetch==="paid")
     {
-        res.send("/landlord-trans  Paid Recieved request ")
+        trans= await transaction.find({landlordID:req.session.userID,paidON:{$ne:null}});
+
+        res.render("transaction",
+            {
+                type:'Only Paid',
+                land:req.session.userID,
+                trans:trans
+            });
     }
-    else if(req.query.fetch=="unpaid")
+    else if(req.query.fetch==="unpaid")
     {
-        res.send("/landlord-trans  unpaid  Recieved request ")
+         trans= await transaction.find({landlordID:req.session.userID,paidON:null});
+        res.render("transaction",
+            {
+                type:'Only UnPaid',
+                land:req.session.userID,
+                trans:trans
+            });
     }
     else
     {
-        res.send("/landlord-trans  All Recieved request ")
+        trans= await transaction.find({landlordID:req.session.userID});
+        res.render("transaction",
+            {
+                type:'All',
+                land:req.session.userID,
+                trans:trans
+            });
     }
 });
 
