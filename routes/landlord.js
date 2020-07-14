@@ -39,7 +39,7 @@ const redirectLogin=(req,res,next)=>{
     }
 }
 
-router.get('/landlord-login',redirectLanding,function (req,res,next) {
+router.get('/landlord-login',redirectLanding,function (req,res) {
     res.render("main")
 })
 
@@ -142,24 +142,32 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     totaltenant=d1;
 
     const d2=await transaction.find({landlordID:req.session.userID, paidON: null},'tenantID tid dateGenerated amount');
+    console.log(d2[0].dateGenerated.toString().slice(0,21));
     pendPayCount=d2.length;
     var i;
     for(i=0;i<d2.length;i++)
     {
         pednamearr.push(d2[i].tenantID);
-        var temp=d2[i].dateGenerated.toString();
-        d2[i].dateGenerated=temp.slice(0,15);
+        d2[i].dateGenerated=d2[i].dateGenerated.toString()
     }
+    console.log(d2)
     pendtenantId=d2;
 
     const d3=await transaction.find({landlordID:req.session.userID, paidON: {$ne:null}},'tenantID tid paidON amount')
     recPayCount=d3.length;
+    let a=d3[0].paidON.toString();
+    console.log(d3)
+     console.log(a)
+     console.log(a.slice(0,21));
     var i;
     for(i=0;i<d3.length;i++)
     {
         recnamearr.push(d3[i].tenantID);
-        var temp=d3[i].paidON.toString();
-        d3[i].dateGenerated=temp.slice(0,15);
+        var temp= d3[i].paidON.toString()
+        console.log("Temp: "+temp)
+        d3[i]['paidON']=7
+        console.log("val: "+d3[i]['paidON'])
+        console.log("PAid on: "+temp.slice(0,21))
     }
     rectenantId=d3
 
