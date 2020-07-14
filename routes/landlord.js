@@ -1,13 +1,12 @@
 require("dotenv").config();
 const express=require("express");
-const async =require("async");
 const bodyparser= require('body-parser');
 const session=require("express-session");
 const landlord=require("../models/landlord")
 const tenant=require("../models/tenant")
 const transaction=require("../models/transaction")
 const val = require("express-validator")
-var bcrypt =require('bcrypt');
+const bcrypt =require('bcrypt');
 const saltRound=2312;
 
 const router=express.Router();
@@ -57,6 +56,7 @@ router.post('/landlord-login',redirectLanding,async (req, res)=>{
     }
     else {
         if(await bcrypt.compare(req.body.password,user.pswd)){
+            console.log("Session Init")
             req.session.userID=userid;
             return res.redirect('/landlord-landing')// forwording to landing
         }
@@ -113,12 +113,12 @@ router.post('/landlord-signup',redirectLanding,function(req, res) {
 
 router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     console.log("Running landlord- landing")
-    const user=await landlord.findOne({landlordID:req.session.userID})
+    var user=await landlord.findOne({landlordID:req.session.userID})
     //****************AGGREGATING DATA FOR LANDING PAGE*************************
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     var d = new Date();
-    var date=  days[d.getDay()]+" "+ d.getDate()+"-"+months[d.getMonth()]+"-"+d.getFullYear();
+    var date=  days[d.getDay()]+" "+ d.getDate()+"-"+months[d.getMonth()]+"-"+d.getFullYear()
 
     var name,water,baserent,security,electricity,maintenance,approvCount,aprov,pendPay,pendPayCount,recPay,recPayCount,totaltenant;
     var pendtenantId
@@ -134,40 +134,33 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     security=user.security
     maintenance=user.maintenance
 
-    const result=await tenant.find({landlordID:req.session.userID, verified:false},'fname')
+    var result=await tenant.find({landlordID:req.session.userID, verified:false},'fname')
     aprov=result;
     approvCount=result.length;
 
-    const d1=await tenant.countDocuments({landlordID:req.session.userID,verified: true})
+    var d1=await tenant.countDocuments({landlordID:req.session.userID,verified: true})
     totaltenant=d1;
 
-    const d2=await transaction.find({landlordID:req.session.userID, paidON: null},'tenantID tid dateGenerated amount');
-    console.log(d2[0].dateGenerated.toString().slice(0,21));
+    var d2=await transaction.find({landlordID:req.session.userID, paidON: null},'tenantID tid dateGenerated amount');
     pendPayCount=d2.length;
     var i;
+
     for(i=0;i<d2.length;i++)
     {
         pednamearr.push(d2[i].tenantID);
-        d2[i].dateGenerated=d2[i].dateGenerated.toString()
+        var temp=d2[i].dateGenerated.toString()
+        d2[i].dateGenerated=temp.slice(0,21)
     }
-    console.log(d2)
     pendtenantId=d2;
 
-    const d3=await transaction.find({landlordID:req.session.userID, paidON: {$ne:null}},'tenantID tid paidON amount')
+    var d3=await transaction.find({landlordID:req.session.userID, paidON: {$ne:null}},'tenantID tid paidON amount')
     recPayCount=d3.length;
-    let a=d3[0].paidON.toString();
-    console.log(d3)
-     console.log(a)
-     console.log(a.slice(0,21));
     var i;
     for(i=0;i<d3.length;i++)
     {
         recnamearr.push(d3[i].tenantID);
-        var temp= d3[i].paidON.toString()
-        console.log("Temp: "+temp)
-        d3[i]['paidON']=7
-        console.log("val: "+d3[i]['paidON'])
-        console.log("PAid on: "+temp.slice(0,21))
+        var temp=d3[i].paidON.toString()
+        d3[i].paidON=temp.slice(0,21)
     }
     rectenantId=d3
 
@@ -214,7 +207,18 @@ router.get('/landlord-profile',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-trans',redirectLogin,function(req, res, next) {
-    res.send("/landlord-trans Recieved request ")
+    if(req.query.fetch=="paid")
+    {
+        res.send("/landlord-trans  Paid Recieved request ")
+    }
+    else if(req.query.fetch=="unpaid")
+    {
+        res.send("/landlord-trans  unpaid  Recieved request ")
+    }
+    else
+    {
+        res.send("/landlord-trans  All Recieved request ")
+    }
 });
 
 router.get('/landlord-genBill',redirectLogin,function(req, res, next) {

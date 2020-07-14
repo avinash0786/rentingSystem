@@ -97,9 +97,7 @@
                   <tr>
                     <td>{{this.tid}}</td>
                     <td>{{this.fname}}</td>
-                    <td id="newdate">{{this.paidON}}</td>
-                    <input type="hidden"  id="datepay" value="{{this.paidON}}" name="">
-              
+                    <td >{{this.paidON}}</td>              
                     <td>{{this.amount}}</td>
                   </tr>
                   {{/each}}
@@ -129,8 +127,7 @@
                   <tr>
                     <td>{{this.tid}}</td>
                     <td>{{this.fname}}</td>
-                    <td id="newdaterec">{{this.dateGenerated}}</td>
-                    <input type="hidden"  id="daterec" value="{{this.dateGenerated}}" name="">
+                    <td >{{this.dateGenerated}}</td>
                     <td>{{this.amount}}</td>
                   </tr>
                   {{/each}}
@@ -198,15 +195,5 @@
       </table>
 </div>
 </body>
-<script>
-    const datepay=document.getElementById("datepay").value;
-    console.log(datepay.slice(0,21))
-    document.getElementById("newdate").innerHTML =datepay.slice(0,21);
 
-    const daterec=document.getElementById("daterec").value;
-    console.log(daterec.slice(0,21))
-    document.getElementById("newdaterec").innerHTML =daterec.slice(0,21);
-
-
-</script>
 </html> 

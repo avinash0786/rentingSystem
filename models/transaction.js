@@ -8,12 +8,12 @@ const transaction=mongoose.Schema({
         min:0
     },
     dateGenerated:{
-        type:Date,
+        type:String,
         default:Date.now,
         require:true
     },
     paidON:{
-        type:Date,
+        type:String,
     },
     amount:{
         type:Number,
