@@ -31,7 +31,8 @@ app.use(express.static('css'));  //css files
 app.use(bodyparser.urlencoded({extended:true}));
 
 
-app.get("/", function(req,res){
+
+app.get("/", async (req,res)=>{
     res.render("all")
 })
 

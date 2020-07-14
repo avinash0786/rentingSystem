@@ -59,11 +59,11 @@
                 <td><b>Base Rent: </b>Rs {{this.baseRent}}</td>
             </tr>
             <tr>
-                <td><b>Generated ON: </b>{{this.dateGenerated}}</td>
+                <td><b>Generated ON: </b>{{this.dateGen}}</td>
                 <td><b>Water: </b>Rs {{this.water}}</td>
             </tr>
-            <tr>{{#if this.paidON}}
-                <td><b>Paid ON: </b>{{this.paidON}}</td>
+            <tr>{{#if this.datePaid}}
+                <td><b>Paid ON: </b>{{this.datePaid}}</td>
                 {{else}}
                 <td><b>Paid ON: </b>Unpaid</td>
                 {{/if}}
@@ -73,8 +73,9 @@
                 <td><b>Tenant Id: </b>{{this.tenantID}}</td>
                 <td><b>Maintenance: </b>Rs {{this.maintenance}}</td>
             </tr>
-            <tr>
-                <td><b>Landlord ID: </b>{{land}}</td>
+            <tr>{{#each this.NameMatch}}
+                <td><b>Tenant Name: </b>{{this.fname}}</td>
+                {{/each}}
                 <td><b>Security: </b>Rs {{this.security}}</td>
             </tr>
             <tr>

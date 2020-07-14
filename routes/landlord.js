@@ -207,36 +207,108 @@ router.get('/landlord-profile',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-trans',redirectLogin,async(req, res)=> {
-    var trans;
     if(req.query.fetch==="paid")
     {
-        trans= await transaction.find({landlordID:req.session.userID,paidON:{$ne:null}});
+        const ans= await transaction.aggregate([
+            {
+                $match:{
+                    landlordID:1,
+                    paidON:{$ne:null}
+                }
+            },
+            {
+                $lookup:
+                    {
+                        from: "tenant",
+                        localField: "tenantID",
+                        foreignField: "tenantID",
+                        as: "NameMatch"
+                    }
+            },
+            {
+                $project:{
+                    dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
+                    datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
+                    NameMatch: {fname:1},fname:1,
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1
+                }
+            }
+        ])
 
         res.render("transaction",
             {
                 type:'Only Paid',
                 land:req.session.userID,
-                trans:trans
+                trans:ans
             });
     }
     else if(req.query.fetch==="unpaid")
     {
-         trans= await transaction.find({landlordID:req.session.userID,paidON:null});
+        const ans= await transaction.aggregate([
+            {
+                $match:{
+                    landlordID:1,
+                    paidON:null
+                }
+            },
+            {
+                $lookup:
+                    {
+                        from: "tenant",
+                        localField: "tenantID",
+                        foreignField: "tenantID",
+                        as: "NameMatch"
+                    }
+            },
+            {
+                $project:{
+                    dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
+                    datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
+                    NameMatch: {fname:1},fname:1,
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1
+                }
+            }
+        ])
+
         res.render("transaction",
             {
                 type:'Only UnPaid',
                 land:req.session.userID,
-                trans:trans
+                trans:ans
             });
     }
     else
     {
-        trans= await transaction.find({landlordID:req.session.userID});
+        const ans= await transaction.aggregate([
+            {
+                $match:{
+                    landlordID:1,
+                }
+            },
+            {
+                $lookup:
+                    {
+                        from: "tenant",
+                        localField: "tenantID",
+                        foreignField: "tenantID",
+                        as: "NameMatch"
+                    }
+            },
+
+            {
+                $project:{
+                    dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
+                    datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
+                    NameMatch: {fname:1},fname:1,
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1
+                }
+            }
+        ])
         res.render("transaction",
             {
                 type:'All',
                 land:req.session.userID,
-                trans:trans
+                trans:ans
             });
     }
 });
