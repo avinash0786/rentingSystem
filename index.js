@@ -9,7 +9,6 @@ const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
 const val = require("express-validator")
 var bcrypt =require('bcrypt');
-
 const url=process.env.DB_URL;
 const saltRound=2312;
 const userRoute=require('./routes/landlord');

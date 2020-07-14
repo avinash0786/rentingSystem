@@ -17,21 +17,33 @@ router.use(express.static('images'));
 router.use(express.static('css'));
 //MIDDLEWARES
 
-const logged=(req,res,next)=>{
+const redirectLanding=(req,res,next)=>{
+    if(req.session.userID){
+        console.log("Redirected to dashboard");
+        res.redirect("/landlord-landing")
+    }
+    else {
+        console.log("Session uid  not exist")
+        next()
+    }
+}
+
+const redirectLogin=(req,res,next)=>{
     if(!req.session.userID){
-        console.log("Session not defined, logging in");
+        console.log("Session not defined, loggin first");
         res.redirect("/landlord-login")
     }
     else {
         console.log("Session uid: "+req.session.userID+" redirected")
-        res.redirect("/landlord-landing")
+        next()
     }
 }
-router.get('/landlord-login',function (req,res) {
+
+router.get('/landlord-login',redirectLanding,function (req,res,next) {
     res.render("main")
 })
 
-router.post('/landlord-login',async (req, res)=>{
+router.post('/landlord-login',redirectLanding,async (req, res)=>{
     console.log("Running Landlord login")
     let userid=req.body.name;
     console.log("User id:  "+userid)
@@ -46,7 +58,7 @@ router.post('/landlord-login',async (req, res)=>{
     else {
         if(await bcrypt.compare(req.body.password,user.pswd)){
             req.session.userID=userid;
-            res.redirect('/landlord-landing')// forwording to landing
+            return res.redirect('/landlord-landing')// forwording to landing
         }
         else {
             res.render("main", {message: "INCORRECT credentials"})
@@ -54,7 +66,7 @@ router.post('/landlord-login',async (req, res)=>{
     }
 });
 
-router.post('/landlord-signup',function(req, res) {
+router.post('/landlord-signup',redirectLanding,function(req, res) {
     var pswd=req.body.pswd;
     const qq=new Promise((resole,reject)=>{  //geeting new id
         landlord.countDocuments( {},function(err,r){
@@ -99,7 +111,7 @@ router.post('/landlord-signup',function(req, res) {
     })
 });
 
-router.get('/landlord-landing',async(req, res)=> {
+router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     console.log("Running landlord- landing")
     const user=await landlord.findOne({landlordID:req.session.userID})
     //****************AGGREGATING DATA FOR LANDING PAGE*************************
@@ -189,43 +201,43 @@ router.get('/landlord-landing',async(req, res)=> {
         })
 });
 
-router.get('/landlord-profile',function(req, res, next) {
+router.get('/landlord-profile',redirectLogin,function(req, res, next) {
     res.send("/landlord-profile Recieved request ")
 });
 
-router.get('/landlord-trans',function(req, res, next) {
+router.get('/landlord-trans',redirectLogin,function(req, res, next) {
     res.send("/landlord-trans Recieved request ")
 });
 
-router.get('/landlord-genBill',function(req, res, next) {
+router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
     res.send("/landlord-genBill Recieved request ")
 });
 
-router.get('/landlord-tenant',function(req, res, next) {
+router.get('/landlord-tenant',redirectLogin,function(req, res, next) {
     res.send("/landlord-tenant Recieved request ")
 });
 
-router.get('/landlord-property',function(req, res, next) {
+router.get('/landlord-property',redirectLogin,function(req, res, next) {
     res.send("/landlord-property Recieved request ")
 });
 
-router.get('/landlord-createTenant',function(req, res, next) {
+router.get('/landlord-createTenant',redirectLogin,function(req, res, next) {
     res.send("landlord-createTenant Recieved request ")
 });
 
-router.get('/landlord-rentMetric',function(req, res, next) {
+router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {
     res.send("landlord-rentMetric Recieved request ")
 });
 
-router.get('/landlord-maint',function(req, res, next) {
+router.get('/landlord-maint',redirectLogin,function(req, res, next) {
     res.send("Profile Recieved request ")
 });
 
-router.get('/landlord-recExp',function(req, res, next) {
+router.get('/landlord-recExp',redirectLogin,function(req, res, next) {
     res.send("Profile Recieved request ")
 });
 
-router.get('/landlord-logout',function(req, res, next) {
+router.get('/landlord-logout',redirectLogin,function(req, res, next) {
     req.session.destroy(function (err) {
         if(err){
             res.redirect('/');
