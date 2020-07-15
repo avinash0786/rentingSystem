@@ -1,13 +1,12 @@
 require("dotenv").config();
 const express=require("express");
 const bodyparser= require('body-parser');
-const hbs = require('hbs');
 const session=require("express-session");
 require("./database");
 const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
-const val = require("express-validator")
+const { body, validationResult } = require('express-validator');
 var bcrypt =require('bcrypt');
 const url=process.env.DB_URL;
 const saltRound=2312;
