@@ -8,12 +8,12 @@ const transaction=mongoose.Schema({
         min:0
     },
     dateGenerated:{
-        type:Date,
+        type:String,
         default:Date.now,
         require:true
     },
     paidON:{
-        type:Date,
+        type:String,
     },
     amount:{
         type:Number,
@@ -29,7 +29,33 @@ const transaction=mongoose.Schema({
         type:Number,
         require:true,
         min:0
+    },
+    baseRent:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    water:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    electricity:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    maintenance:{
+        type:Number,
+        require:true,
+        min:0
+    },
+    security:{
+        type:Number,
+        require:true,
+        min:0
     }
+
 },
 { collection : 'transaction' }
 )
