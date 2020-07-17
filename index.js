@@ -33,7 +33,7 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 
 app.get("/", async (req,res)=>{
-    res.render("all")
+    res.render("first")
 })
 
 
