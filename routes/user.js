@@ -5,6 +5,7 @@ const session=require("express-session");
 const landlord=require("../models/landlord")
 const tenant=require("../models/tenant")
 const transaction=require("../models/transaction")
+const notifications=require("../models/notifications")
 const val = require("express-validator")
 var bcrypt =require('bcrypt');
 

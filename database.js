@@ -8,7 +8,6 @@ mongoose.connect(process.env.DB_URL,{
     useCreateIndex:true,
     useUnifiedTopology: true,
     useFindAndModify:false,
-
 })
 
 mongoose.connect(

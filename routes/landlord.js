@@ -4,6 +4,7 @@ const bodyparser= require('body-parser');
 const landlord=require("../models/landlord")
 const tenant=require("../models/tenant")
 const transaction=require("../models/transaction")
+const notifications=require("../models/notifications")
 const { check, validationResult } = require('express-validator');
 const val = require("express-validator")
 const bcrypt =require('bcrypt');
@@ -217,12 +218,13 @@ router.get('/landlord-profile',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-trans',redirectLogin,async(req, res)=> {
+    const user=parseInt(req.session.userID);
     if(req.query.fetch==="paid")
     {
         const ans= await transaction.aggregate([
             {
                 $match:{
-                    landlordID:1,
+                    landlordID:user,
                     paidON:{$ne:null}
                 }
             },
@@ -257,7 +259,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
         const ans= await transaction.aggregate([
             {
                 $match:{
-                    landlordID:1,
+                    landlordID:user,
                     paidON:null
                 }
             },
@@ -292,7 +294,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
         const ans= await transaction.aggregate([
             {
                 $match:{
-                    landlordID:1,
+                    landlordID:user,
                 }
             },
             {
@@ -336,7 +338,7 @@ router.get('/landlord-property',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-createTenant',redirectLogin,function(req, res, next) {
-    res.send("landlord-createTenant Recieved request ")
+    res.render("createuser")
 });
 
 router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {
@@ -357,6 +359,7 @@ router.get('/landlord-logout',redirectLogin,function(req, res, next) {
             res.redirect('/');
         }
     })
+    console.log("Session destroyed: Logout")
     res.redirect('/');
 });
 
