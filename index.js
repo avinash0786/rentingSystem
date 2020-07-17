@@ -1,16 +1,10 @@
 require("dotenv").config();
 const express=require("express");
 const bodyparser= require('body-parser');
-const hbs = require('hbs');
 const session=require("express-session");
 require("./database");
 const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
-const transaction=require("./models/transaction")
-const val = require("express-validator")
-var bcrypt =require('bcrypt');
-const url=process.env.DB_URL;
-const saltRound=2312;
 const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
 
@@ -19,42 +13,17 @@ const app=express();
 app.use(session({secret:"1234asdf",resave:false, saveUninitialized:false}))
 app.set('view engine', 'hbs');
 
-///     DATABASE CONNECTION     ///
-var MongoClient = require('mongodb').MongoClient;
-
-
-app.use(userRoute);  //USER routes
-app.use(landlordRoute);  //LANDLORD routes
-
+app.use(userRoute);
+app.use(landlordRoute);
 app.use(express.static('images'));
 app.use(express.static('css'));  //css files
 app.use(bodyparser.urlencoded({extended:true}));
-
-
 
 app.get("/", async (req,res)=>{
     res.render("first")
 })
 
-
-app.get("/generatebills",(req,res)=>{// generating bills
-  //we first need to check if bill is generated for this month
-  var d = new Date();
-  console.log(d)
-  res.render("generatebill" ,{success:""})
-})
-
-app.post("/generatebills",(req,res)=>{
-  console.log("Request body val "+req.body.selection)
-
-
-  res.send("waiting..")
-  //return res.redirect('/admin');
-})
-
-//landlord signup
 app.post("/register",function(req,res){
-//getting new ID of landlord 
   console.log("registering USER")
   var newID;
 
@@ -79,11 +48,6 @@ app.post("/register",function(req,res){
         return res.send("insert error")
     })
   })
-})
-
-//creating new user by landlord
-app.get("/createuser", function(req,res){
-  res.render("createuser")
 })
 
 app.post("/createnewuser", function(req,res){

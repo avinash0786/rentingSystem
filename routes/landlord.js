@@ -1,10 +1,11 @@
 require("dotenv").config();
 const express=require("express");
 const bodyparser= require('body-parser');
-const session=require("express-session");
 const landlord=require("../models/landlord")
 const tenant=require("../models/tenant")
 const transaction=require("../models/transaction")
+const notifications=require("../models/notifications")
+const { check, validationResult } = require('express-validator');
 const val = require("express-validator")
 const bcrypt =require('bcrypt');
 const saltRound=2312;
@@ -42,7 +43,17 @@ router.get('/landlord-login',redirectLanding,function (req,res) {
     res.render("main")
 })
 
-router.post('/landlord-login',redirectLanding,async (req, res)=>{
+router.post('/landlord-login',
+    [
+        check("name").not().isEmpty().trim().escape().isNumeric(),
+        check("password").not().isEmpty().trim().escape(),
+    ],
+    redirectLanding,async (req, res)=>{
+    const valError=validationResult(req);
+    if(!valError.isEmpty())
+    {   console.log("Validation Error!")
+        return res.render("main",{message: "Invalid Value"})
+    }
     console.log("Running Landlord login")
     let userid=req.body.name;
     console.log("User id:  "+userid)
@@ -207,12 +218,13 @@ router.get('/landlord-profile',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-trans',redirectLogin,async(req, res)=> {
+    const user=parseInt(req.session.userID);
     if(req.query.fetch==="paid")
     {
         const ans= await transaction.aggregate([
             {
                 $match:{
-                    landlordID:1,
+                    landlordID:user,
                     paidON:{$ne:null}
                 }
             },
@@ -247,7 +259,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
         const ans= await transaction.aggregate([
             {
                 $match:{
-                    landlordID:1,
+                    landlordID:user,
                     paidON:null
                 }
             },
@@ -282,7 +294,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
         const ans= await transaction.aggregate([
             {
                 $match:{
-                    landlordID:1,
+                    landlordID:user,
                 }
             },
             {
@@ -326,7 +338,7 @@ router.get('/landlord-property',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-createTenant',redirectLogin,function(req, res, next) {
-    res.send("landlord-createTenant Recieved request ")
+    res.render("createuser")
 });
 
 router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {
@@ -347,6 +359,7 @@ router.get('/landlord-logout',redirectLogin,function(req, res, next) {
             res.redirect('/');
         }
     })
+    console.log("Session destroyed: Logout")
     res.redirect('/');
 });
 
