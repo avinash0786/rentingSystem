@@ -247,7 +247,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
             }
         ])
 
-        res.render("transaction",
+        res.render("transactions",
             {
                 type:'Only Paid',
                 land:req.session.userID,
@@ -282,7 +282,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
             }
         ])
 
-        res.render("transaction",
+        res.render("transactions",
             {
                 type:'Only UnPaid',
                 land:req.session.userID,
@@ -316,7 +316,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                 }
             }
         ])
-        res.render("transaction",
+        res.render("transactions",
             {
                 type:'All',
                 land:req.session.userID,
