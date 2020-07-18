@@ -9,22 +9,23 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Black">
-    <link rel="stylesheet" href="/assets/css/styles.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/styles.min.css">
 </head>
 
 <body style="background-color: #f3f7f7;margin-top: 74px;">
     <nav class="navbar navbar-dark navbar-expand-md fixed-top border-info text-center border rounded-0 shadow-sm visible" data-toggle="tooltip" data-bs-tooltip="" style="background-color: #39424E;height: 60px;padding: 12px;color: rgb(255,255,255);">
         <div class="container-fluid"><a class="navbar-brand" href="/landlord-landing" style="color: rgba(247,247,247,0.9);font-size: 29px;font-family: 'Archivo Black', sans-serif;">Renting System</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div
-                class="collapse navbar-collapse" id="navcol-1" style="color: rgb(246,243,243);margin-top: 3px;">
+                class="collapse navbar-collapse" id="navcol-1" style="color: #f3f7f7;margin-top: 3px;">
                 <ul class="nav navbar-nav" style="font-size: 24px;">
-                    <li class="nav-item border rounded-0" role="presentation"><a class="nav-link active" href="#" style="color: rgb(255,255,255);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;padding: 0px;margin: 6px;margin-right: 15px;margin-top: 9px;">TRANSACTIONS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(249,247,247);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;margin-right: 15px;filter: blur(0px);">CREATE TENANT</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(254,254,254);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">BILL GENERATE</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(255,255,255);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">TENANTS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(255,255,255);margin-right: 15px;font-size: 18px;">NOTIFICATIONS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(255,255,255);font-size: 15px;font-family: 'Archivo Black', sans-serif;"></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="font-size: 18px;font-family: 'Alegreya Sans', sans-serif;">Welcome, Tarun rana&nbsp; &nbsp; &nbsp; ID: {{land}}</a></li>
+                    <li class="nav-item border rounded-0" role="presentation"><a class="nav-link active" href="/landlord-trans?fetch=all" style="color: rgb(255,255,255);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;padding: 0px;margin: 6px;margin-right: 15px;margin-top: 9px;">TRANSACTIONS</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-createTenant" style="color: rgb(249,247,247);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;margin-right: 15px;filter: blur(0px);">CREATE TENANT</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-genBill" style="color: rgb(254,254,254);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">BILL GENERATE</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-tenant" style="color: rgb(255,255,255);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">TENANTS</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-notification" style="color: rgb(255,255,255);margin-right: 15px;font-size: 18px;">NOTIFICATIONS</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-profile" style="color: rgb(255,255,255);font-size: 15px;font-family: 'Archivo Black', sans-serif;"></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-profile" style="font-size: 18px;font-family: 'Alegreya Sans', sans-serif;">Welcome, Tarun rana&nbsp; &nbsp; &nbsp; ID: {{land}}</a></li>
                     <li class="nav-item" role="presentation"></li>
                     <li class="nav-item" role="presentation"></li>
                 </ul><a class="btn text-white border-white ml-auto" role="button" href="/landlord-profile" style="margin-right: 38px;font-size: 23px;font-family: 'Alegreya Sans', sans-serif;background-color: rgba(255,255,255,0);padding: 4px;padding-top: 1px;padding-right: 17px;padding-bottom: 1px;padding-left: 17px;">Profile</a>
@@ -33,10 +34,11 @@
         </div>
         </div>
     </nav>
+    <h1 style="width: 50%;background-repeat: no-repeat;background-color: #ffffff;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;Transactions</h1>
     <div class="container" style="width: 30%;">
         <div class="btn-group-vertical d-inline float-none" role="group" id="selection" style="margin: 0;margin-top: 0;height: 31px;width: 120px;padding: 0px;font-size: 21px;font-family: 'Alegreya Sans', sans-serif;color: rgb(1,1,1);margin-right: 0px;margin-left: 0;"><a class="btn btn-primary bg-light border rounded-0 border-white shadow" role="button" style="background-color: #FFFFFF;color: rgb(0,0,0);font-size: 23px;font-family: 'Alegreya Sans', sans-serif;padding: 0px;height: 40px;" href="/landlord-trans?fetch=all">All Transaction</a>
             <a
-                class="btn btn-primary border rounded-0 border-white shadow" role="button" style="padding: 1px;background-color: #FFFFFF;color: rgb(1,1,1);font-size: 23px;height: 40px;" href="/landlord-trans?fetch=paid">Recieved Transaction</a><a class="btn btn-primary border rounded-0 border-light shadow" role="button" style="background-color: #FFFFFF;color: rgb(4,4,4);font-size: 23px;height: 40px;" href="/landlord-trans?fetch=unpaid">Pending Transaction</a></div>
+                    class="btn btn-primary border rounded-0 border-white shadow" role="button" style="padding: 1px;background-color: #FFFFFF;color: rgb(1,1,1);font-size: 23px;height: 40px;" href="/landlord-trans?fetch=paid">Recieved Transaction</a><a class="btn btn-primary border rounded-0 border-light shadow" role="button" style="background-color: #FFFFFF;color: rgb(4,4,4);font-size: 23px;height: 40px;" href="/landlord-trans?fetch=unpaid">Pending Transaction</a></div>
     </div>
 {{#each trans}}
     <div class="container-fluid shadow" style="width: 60%;margin-top: 37px;margin-bottom: 15px;">
@@ -54,7 +56,7 @@
                         {{#if this.datePaid}}
                             <td>Paid ON: {{this.datePaid}}</td>
                         {{else}}
-                            <td><b>Paid ON: </b>Unpaid</td>
+                            <td>Paid ON: Unpaid</td>
                         {{/if}}
                         <td>Base Rent: Rs {{this.baseRent}}</td>
                     </tr>
@@ -81,7 +83,7 @@
 {{/each}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/script.min.js"></script>
+    <script src="../script/script.min.js"></script>
 </body>
 
 </html>

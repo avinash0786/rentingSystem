@@ -54,6 +54,14 @@ const transaction=mongoose.Schema({
         type:Number,
         require:true,
         min:0
+    },
+    initialUnit:{
+        type:Number,
+        min:0,
+    },
+    finalUnit:{
+        type:Number,
+        min:0,
     }
 
 },

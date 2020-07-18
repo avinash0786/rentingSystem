@@ -13,8 +13,8 @@ const saltRound=2312;
 const router=express.Router();
 router.use(bodyparser.json({ limit: "50mb" }));
 router.use(bodyparser.urlencoded({extended:true}));
-router.use(express.static('images'));
-router.use(express.static('css'));
+router.use(express.static('../images'));
+router.use(express.static('../css'));
 //MIDDLEWARES
 
 const redirectLanding=(req,res,next)=>{
@@ -76,7 +76,9 @@ router.post('/landlord-login',
         }
     }
 });
-
+router.get('/landlord-signup',redirectLanding,function (req,res) {
+    res.render("createTenant")
+})
 router.post('/landlord-signup',redirectLanding,function(req, res) {
     var pswd=req.body.pswd;
     const qq=new Promise((resole,reject)=>{  //geeting new id
@@ -192,7 +194,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
 
 
     console.log("RENDERING")
-    res.render("land",
+    res.render("index",
         {
             username:name,
             userid:req.session.userID ,
@@ -329,8 +331,11 @@ router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
     res.send("/landlord-genBill Recieved request ")
 });
 
-router.get('/landlord-tenant',redirectLogin,function(req, res, next) {
-    res.send("/landlord-tenant Recieved request ")
+router.get('/landlord-tenant',redirectLogin,async (req, res, next)=> {
+    const ans =await tenant.find({landlordID:req.session.userID})
+    res.render("tenants",{
+        tenant:ans
+    })
 });
 
 router.get('/landlord-property',redirectLogin,function(req, res, next) {
@@ -338,7 +343,7 @@ router.get('/landlord-property',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-createTenant',redirectLogin,function(req, res, next) {
-    res.render("createuser")
+    res.render("createTenant")
 });
 
 router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {
