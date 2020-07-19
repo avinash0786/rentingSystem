@@ -7,6 +7,7 @@ const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
 const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
+const path=require("path")
 
 const app=express();
 
@@ -15,8 +16,10 @@ app.set('view engine', 'hbs');
 
 app.use(userRoute);
 app.use(landlordRoute);
-app.use(express.static('images'));
-app.use(express.static('css'));  //css files
+console.log(path.join(__dirname,"./images"))
+app.use(express.static(path.join(__dirname,"./images")));
+app.use(express.static(path.join(__dirname,"./css")));
+app.use(express.static(path.join(__dirname,"./script")));
 app.use(bodyparser.urlencoded({extended:true}));
 
 app.get("/", async (req,res)=>{

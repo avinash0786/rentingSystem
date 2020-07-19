@@ -244,9 +244,10 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
-            }
+            },
+            { $sort : { dateGen: 1 } }
         ])
 
         res.render("transactions",
@@ -279,9 +280,10 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
-            }
+            },
+            { $sort : { dateGen: 1 } }
         ])
 
         res.render("transactions",
@@ -308,15 +310,15 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                         as: "NameMatch"
                     }
             },
-
             {
                 $project:{
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
-            }
+            },
+            { $sort : { dateGen: 1 } }
         ])
         res.render("transactions",
             {
@@ -358,7 +360,7 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
     console.log("Year: "+req.session.year)
     var monthName=months[month-1];
     req.session.monthname=monthName
-    var trans=await transaction.findOne({year:year,month:month})
+    var trans=await transaction.findOne({landlordID:req.session.userID,year:year,month:month})
     console.log(trans)
     if(!(trans===null))
     {
@@ -408,7 +410,7 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
             tenantID:t.tenantID,
             baseRent:ans.baseRent,
             water:ans.water,
-            electricity:ans.electricity,
+            electricity:eleAmount,
             maintenance:ans.maintenance,
             security:ans.security,
             initialUnit:req.body["initial"+t.tenantID],
@@ -437,7 +439,37 @@ router.get('/landlord-property',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-createTenant',redirectLogin,function(req, res, next) {
-    res.render("createTenant")
+    res.render("createTenant",{
+        tenantID:null
+    })
+});
+
+router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
+    var newTenantID=await tenant.countDocuments({})+2;
+    console.log(newTenantID)
+    var pswd=toString(req.body.password);
+    console.log(req.body)
+    bcrypt.hash(pswd,saltRound,function (err,hash) {
+        if(err){
+            console.log("Error Hashing Password! ")
+        }
+        else {
+            var tenantnew=new tenant({
+                tenantID:newTenantID,
+                fname:req.body.fname,
+                lname:req.body.lname,
+                email:req.body.email,
+                pswd:hash,
+                room:newTenantID,
+                verified:true,
+                landlordID:req.session.userID,
+            })
+            tenantnew.save();
+            res.render("createTenant",{
+                tenantID:newTenantID
+            })
+        }
+    })
 });
 
 router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {

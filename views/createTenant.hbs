@@ -34,23 +34,30 @@
         </nav>
     </section>
     <h1 style="width: 50%;background-repeat: no-repeat;background-color: #ffffff;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;Create Tenant</h1>
-    <p style=" font-size: 20px; margin-left:170px"> {{message2}}</p>
+    {{# if tenantID}}
+    <div class="alert alert-info text-center text-dark shadow d-inline-block" role="alert" style="width: 50%;margin-left: 25%;">
+        <span>
+            <strong>New tenant created Successfully with TenantID:  {{tenantID}} <br>*Share the ID and password with correct tenant. View tenant in</strong><a class="alert-link text-black-50" href="/landlord-tenant"> Tenants</a>
+        </span>
+    </div>
+    {{/if}}
     <div class="container shadow" style="width: 30%;margin-top: 58px;height: 80%;background-image: url(../images/Renting_Logo.png);background-repeat: no-repeat;background-position: bottom;background-size: contain;">
-        <form method="post" action="/createnewuser" style="margin: 27px;margin-top: 12px;height: 273px;">
+        <form method="post" action="/landlord-createTenant" style="margin: 27px;margin-top: 12px;height: 273px;">
             <h2 class="sr-only">Login Form</h2>
             <div class="illustration" style="height: 64px;">
                 <p style="font-size: 28px;font-family: 'Archivo Black', sans-serif;line-height: 67px;letter-spacing: 0px;">Create a Tenant</p>
             </div>
-            <div class="form-group"><input class="form-control d-inline" type="email" name="fname" placeholder="First Name" style="width: 45%;margin-right: 10%;"><input class="form-control d-inline" type="email" name="lname" placeholder="Last Name" style="width: 45%;"></div>
-            <div
-                class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"><input class="form-control" type="password" name="password" placeholder="password" style="margin-top: 15px;"></div>
-    <div class="form-group" style="background-image: url(../images/Renting_Logo.png);margin-top: 5px;"><button class="btn btn-primary btn-block" type="submit" style="width: 50%;margin-left: 25%;background-position: bottom;margin-top: 0px;">Create Tenant</button></div>
+                <div class="form-group">
+                    <input class="form-control d-inline" type="text" name="fname" required placeholder="First Name" style="width: 45%;margin-right: 10%;"><input class="form-control d-inline" type="text" name="lname" placeholder="Last Name" style="width: 45%;"></div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" required placeholder="Email">
+                <input class="form-control" type="password" name="password" required placeholder="password" style="margin-top: 15px;"></div>
+            <div class="form-group" style="background-image: url('RentingLogo.png');z-index: -1;background-position:bottom;height: 100%;width: 100%;margin-top: 15px;">
+                    <button class="btn btn-primary btn-block" type="submit" style="width: 50%;margin-left: 25%;background-position: bottom;margin-top: 0px;">Create Tenant</button></div>
     </form>
-    <p style="font-size: 14px;font-family: 'Alegreya Sans', sans-serif;line-height: 1;letter-spacing: 0px;margin-bottom: -7px;">**Tenant created by you will be verifed by default but will need to update&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;remaining details.&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-    <p style="font-size: 14px;font-family: 'Alegreya Sans', sans-serif;line-height: 1;letter-spacing: 0px;height: -2px;width: 407px;margin-bottom: 0px;"><br>**Share the User-ID generated and password with the tenant.<br><br></p>
     </div>
+    <p style="font-size: 14px;font-family: 'Alegreya Sans', sans-serif;line-height: 1;letter-spacing: 0px;text-align: center;">**Tenant created by you will be verifed by default but will need to update remaining details.</p>
+    <p style="font-size: 14px;font-family: 'Alegreya Sans', sans-serif;line-height: 1;letter-spacing: 0px;text-align: center;">**Share the User-ID generated and password with the tenant.</p>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <script src="../script/script.min.js"></script>
