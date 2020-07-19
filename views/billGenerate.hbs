@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>header</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Black">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="../css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <section id="hero" style="width: 100%;height: 60px;font-size: 15px;font-family: 'Alegreya Sans', sans-serif;padding: -7px;filter: blur(0px);">
+        <nav class="navbar navbar-dark navbar-expand-md fixed-top border-info text-center border rounded-0 shadow-sm visible" data-toggle="tooltip" data-bs-tooltip="" style="background-color: #39424E;height: 60px;padding: 12px;color: rgb(255,255,255);">
+            <div class="container-fluid"><a class="navbar-brand" href="/landlord-landing" style="color: rgba(247,247,247,0.9);font-size: 29px;font-family: 'Archivo Black', sans-serif;">Renting System</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div
+                    class="collapse navbar-collapse" id="navcol-1" style="color: rgb(246,243,243);margin-top: 3px;">
+                    <ul class="nav navbar-nav" style="font-size: 24px;">
+                        <li class="nav-item" role="presentation" style="background-color: #39424E;"><a class="nav-link active" href="/landlord-trans?fetch=all" style="color: rgb(255,255,255);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;padding: 0px;margin: 6px;margin-right: 15px;margin-top: 9px;">TRANSACTIONS</a></li>
+                        <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-createTenant" style="color: rgb(249,247,247);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;margin-right: 15px;filter: blur(0px);">CREATE TENANT</a></li>
+                            <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link border rounded-0" href="/landlord-genBill" style="color: rgb(254,254,254);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">BILL GENERATE</a></li>
+                            <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-tenant" style="color: rgb(255,255,255);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">TENANTS</a></li>
+                            <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-notification" style="color: rgb(255,255,255);margin-right: 15px;font-size: 18px;">NOTIFICATIONS</a></li>
+                            <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-profile" style="font-size: 18px;font-family: 'Alegreya Sans', sans-serif;background-color: #39424E;">Welcome, Tarun rana&nbsp; &nbsp; &nbsp; ID: 232</a></li>
+
+                    </ul><a class="btn text-white border-white ml-auto" role="button" href="/landlord-profile" style="margin-right: 38px;font-size: 23px;font-family: 'Alegreya Sans', sans-serif;background-color: rgba(255,255,255,0);padding: 4px;padding-top: 1px;padding-right: 17px;padding-bottom: 1px;padding-left: 17px;">Profile</a>
+                    <a class="btn text-white border-white" role="button" href="/landlord-logout" style="font-size: 23px;font-family:'Alegreya Sans', sans-serif;filter: blur(0px) grayscale(0%);padding: 0px;padding-right: 17px;padding-top: 1px;padding-left: 17px;padding-bottom: 1px;">Logout</a>
+            </div>
+            </div>
+        </nav>
+    </section>
+    <h1 style="width: 50%;background-repeat: no-repeat;background-color: #ffffff;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;Tenant Bill Generate{{# if tenantDetails}}<i class="fa fa-chevron-right"></i> Month: {{month}}<i class="fa fa-chevron-right"></i>Showing {{Tenantcount}} VERIFIED tenants{{/if}}</h1>
+    {{# if alreadyGenerated}}
+    <div class="alert alert-info text-center text-dark shadow d-inline-block" role="alert" style="width: 50%;margin-left: 25%;"><span><strong>Not Allowed !&nbsp; &nbsp;  {{month}} month bill has been already Generated check in&nbsp;</strong><i class="fa fa-chevron-right"></i><strong>&nbsp;</strong><a class="alert-link text-black-50" href="/landlord-trans?fetch=all">Transactions</a></span></div>
+    {{/if}}
+    {{# if transCount}}
+        <div class="alert alert-info text-center text-dark shadow d-inline-block" role="alert" style="width: 50%;margin-left: 25%;"><span><strong>Success !&nbsp; {{transCount}} Bill for month : {{monthname}} Generated Successfully check in&nbsp;</strong><i class="fa fa-chevron-right"></i><strong>&nbsp;</strong><a class="alert-link text-black-50" href="/landlord-trans?fetch=all">Transactions</a></span></div>
+    {{/if}}
+    {{# if dropdown}}
+    <div
+        class="dropdown"><button class="btn btn-info dropdown-toggle shadow d-inline-block" data-toggle="dropdown" aria-expanded="false" id="month" type="submit" style="margin-left: 45.5%;">Select Month</button>
+        <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=1">January</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=2">February</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=3">March</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=4">April</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=5">May</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=6">June</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=7">July</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=8">August</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=9">September</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=10">October</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=11">November</a>
+            <a class="dropdown-item" role="presentation" href="/landlord-genBillPopulateTenant?month=12">December</a>
+        </div>
+    </div>
+    {{/if}}
+    {{# if tenantDetails}}
+        <form method="post" action="/landlord-finalBill">
+        {{#each tenants}}
+            <div class="container-fluid shadow" style="width: 82%;margin-top: 1%;"><label style="margin-right: 1%;font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;">Tenant ID:
+                {{this.tenantID}}</label><label class="d-inline" style="font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;margin-right: 1%;">Tenant Name:
+                {{this.fname}} {{this.lname}}&nbsp;</label>
+                <label class="d-inline" style="font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;margin-right: 1%;">Initial Meter Reading:</label>
+                <input class="form-control d-inline" type="number" style="width: 15%;margin-right: 1%;" name="initial{{this.tenantID}}" min="0" placeholder="Last Meter" required="">
+                <label class="d-inline" style="font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;margin-right: 1%;">Final Meter Reading:</label>
+                <input class="form-control d-inline" type="number" style="width: 15%;" name="current{{this.tenantID}}" min="0" placeholder="Current Meter" required="">
+            </div>
+        {{/each}}
+            <button class="btn btn-success shadow d-inline-block" type="submit" style="margin-left: 46%;margin-top: 1%;">Generate Bills</button>
+        </form>
+
+    {{/if}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <script src="../script/bs-init.js"></script>
+</body>
+
+</html>

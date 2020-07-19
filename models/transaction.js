@@ -8,12 +8,12 @@ const transaction=mongoose.Schema({
         min:0
     },
     dateGenerated:{
-        type:String,
+        type:Date,
         default:Date.now,
         require:true
     },
     paidON:{
-        type:String,
+        type:Date,
     },
     amount:{
         type:Number,
@@ -62,6 +62,12 @@ const transaction=mongoose.Schema({
     finalUnit:{
         type:Number,
         min:0,
+    },
+    month:{
+        type:Number
+    },
+    year:{
+        type:Number
     }
 
 },

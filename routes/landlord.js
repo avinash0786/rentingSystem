@@ -188,7 +188,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     pendnames=d4;
     var i=0;
     for (i in pendtenantId){
-        pendtenantId[i]['fname']=pendnames[i].fname.toString();
+        //pendtenantId[i]['fname']=pendnames[i].fname.toString();
         i++;
     }
 
@@ -244,7 +244,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1
                 }
             }
         ])
@@ -279,7 +279,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1
                 }
             }
         ])
@@ -314,7 +314,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1
                 }
             }
         ])
@@ -328,7 +328,12 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
 });
 
 router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
-    res.send("/landlord-genBill Recieved request ")
+
+    res.render("billGenerate",{
+        alreadyGenerated:null,
+        tenantDetails:null,
+        dropdown:true
+    })
 });
 
 router.get('/landlord-tenant',redirectLogin,async (req, res, next)=> {
@@ -337,6 +342,95 @@ router.get('/landlord-tenant',redirectLogin,async (req, res, next)=> {
         tenant:ans
     })
 });
+
+router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
+    const user=parseInt(req.session.userID);
+    const month=parseInt(req.query.month);
+    req.session.month=month;
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var d = new Date();
+    var date=  days[d.getDay()]+" "+ d.getDate()+"-"+months[d.getMonth()]+"-"+d.getFullYear()
+    console.log(month)
+    console.log(date)
+    var year=d.getFullYear();
+    req.session.year=parseInt(year);
+    console.log("Year: "+req.session.year)
+    var monthName=months[month-1];
+    req.session.monthname=monthName
+    var trans=await transaction.findOne({year:year,month:month})
+    console.log(trans)
+    if(!(trans===null))
+    {
+        return res.render("billGenerate",{
+            alreadyGenerated:true,
+            tenantDetails:null,
+            dropdown:false,
+            month:monthName
+        })
+    }
+    console.log("Landlord: "+req.session.userID)
+    var ans=await tenant.find({landlordID:req.session.userID,verified:true})
+    console.log("Rendering tenane")
+    res.render("billGenerate",{
+        alreadyGenerated:false,
+        tenantDetails:true,
+        dropdown:false,
+        tenants:ans,
+        Tenantcount:ans.length,
+        month:monthName
+    })
+})
+
+router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
+    console.log(req.body)
+    var ans=await landlord.findOne({landlordID:req.session.userID})
+    console.log(ans)
+    var extras=ans.baseRent+ans.water+ans.maintenance+ans.security;
+    var elecMetric=ans.electricity;
+    console.log("Extras sum: "+extras)
+    var ten=await tenant.find({landlordID:req.session.userID,verified:true})
+    var tidnew=await transaction.countDocuments({});
+    console.log(tidnew)
+    console.log("Date: "+new Date(req.session.billGendate))
+    ten.forEach((t)=>{
+         tidnew+=1;
+        var ini="initial"+t.tenantID;
+        var fin="current"+t.tenantID;
+        var eleAmount=elecMetric*Math.abs((req.body["current"+t.tenantID]-req.body["initial"+t.tenantID]));
+        var transac=new transaction({
+            tid:tidnew,
+            month:req.session.month,
+            paidON:null,
+            year:req.session.year,
+            amount:eleAmount+extras,
+            landlordID:req.session.userID,
+            tenantID:t.tenantID,
+            baseRent:ans.baseRent,
+            water:ans.water,
+            electricity:ans.electricity,
+            maintenance:ans.maintenance,
+            security:ans.security,
+            initialUnit:req.body["initial"+t.tenantID],
+            finalUnit:req.body["current"+t.tenantID]
+        })
+        transac.save()
+            .then((d)=>{
+                console.log("Data saved successfully")
+            })
+            .catch((e)=>{
+                console.log("Database save Error !")
+            })
+    })
+
+    res.render("billGenerate",{
+        alreadyGenerated:false,
+        tenantDetails:false,
+        dropdown:true,
+        transCount:ten.length,
+        monthname:req.session.monthname
+    })
+})
 
 router.get('/landlord-property',redirectLogin,function(req, res, next) {
     res.send("/landlord-property Recieved request ")

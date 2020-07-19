@@ -22,7 +22,7 @@ const landlord=mongoose.Schema({
         trim:true,
         default:"",
     },
-    baserent:{
+    baseRent:{
         type:Number,
         default:0,
     },
