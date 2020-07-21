@@ -8,15 +8,24 @@ const tenant=require("./models/tenant")
 const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
 const path=require("path")
+var MemoryStore = require('memorystore')(session)
+
 
 const app=express();
 
-app.use(session({secret:"1234asdf",resave:false, saveUninitialized:false,maxAge:3600000}))
+app.use(session({
+  cookie: { maxAge: 86400000 },
+  store: new MemoryStore({
+    checkPeriod: 86400000 // prune expired entries every 24h
+  }),
+  secret:"1234asdf",
+  resave:false,
+  saveUninitialized:false,
+  maxAge:3600000},))
 app.set('view engine', 'hbs');
 
 app.use(userRoute);
 app.use(landlordRoute);
-console.log(path.join(__dirname,"./images"))
 app.use(express.static(path.join(__dirname,"./images")));
 app.use(express.static(path.join(__dirname,"./css")));
 app.use(express.static(path.join(__dirname,"./script")));
