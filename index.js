@@ -11,7 +11,7 @@ const path=require("path")
 
 const app=express();
 
-app.use(session({secret:"1234asdf",resave:false, saveUninitialized:false}))
+app.use(session({secret:"1234asdf",resave:false, saveUninitialized:false,maxAge:3600000}))
 app.set('view engine', 'hbs');
 
 app.use(userRoute);
