@@ -5,13 +5,13 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../css/CSStenet.css">
+    <link rel="stylesheet" href="CSStenet.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-secondary fixed-top">
-        <a class="navbar-brand mr-auto" href="#"><img src="../images/Renting_Logo.png" height="41" width="80"></a>
+        <a class="navbar-brand mr-auto" href="#"><img src="Renting_Logo.png" height="41" width="80"></a>
           <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
               aria-expanded="false" aria-label="Toggle navigation"></button>
        <!--   <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -38,24 +38,26 @@
       </nav>
       <div class="jumbotron">
           <h1 class="display-3">LogIn / SingUp For Tenant</h1>
-          <p class="lead">Create your Account or Log in if aready hade one!</p>
-          <p class="lead">**For Landlord ID contact your Landlord.</p>
+<!--          <p class="lead">Create your Account or Log in if aready hade one!</p>-->
+<!--          <p class="lead">**For Landlord ID contact your Landlord.</p>-->
           <hr class="my-2">
       
       <div class="container login-container">
         <div class="row">
             <div class="col-md-6 login-form-1">
                 <h3>Log In </h3>
-                <form>
+                <h5>{{massage}} </h5>
+                <form method="post" action="/tenant-login">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your ID*" value="" />
+                        <input type="text" class="form-control" placeholder="Your ID*" required  name="tenantID" />
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Your Password *" value="" />
+                        <input type="password" class="form-control" placeholder="Your Password *" required name="tenantpswd" />
                     </div>
                     <div class="form-group">
                        <!--- <input type="submit" class="btnSubmit" value="Login" /> -->
-                        <a name="" id="" class="btn btnSubmit" href="#" role="button">LogIn</a>
+<!--                        <a name="" id="" class="btn btnSubmit" href="/tenant-login" role="button">LogIn</a>-->
+                        <button type="submit" class="subm" value="submit">LOGIN</button>
                     </div>
                     <div class="form-group">
                         <a href="#" class="ForgetPwd">Forget Password?</a>

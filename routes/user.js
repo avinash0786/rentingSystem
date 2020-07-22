@@ -15,36 +15,51 @@ router.use(bodyparser.json({ limit: "50mb" }));
 router.use(express.static('images'));
 router.use(express.static('css'));
 
-const tenantlogged=(req,res,next)=>{
-    if(!req.session.tenantID){
-        console.log("Tenant Session not defined, logging in");
-        res.redirect('/tenant-login')
+const redirectLanding=(req,res,next)=>{
+    if(req.session.tenantID){
+        console.log("Redirected to dashboard");
+        res.redirect("/tenant-landing")
     }
     else {
-        console.log("Tenant Session uid: "+req.session.tenantID+" redirected")
+        console.log("Session uid  not exist")
         next()
     }
 }
 
-router.get('/tenant-login',tenantlogged,function(req, res, next) {
-    res.send("/tenant-login Recieved request ")
+const redirectLogin=(req,res,next)=>{
+    if(!req.session.tenantID){
+        console.log("Session not defined, loggin first");
+        res.redirect("/tenant-login")
+    }
+    else {
+        console.log("Session uid: "+req.session.tenantID+" redirected")
+        next()
+    }
+}
+
+router.get('/tenant-login',redirectLanding,function(req, res, next) {
+    res.render("tenant")
 });
 
-router.post('/tenant-login',function(req, res) {
+router.post('/tenant-login',redirectLanding,function(req, res) {
     console.log("Running tenant login")
-    let tenantid=req.body.name;
+    let tenantid=req.body.tenantID;
     console.log("User id:  "+tenantid)
     tenant.find({tenantID:tenantid}).exec()
         .then(user=>{
             if(user.length<1) {
                 console.log("tenant not Found!");
-                res.send("Tenent not  Found")
+                returnres.render("tenant",{
+                    massage:"Invalid Credential"
+                })
             }
             else {
-                bcrypt.compare(req.body.password,user[0].pswd,function (err,result) {
+                bcrypt.compare(req.body.tenantpswd,user[0].pswd,function (err,result) {
                     if(err)
                     {
-                        res.send("Auth Failed")
+                        return res.render("tenant",{
+                            massage:"Invalid Credential"
+                        })
                     }
                     if(result){
                         req.session.tenantID=tenantid;
@@ -52,7 +67,9 @@ router.post('/tenant-login',function(req, res) {
                         res.status(200).send("Auth Passed success");
                     }
                     else {
-                        res.status(202).send("Login failed");
+                        res.render("tenant",{
+                            massage:"Invalid Credential"
+                        })
                     }
                 })
             }
