@@ -95,6 +95,6 @@ app.post("/createnewuser", function(req,res){
 
 
 ///  LISITING SERVER  DONT EDIT   //
-app.listen(3000, function(req,result){
+app.listen(process.env.PORT, function(req,result){
     console.log(" Server up and running:: http://localhost:3000")
 })
