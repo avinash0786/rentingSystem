@@ -472,6 +472,126 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
     })
 });
 
+router.get('/landlord-notification',redirectLogin,function(req, res, next) {
+    if(req.query.type==="sent")
+    {
+        console.log("Sent messages retieve")
+        notifications.find({fromLandlord:req.session.userID})
+            .then((not)=>{
+                return res.render("notifications",{
+                    notif:not
+                })
+            })
+            .catch((E)=>{
+                console.log("error db")
+            })
+    }
+    else {
+        console.log("REcieved messages retieve")
+        notifications.find({toLandlord:req.session.userID})
+            .then((not)=>{
+                return res.render("notifications",{
+                    notif:not
+                })
+            })
+            .catch((E)=>{
+                console.log("error db")
+            })
+
+    }
+});
+router.get('/landlord-send',redirectLogin,function (req, res, next) {
+    tenant.find({landlordID:req.session.userID})
+        .then((doc)=>{
+            res.render("landlordsend1",{
+                tenants:doc,
+                error:false,
+                message:false
+            })
+        })
+        .catch((e)=>{
+            res.send("Error in Fetch")
+        })
+});
+
+router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
+    var newID=await notifications.countDocuments({})+1;
+    if(req.body.broad)
+    {
+        console.log("broadcasting")
+        var mes=req.body.message;
+        tenant.find({landlordID:req.session.userID,verified:true})
+            .then((doc)=>{
+                doc.forEach((tenant)=>{
+                    var notif=new notifications({
+                        requestID:newID++,
+                        message:mes,
+                        fromLandlord:req.session.userID,
+                        toTenant:tenant.tenantID
+                    })
+                    notif.save()
+                })
+                tenant.find({landlordID:req.session.userID})
+                    .then((dc)=>{
+                        res.render("landlordsend1",{
+                            tenants:dc,
+                            error:false,
+                            message:"broadcasted"
+                        })
+                    })
+            })
+    }
+    else
+    {
+        console.log(req.body)
+        var tid=req.body.id;
+        tenant.find({landlordID:req.session.userID,tenantID:tid})
+            .then((doc)=>{
+                console.log(doc)
+                if(doc.length>0)
+                {
+                    console.log("Tenant found")
+                    var notif=new notifications({
+                        requestID:newID++,
+                        message:req.body.message,
+                        fromLandlord:req.session.userID,
+                        toTenant:tid
+                    })
+                    notif.save()  //saving notifications
+                        .then(()=>{
+                            tenant.find({landlordID:req.session.userID})
+                                .then((dc)=>{
+                                    res.render("landlordsend1",{
+                                        tenants:dc,
+                                        error:false,
+                                        message:"sent"
+                                    })
+                                })
+                        })
+                }
+                else {
+                    console.log("Tenant not  found")
+                    tenant.find({landlordID:req.session.userID})
+                        .then((dc)=>{
+                            res.render("landlordsend1",{
+                                tenants:dc,
+                                error:true,
+                                message:""
+                            })
+                        })
+                }
+            })
+            .catch(()=>{
+                console.log("Fetch error!")
+            })
+    }
+});
+
+router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
+    res.render("createTenant",{
+        tenantID:null
+    })
+});
 router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {
     res.send("landlord-rentMetric Recieved request ")
 });

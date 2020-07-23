@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Transactions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Black">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/styles.min.css">
+</head>
+
+<body style="background-color: #f3f7f7;margin-top: 74px;">
+<nav class="navbar navbar-dark navbar-expand-md fixed-top border-info text-center border rounded-0 shadow-sm visible" data-toggle="tooltip" data-bs-tooltip="" style="background-color: #39424E;height: 60px;padding: 12px;color: rgb(255,255,255);">
+    <div class="container-fluid"><a class="navbar-brand" href="/landlord-landing" style="color: rgba(247,247,247,0.9);font-size: 29px;font-family: 'Archivo Black', sans-serif;">Renting System</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div
+                class="collapse navbar-collapse" id="navcol-1" style="color: #f3f7f7;margin-top: 3px;">
+            <ul class="nav navbar-nav" style="font-size: 24px;">
+                <li class="nav-item  " role="presentation"style="background-color: #39424E;"><a class="nav-link active" href="/landlord-trans?fetch=all" style="color: rgb(255,255,255);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;padding: 0px;margin: 6px;margin-right: 15px;margin-top: 9px;">TRANSACTIONS</a></li>
+                <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-createTenant" style="color: rgb(249,247,247);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;margin-right: 15px;filter: blur(0px);">CREATE TENANT</a></li>
+                <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-genBill" style="color: rgb(254,254,254);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">BILL GENERATE</a></li>
+                <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-tenant" style="color: rgb(255,255,255);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">TENANTS</a></li>
+                <li class="nav-item border" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-notification" style="color: rgb(255,255,255);margin-right: 15px;font-size: 18px;">NOTIFICATIONS</a></li>
+                <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-profile" style="color: rgb(255,255,255);font-size: 15px;font-family: 'Archivo Black', sans-serif;"></a></li>
+                <li class="nav-item" role="presentation"style="background-color: #39424E;"><a class="nav-link" href="/landlord-profile" style="font-size: 18px;font-family: 'Alegreya Sans', sans-serif;">Welcome, Tarun rana&nbsp; &nbsp; &nbsp; ID: {{land}}</a></li>
+
+            </ul><a class="btn text-white border-white ml-auto" role="button" href="/landlord-profile" style="background-color: #39424E;margin-right: 38px;font-size: 23px;font-family: 'Alegreya Sans', sans-serif;padding: 4px;padding-top: 1px;padding-right: 17px;padding-bottom: 1px;padding-left: 17px;">Profile</a>
+            <a
+                    class="btn text-white border-white" role="button" href="/landlord-logout" style="background-color: #39424E;font-size: 23px;font-family: 'Alegreya Sans', sans-serif;filter: blur(0px) grayscale(0%);padding: 0px;padding-right: 17px;padding-top: 1px;padding-left: 17px;padding-bottom: 1px;">Logout</a>
+        </div>
+    </div>
+</nav>
+<h1 style="width: 50%;background-repeat: no-repeat;background-color: #f3f7f7;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>Notifications<i class="fa fa-chevron-right"></i>&nbsp;Message Send</h1>
+{{# if error}}
+    <div role="alert" class="alert alert-danger text-center border rounded shadow justify-content-center align-items-center align-content-center align-self-center m-auto justify-content-xl-center align-items-xl-center" style="width: 35%;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="border rounded-0"><strong>Alert !</strong> The Tenant ID you entered id not associated with you.</span></div>
+{{/if}}
+{{# if message}}
+    <div role="alert" class="alert alert-success text-center border rounded shadow justify-content-center align-items-center align-content-center align-self-center m-auto justify-content-xl-center align-items-xl-center" style="width: 40%;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="border rounded-0"><strong>Success ! Message {{message}} successfully check in </strong><i class="fa fa-chevron-right"></i></span>
+        <a class="alert-link text-success" href="/landlord-notification">notifications</a>
+    </div>
+{{/if }}
+<div style="margin-top: 46px;">
+    <div class="container">
+        <div class="row" style="padding: 0px;">
+            <div class="col-md-8" style="background-color: #ffffff;box-shadow: 0px 0px 15px rgb(155,160,166);border-width: 0.4px;border-style: none;">
+                <form method="post" action="/landlord-send">
+                    <textarea class="bg-light border rounded-0 border-info form-control form-control-lg" name="message" placeholder="Enter the text message" rows="5" cols="1" autofocus autocomplete="on" spellcheck="true" wrap="soft" required maxlength="600" style="margin: 8px;text-align: left;border-style: none;"></textarea>
+                    <input type="number" class="bg-light border rounded-0 border-info form-control form-control-sm float-right d-xl-flex justify-content-xl-end" name="id" placeholder="Tenant ID" style="width: 15%;margin-left: 8px;margin-right: 12px;" />
+                    <button class="btn btn-success text-left bg-success border rounded-0 d-flex float-right justify-content-between justify-content-xl-center align-items-xl-start" type="submit" style="padding: 3px;margin-bottom: 10px;text-align: justify;height: 31px;font-size: 17px;padding-bottom: -7px;">Send Message</button>
+                    <div class="form-check" value="off" style="width: 21%;"><input type="radio" class="form-check-input" id="formCheck-1" name="broad" style="width: 14px;height: 19px;margin-left: -10px;" /><label class="form-check-label text-white bg-danger border rounded-0" for="formCheck-1" style="width: 100%;height: 31px;font-size: 18px;text-align: center;margin-left: 7%;">Broadcast</label></div>
+                </form>
+<!--                <a class="btn btn-danger border rounded-0 justify-content-xl-center align-items-xl-end" role="button" style="padding: 3px;font-size: 17px;width: 50%;" href="/landlord-send?ID:99999">Broadcast</a>-->
+                <small class="form-text text-muted" style="font-size: 14px;">Either <strong>broadcast </strong>to all <strong>verified</strong> OR send to <strong>specified</strong> Tenant by his/her Tenant ID.</small></div>
+            <div class="col-md-4">
+                <div class="table-responsive text-left shadow " style="background-color: #ffffff">
+                    <table class="table table-hover table-sm">
+                        <caption>To know the ID Reference here, showing verified and pending both. **</caption>
+                        <thead>
+                        <tr>
+                            <th class="table-info text-left" style="width: 25%;">Tenant ID</th>
+                            <th class="table-info text-left" style="width: 50%;">Name</th>
+                            <th class="table-info" style="width: 20%;">Verified</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{# each tenants}}
+                            <tr>
+                                <td>{{this.tenantID}}</td>
+                                <td>{{this.fname}} {{this.lname}} </td>
+                                <td>{{this.verified}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<script src="../script/script.min.js"></script>
+</body>
+
+</html>
