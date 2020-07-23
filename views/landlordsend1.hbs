@@ -34,10 +34,10 @@
 </nav>
 <h1 style="width: 50%;background-repeat: no-repeat;background-color: #f3f7f7;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>Notifications<i class="fa fa-chevron-right"></i>&nbsp;Message Send</h1>
 {{# if error}}
-    <div role="alert" class="alert alert-danger text-center border rounded shadow justify-content-center align-items-center align-content-center align-self-center m-auto justify-content-xl-center align-items-xl-center" style="width: 35%;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="border rounded-0"><strong>Alert !</strong> The Tenant ID you entered id not associated with you.</span></div>
+    <div role="alert" class="alert alert-danger text-center border rounded shadow justify-content-center align-items-center align-content-center align-self-center m-auto justify-content-xl-center align-items-xl-center" style="width: 35%;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span ><strong>Alert !</strong>Tenant ID you entered is <b>NOT</b> associated with you.</span></div>
 {{/if}}
 {{# if message}}
-    <div role="alert" class="alert alert-success text-center border rounded shadow justify-content-center align-items-center align-content-center align-self-center m-auto justify-content-xl-center align-items-xl-center" style="width: 40%;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="border rounded-0"><strong>Success ! Message {{message}} successfully check in </strong><i class="fa fa-chevron-right"></i></span>
+    <div role="alert" class="alert alert-success text-center border rounded shadow justify-content-center align-items-center align-content-center align-self-center m-auto justify-content-xl-center align-items-xl-center" style="width: 40%;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span ><strong>Success ! Message {{message}} successfully check in </strong><i class="fa fa-chevron-right"></i></span>
         <a class="alert-link text-success" href="/landlord-notification">notifications</a>
     </div>
 {{/if }}

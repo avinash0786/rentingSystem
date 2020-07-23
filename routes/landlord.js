@@ -79,6 +79,7 @@ router.post('/landlord-login',
 router.get('/landlord-signup',redirectLanding,function (req,res) {
     res.render("createTenant")
 })
+
 router.post('/landlord-signup',redirectLanding,function(req, res) {
     var pswd=req.body.pswd;
     const qq=new Promise((resole,reject)=>{  //geeting new id
@@ -247,7 +248,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
-            { $sort : { dateGen: 1 } }
+            { $sort : { _id: -1 } }
         ])
 
         res.render("transactions",
@@ -283,7 +284,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
-            { $sort : { dateGen: 1 } }
+            { $sort : { _id: -1 } }
         ])
 
         res.render("transactions",
@@ -318,7 +319,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
-            { $sort : { dateGen: 1 } }
+            { $sort : { _id: -1 } }
         ])
         res.render("transactions",
             {
@@ -339,7 +340,7 @@ router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-tenant',redirectLogin,async (req, res, next)=> {
-    const ans =await tenant.find({landlordID:req.session.userID})
+    const ans =await tenant.find({landlordID:req.session.userID}).sort({_id:-1})
     res.render("tenants",{
         tenant:ans
     })
@@ -476,7 +477,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
     if(req.query.type==="sent")
     {
         console.log("Sent messages retieve")
-        notifications.find({fromLandlord:req.session.userID})
+        notifications.find({fromLandlord:req.session.userID}).sort({_id:-1})
             .then((not)=>{
                 return res.render("notifications",{
                     notif:not
@@ -488,7 +489,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
     }
     else {
         console.log("REcieved messages retieve")
-        notifications.find({toLandlord:req.session.userID})
+        notifications.find({toLandlord:req.session.userID}).sort({_id:-1})
             .then((not)=>{
                 return res.render("notifications",{
                     notif:not
@@ -500,6 +501,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
 
     }
 });
+
 router.get('/landlord-send',redirectLogin,function (req, res, next) {
     tenant.find({landlordID:req.session.userID})
         .then((doc)=>{
@@ -592,6 +594,7 @@ router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
         tenantID:null
     })
 });
+
 router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {
     res.send("landlord-rentMetric Recieved request ")
 });
