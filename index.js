@@ -9,6 +9,8 @@ const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
 const path=require("path")
 var MemoryStore = require('memorystore')(session)
+const expHbs=require("express-handlebars")
+const helper=require("handlebars-helpers")();
 
 
 const app=express();
@@ -21,7 +23,21 @@ app.use(session({
   secret:"1234asdf",
   resave:false,
   saveUninitialized:false,
-  maxAge:3600000},))
+  maxAge:3600000}
+  ))
+
+var hbs=expHbs.create({
+  extname:"hbs",
+  defaultLayout:"main",
+  layoutsDir:path.join(__dirname,"views/layout"),
+  helpers: helper,
+  partialsDir:path.join(__dirname,"views/partials"),
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  }
+})
+app.engine("hbs",hbs.engine)
 app.set('view engine', 'hbs');
 
 app.use(userRoute);
@@ -33,6 +49,11 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 app.get("/", async (req,res)=>{
     res.render("first")
+})
+app.get("/test", async (req,res)=>{
+  res.render("tenant",{
+    title:"Wroking"
+  })
 })
 
 app.post("/register",function(req,res){

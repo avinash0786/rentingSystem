@@ -69,6 +69,8 @@ router.post('/landlord-login',
         if(await bcrypt.compare(req.body.password,user.pswd)){
             console.log("Session Init")
             req.session.userID=userid;
+            req.session.fname=user.fname;
+            req.session.lname=user.lname;
             return res.redirect('/landlord-landing')// forwording to landing
         }
         else {
@@ -212,7 +214,11 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
             approvalcount:approvCount,
             pendpay:pendtenantId,
             aprov:aprov,
-            recpay:rectenantId
+            recpay:rectenantId,
+            title:"Dashboard",
+            fname:req.session.fname,
+            lname:req.session.lname,
+            id:req.session.userID
         })
 });
 
@@ -255,7 +261,11 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
             {
                 type:'Only Paid',
                 land:req.session.userID,
-                trans:ans
+                trans:ans,
+                title:"Transaction",
+                fname:req.session.fname,
+                lname:req.session.lname,
+                id:req.session.userID
             });
     }
     else if(req.query.fetch==="unpaid")
@@ -291,7 +301,11 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
             {
                 type:'Only UnPaid',
                 land:req.session.userID,
-                trans:ans
+                trans:ans,
+                title:"Transaction",
+                fname:req.session.fname,
+                lname:req.session.lname,
+                id:req.session.userID
             });
     }
     else
@@ -325,7 +339,11 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
             {
                 type:'All',
                 land:req.session.userID,
-                trans:ans
+                trans:ans,
+                title:"Transaction",
+                fname:req.session.fname,
+                lname:req.session.lname,
+                id:req.session.userID
             });
     }
 });
@@ -335,14 +353,22 @@ router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
     res.render("billGenerate",{
         alreadyGenerated:null,
         tenantDetails:null,
-        dropdown:true
+        dropdown:true,
+        title:"Bill Generate",
+        fname:req.session.fname,
+        lname:req.session.lname,
+        id:req.session.userID
     })
 });
 
 router.get('/landlord-tenant',redirectLogin,async (req, res, next)=> {
     const ans =await tenant.find({landlordID:req.session.userID}).sort({_id:-1})
     res.render("tenants",{
-        tenant:ans
+        tenant:ans,
+        title:"Tenants",
+        fname:req.session.fname,
+        lname:req.session.lname,
+        id:req.session.userID
     })
 });
 
@@ -369,7 +395,11 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
             alreadyGenerated:true,
             tenantDetails:null,
             dropdown:false,
-            month:monthName
+            month:monthName,
+            title:"Bill Generate",
+            fname:req.session.fname,
+            lname:req.session.lname,
+            id:req.session.userID
         })
     }
     console.log("Landlord: "+req.session.userID)
@@ -381,7 +411,11 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
         dropdown:false,
         tenants:ans,
         Tenantcount:ans.length,
-        month:monthName
+        month:monthName,
+        title:"Bill Generate",
+        fname:req.session.fname,
+        lname:req.session.lname,
+        id:req.session.userID
     })
 })
 
@@ -431,7 +465,11 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
         tenantDetails:false,
         dropdown:true,
         transCount:ten.length,
-        monthname:req.session.monthname
+        monthname:req.session.monthname,
+        title:"Bill Generate",
+        fname:req.session.fname,
+        lname:req.session.lname,
+        id:req.session.userID
     })
 })
 
@@ -441,7 +479,10 @@ router.get('/landlord-property',redirectLogin,function(req, res, next) {
 
 router.get('/landlord-createTenant',redirectLogin,function(req, res, next) {
     res.render("createTenant",{
-        tenantID:null
+        tenantID:null,title:"Create Tenant",
+        fname:req.session.fname,
+        lname:req.session.lname,
+        id:req.session.userID
     })
 });
 
@@ -467,7 +508,11 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
             })
             tenantnew.save();
             res.render("createTenant",{
-                tenantID:newTenantID
+                tenantID:newTenantID,
+                title:"Create Tenant",
+                fname:req.session.fname,
+                lname:req.session.lname,
+                id:req.session.userID
             })
         }
     })
@@ -492,7 +537,11 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
         notifications.find({toLandlord:req.session.userID}).sort({_id:-1})
             .then((not)=>{
                 return res.render("notifications",{
-                    notif:not
+                    notif:not,
+                    title:"Notifications",
+                    fname:req.session.fname,
+                    lname:req.session.lname,
+                    id:req.session.userID
                 })
             })
             .catch((E)=>{

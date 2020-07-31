@@ -1,62 +1,35 @@
-<!DOCTYPE html>
-<html>
-    <head>
+<!--<head>-->
+<!--    &lt;!&ndash;Style for landing page&ndash;&gt;-->
+<!--    <style>-->
+<!--        .table-fixed thead {-->
+<!--            width: 97%;-->
+<!--        }-->
+<!--        .container{-->
+<!--            width: 600px;-->
+<!--        }-->
+<!--        .panel-heading{-->
+<!--            height: 40px;-->
+<!--            padding: 10px 10px;-->
+<!--            font-size: 15px;}-->
+<!--        .inputHeader{width:100%}-->
+<!--        .table-fixed tbody {-->
+<!--            height: 230px;-->
+<!--            overflow-y: auto;-->
+<!--            width: 100%;-->
+<!--        }-->
+<!--        .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {-->
+<!--            display: block;-->
+<!--        }-->
+<!--        .table-fixed tbody td, .table-fixed thead > tr> th {-->
+<!--            float: left;-->
+<!--            border-bottom-width: 0;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
 
-      
-        <title>TEST lander page</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
-<style>
-     .table-fixed thead {
-  width: 97%;
-}
-.container{
-    width: 600px;
-}
-.panel-heading{
-    height: 40px;
-    padding: 10px 10px;
-    font-size: 15px;}
-.inputHeader{width:100%}
-.table-fixed tbody {
-  height: 230px;
-  overflow-y: auto;
-  width: 100%;
-}
-.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
-  display: block;
-}
-.table-fixed tbody td, .table-fixed thead > tr> th {
-  float: left;
-  border-bottom-width: 0;
-}
-</style>
-    </head>
-<body>
-
-<section id="hero" style="width: 100%;height: 60px;font-size: 15px;font-family: 'Alegreya Sans', sans-serif;padding: -7px;filter: blur(0px);">
-    <nav class="navbar navbar-dark navbar-expand-md fixed-top border-info text-center border rounded-0 shadow-sm visible" data-toggle="tooltip" data-bs-tooltip="" style="background-color: #39424E;height: 60px;padding: 12px;color: rgb(255,255,255);">
-        <div class="container-fluid"><a class="navbar-brand" href="/" style="color: rgba(247,247,247,0.9);font-size: 29px;font-family: 'Archivo Black', sans-serif;">Renting System</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div
-                    class="collapse navbar-collapse" id="navcol-1" style="color: rgb(246,243,243);margin-top: 3px;">
-                <ul class="nav navbar-nav" style="font-size: 24px;">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/landlord-trans?fetch=all" style="color: rgb(255,255,255);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;padding: 0px;margin: 6px;margin-right: 15px;margin-top: 9px;">TRANSACTIONS</a></li>
-                    <li
-                            class="nav-item" role="presentation"><a class="nav-link" href="/landlord-createTenant" style="color: rgb(249,247,247);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;margin-right: 15px;filter: blur(0px);">CREATE TENANT</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-genBill" style="color: rgb(254,254,254);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">BILL GENERATE</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link border rounded-0" href="/landlord-tenant" style="color: rgb(255,255,255);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">TENANTS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/landlord-notification" style="color: rgb(255,255,255);margin-right: 15px;font-size: 18px;">NOTIFICATIONS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="font-size: 18px;font-family: 'Alegreya Sans', sans-serif;">Welcome, Tarun rana&nbsp; &nbsp; &nbsp; ID: 232</a></li>
-                    <li class="nav-item" role="presentation"></li>
-                    <li class="nav-item" role="presentation"></li>
-                </ul><a class="btn text-white border-white ml-auto" role="button" href="/landlord-profile" style="background-color: #39424e;margin-right: 38px;font-size: 23px;font-family: 'Alegreya Sans', sans-serif;background-color: rgba(255,255,255,0);padding: 4px;padding-top: 1px;padding-right: 17px;padding-bottom: 1px;padding-left: 17px;">Profile</a>
-                <a class="btn text-white border-white" role="button" href="/landlord-logout" style="background-color: #39424e;font-size: 23px;font-family: 'Alegreya Sans', sans-serif;filter: blur(0px) grayscale(0%);padding: 0px;padding-right: 17px;padding-top: 1px;padding-left: 17px;padding-bottom: 1px;">Logout</a>
-            </div>
-        </div>
-    </nav>
-</section>
-    <h3 style="align-items: center;">LANDLORD LANDING PAGE DATA</h3>
+<!--<body>-->
+{{>navBarL}}
+<h3 style="align-items: center;">LANDLORD LANDING PAGE DATA</h3>
 <!--  <canvas id="chartjs-0" class="chartjs" style="position: relative;height:500px;width: 500px" ></canvas>-->
 <!--    <script>-->
 <!--        new Chart(document.getElementById("chartjs-0"),-->
@@ -72,146 +45,145 @@
 <div id="main">
     <table class="table table-striped">
         <thead>
-          <tr>
+        <tr>
             <th scope="col">#</th>
             <th scope="col">Data</th>
             <th scope="col">Values fetched</th>
-          </tr>
+        </tr>
         </thead>
         <tbody>
-          <tr>
+        <tr>
             <th scope="row">1</th>
             <td>Name </td>
             <td>{{username}}</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th scope="row">2</th>
             <td>Id </td>
             <td>{{userid}}</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th scope="row">3</th>
             <td>Date </td>
             <td>{{date}}</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th scope="row">5</th>
             <td>Recieved Payment </td>
             <td>
-            <button type="button" class="btn btn-primary">
-            Recieved Payment <span class="badge badge-light">{{recpaycount}}</span>
-            </button></td>
+                <button type="button" class="btn btn-primary">
+                    Recieved Payment <span class="badge badge-light">{{recpaycount}}</span>
+                </button></td>
             <td><table class="table table-striped">
                 <thead>
-                  <tr>
+                <tr>
                     <th scope="col">Tenant ID</th>
                     <th scope="col">Tenant Name</th>
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
-                  </tr>
+                </tr>
                 </thead>
                 <tbody>
-                  {{#each recpay}}
-                  <tr>
-                    <td>{{this.tid}}</td>
-                    <td>{{this.fname}}</td>
-                    <td >{{this.paidON}}</td>              
-                    <td>{{this.amount}}</td>
-                  </tr>
-                  {{/each}}
-                
-                </tbody>
-              </table></td>
-          </tr>
+                {{#each recpay}}
+                    <tr>
+                        <td>{{this.tid}}</td>
+                        <td>{{this.fname}}</td>
+                        <td >{{this.paidON}}</td>
+                        <td>{{this.amount}}</td>
+                    </tr>
+                {{/each}}
 
-          <tr>
+                </tbody>
+            </table></td>
+        </tr>
+
+        <tr>
             <th scope="row">6</th>
             <td>Pending Payment Count </td>
             <td>
-            <button type="button" class="btn btn-primary">
-            Pending Payment  <span class="badge badge-light">{{penpaycount}}</span>
-            </button></td>
+                <button type="button" class="btn btn-primary">
+                    Pending Payment  <span class="badge badge-light">{{penpaycount}}</span>
+                </button></td>
             <td><table class="table table-striped">
                 <thead>
-                  <tr>
+                <tr>
                     <th scope="col">Tenant ID</th>
                     <th scope="col">Tenant Name</th>
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
-                  </tr>
+                </tr>
                 </thead>
                 <tbody>
-                  {{#each pendpay}}
-                  <tr>
-                    <td>{{this.tid}}</td>
-                    <td>{{this.fname}}</td>
-                    <td >{{this.dateGenerated}}</td>
-                    <td>{{this.amount}}</td>
-                  </tr>
-                  {{/each}}
+                {{#each pendpay}}
+                    <tr>
+                        <td>{{this.tid}}</td>
+                        <td>{{this.fname}}</td>
+                        <td >{{this.dateGenerated}}</td>
+                        <td>{{this.amount}}</td>
+                    </tr>
+                {{/each}}
                 </tbody>
-              </table></td>
-          </tr>
+            </table></td>
+        </tr>
 
-          <tr>
+        <tr>
             <th scope="row">7</th>
             <td>Rent metrices </td>
             <td><table class="table table-striped">
                 <thead>
-                  <tr>
+                <tr>
                     <th scope="col">Base Rent</th>
                     <th scope="col">{{baserent}}</th>
-                  </tr>
+                </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                <tr>
                     <th scope="row">Water</th>
                     <td>{{water}}</td>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                     <th scope="row">Electricity</th>
                     <td>{{electricity}}</td>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                     <th scope="row">Security</th>
                     <td>{{security}}</td>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                     <th scope="row">Maintenance</th>
                     <td>{{maintenance}}</td>
-                  </tr>
+                </tr>
                 </tbody>
-              </table></td>
-          </tr>
-          <tr>
+            </table></td>
+        </tr>
+        <tr>
             <th scope="row">8</th>
             <td>Total profit </td>
             <td>{{totalprofit}}</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th scope="row">9</th>
             <td>Tenant count </td>
             <td>{{tenantcount}}</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th scope="row">10</th>
             <td>User  approval count </td>
             <td>{{approvalcount}}</td>
             <td><table class="table table-striped">
-                
-                <tbody>
-                  {{#each aprov}}
-                    <tr>
-                    <td>{{this.fname}}</td>
-                  </tr>
-                  {{/each}}
-        
-                </tbody>
-              </table></td>
-          </tr>
-        </tbody>
-      </table>
-</div>
-</body>
 
-</html> 
+                <tbody>
+                {{#each aprov}}
+                    <tr>
+                        <td>{{this.fname}}</td>
+                    </tr>
+                {{/each}}
+
+                </tbody>
+            </table></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{{>footerL}}
+<!--</body>-->
