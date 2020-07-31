@@ -32,10 +32,6 @@ var hbs=expHbs.create({
   layoutsDir:path.join(__dirname,"views/layout"),
   helpers: helper,
   partialsDir:path.join(__dirname,"views/partials"),
-  runtimeOptions: {
-    allowProtoPropertiesByDefault: true,
-    allowProtoMethodsByDefault: true
-  }
 })
 app.engine("hbs",hbs.engine)
 app.set('view engine', 'hbs');
@@ -51,8 +47,11 @@ app.get("/", async (req,res)=>{
     res.render("first")
 })
 app.get("/test", async (req,res)=>{
-  res.render("tenant",{
-    title:"Wroking"
+  var ans=await tenant.find({}).lean()
+  console.log(ans[0])
+  res.render("test",{
+    title:"Wroking",
+    answer:ans
   })
 })
 

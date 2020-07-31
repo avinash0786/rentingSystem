@@ -40,13 +40,13 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="width: 30%;">Tenant ID:&nbsp; {{this.tenantID}}</th>
+                        <th style="width: 30%;"> Tenant ID:&nbsp; {{this.tenantID}}</th>
                         <th style="width: 20%;">Tenant Name:&nbsp; {{this.fname}} {{this.lname}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding-right: 0;">Joined on: {{this.idcreatedON}}</td>
+                        <td style="padding-right: 0;">Joined on: {{upcase this.idcreatedON }}</td>
                         <td>Mobile no: {{this.mobile}}</td>
                     </tr>
                     <tr>
@@ -55,7 +55,12 @@
                     </tr>
                     <tr>
                         <td style="padding: 12px;padding-right: 0px;">Allocated on: {{this.allotON}}</td>
-                        <td style="padding-right: 0;">Verified: {{this.verified}}</td>
+                        {{#if this.verified}}
+                            <td>Verified: <i data-toggle="tooltip" class="fa fa-check-circle" style="font-size: 20px;color: rgb(8,140,215);" title="Verified User"></i></td>
+                        {{else}}
+                            <td>Verified: <i data-toggle="tooltip" class="fa fa-times-circle" style="font-size: 20px;color: rgb(239,45,45);" title="Not Verified"></i></td>
+                        {{/if}}
+<!--                        <td style="padding-right: 0;">Verified: {{this.verified}}</td>-->
                     </tr>
                     <tr></tr>
                     <tr></tr>

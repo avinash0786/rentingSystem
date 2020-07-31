@@ -40,7 +40,7 @@ const redirectLogin=(req,res,next)=>{
 }
 
 router.get('/landlord-login',redirectLanding,function (req,res) {
-    res.render("main")
+    res.render("main", {layout: false})
 })
 
 router.post('/landlord-login',
@@ -362,7 +362,7 @@ router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-tenant',redirectLogin,async (req, res, next)=> {
-    const ans =await tenant.find({landlordID:req.session.userID}).sort({_id:-1})
+    const ans =await tenant.find({landlordID:req.session.userID}).sort({_id:-1}).lean()
     res.render("tenants",{
         tenant:ans,
         title:"Tenants",
@@ -522,19 +522,23 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
     if(req.query.type==="sent")
     {
         console.log("Sent messages retieve")
-        notifications.find({fromLandlord:req.session.userID}).sort({_id:-1})
+        notifications.find({fromLandlord:req.session.userID}).sort({_id:-1}).lean()
             .then((not)=>{
                 return res.render("notifications",{
-                    notif:not
+                    notif:not,
+                    title:"Notification",
+                    fname:req.session.fname,
+                    lname:req.session.lname,
+                    id:req.session.userID
                 })
             })
             .catch((E)=>{
-                console.log("error db")
+                console.log("error db notification"+E)
             })
     }
     else {
         console.log("REcieved messages retieve")
-        notifications.find({toLandlord:req.session.userID}).sort({_id:-1})
+        notifications.find({toLandlord:req.session.userID}).sort({_id:-1}).lean()
             .then((not)=>{
                 return res.render("notifications",{
                     notif:not,
@@ -545,19 +549,23 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
                 })
             })
             .catch((E)=>{
-                console.log("error db")
+                console.log("error db rec"+E)
             })
 
     }
 });
 
 router.get('/landlord-send',redirectLogin,function (req, res, next) {
-    tenant.find({landlordID:req.session.userID})
+    tenant.find({landlordID:req.session.userID}).lean()
         .then((doc)=>{
             res.render("landlordsend1",{
                 tenants:doc,
                 error:false,
-                message:false
+                message:false,
+                title:"Send Notification",
+                fname:req.session.fname,
+                lname:req.session.lname,
+                id:req.session.userID
             })
         })
         .catch((e)=>{
@@ -571,7 +579,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
     {
         console.log("broadcasting")
         var mes=req.body.message;
-        tenant.find({landlordID:req.session.userID,verified:true})
+        tenant.find({landlordID:req.session.userID,verified:true}).lean()
             .then((doc)=>{
                 doc.forEach((tenant)=>{
                     var notif=new notifications({
@@ -582,7 +590,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
                     })
                     notif.save()
                 })
-                tenant.find({landlordID:req.session.userID})
+                tenant.find({landlordID:req.session.userID}).lean()
                     .then((dc)=>{
                         res.render("landlordsend1",{
                             tenants:dc,
@@ -596,7 +604,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
     {
         console.log(req.body)
         var tid=req.body.id;
-        tenant.find({landlordID:req.session.userID,tenantID:tid})
+        tenant.find({landlordID:req.session.userID,tenantID:tid}).lean()
             .then((doc)=>{
                 console.log(doc)
                 if(doc.length>0)
@@ -610,7 +618,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
                     })
                     notif.save()  //saving notifications
                         .then(()=>{
-                            tenant.find({landlordID:req.session.userID})
+                            tenant.find({landlordID:req.session.userID}).lean()
                                 .then((dc)=>{
                                     res.render("landlordsend1",{
                                         tenants:dc,
@@ -622,7 +630,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
                 }
                 else {
                     console.log("Tenant not  found")
-                    tenant.find({landlordID:req.session.userID})
+                    tenant.find({landlordID:req.session.userID}).lean()
                         .then((dc)=>{
                             res.render("landlordsend1",{
                                 tenants:dc,
