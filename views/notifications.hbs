@@ -65,7 +65,7 @@
                         {{# if this.toTenant}}
                             <p>SENT TO: {{this.toTenant}}</p>
                         {{/if}}
-                        <p>SENT ON: {{this.dateGenerated}}</p>
+                        <p>SENT ON: {{replace (remove (moment this.dateGenerated) "+05:30") "T" " Time: "}}</p>
                     </td>
                 </tr>
                 </tbody>

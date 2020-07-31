@@ -1,5 +1,8 @@
-{{# each answer}}
-
-    <h1>{{this.fname}}</h1>
-    <hr>
+{{#each res}}
+    {{this.idcreatedON}}
+    {{replace (remove (moment this.idcreatedON) "+05:30") "T" " Time: "}}
+<hr>
 {{/each}}
+
+<!--"GMT+0530 (India Standard Time)"-->
+<!--removed a:: {{remove (JSONstringify this.idcreatedON) "GMT+0530 (India Standard Time)" }}<br>-->

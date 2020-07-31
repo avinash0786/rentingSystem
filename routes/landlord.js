@@ -222,8 +222,18 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
         })
 });
 
-router.get('/landlord-profile',redirectLogin,function(req, res, next) {
-    res.send("/landlord-profile Recieved request ")
+router.get('/landlord-profile',redirectLogin,async (req, res)=> {
+    landlord.findOne({landlordID:req.session.userID}).lean()
+        .then((data)=>{
+            console.log(data)
+            res.render("profileLand",{
+                data:data,
+                title:"Dashboard",
+                fname:req.session.fname,
+                lname:req.session.lname,
+                id:req.session.userID
+            })
+        })
 });
 
 router.get('/landlord-trans',redirectLogin,async(req, res)=> {
@@ -524,6 +534,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
         console.log("Sent messages retieve")
         notifications.find({fromLandlord:req.session.userID}).sort({_id:-1}).lean()
             .then((not)=>{
+                console.log(not)
                 return res.render("notifications",{
                     notif:not,
                     title:"Notification",
@@ -540,6 +551,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
         console.log("REcieved messages retieve")
         notifications.find({toLandlord:req.session.userID}).sort({_id:-1}).lean()
             .then((not)=>{
+                console.log(not)
                 return res.render("notifications",{
                     notif:not,
                     title:"Notifications",

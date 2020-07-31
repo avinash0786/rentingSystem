@@ -41,17 +41,24 @@ app.use(landlordRoute);
 app.use(express.static(path.join(__dirname,"./images")));
 app.use(express.static(path.join(__dirname,"./css")));
 app.use(express.static(path.join(__dirname,"./script")));
+app.use(express.static(path.join(__dirname,"./fonts")));
+app.use(express.static(path.join(__dirname,"./icons")));
+
+
 app.use(bodyparser.urlencoded({extended:true}));
 
 app.get("/", async (req,res)=>{
     res.render("first")
 })
 app.get("/test", async (req,res)=>{
-  var ans=await tenant.find({}).lean()
-  console.log(ans[0])
+   var ans=await tenant.find({}).lean()
+   console.log(ans[0])
   res.render("test",{
     title:"Wroking",
-    answer:ans
+    res:ans,
+    answer: {
+      name:"Fri Jul 31 2020 10:46:55 GMT+0530 (India Standard Time)"
+    }
   })
 })
 
