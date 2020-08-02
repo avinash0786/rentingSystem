@@ -1,8 +1,10 @@
 {{>navBarL}}
 <h1 style="width: 50%;background-repeat: no-repeat;background-color: #ffffff;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;Landlord Profile</h1>
-<div class="container-fluid text-left shadow d-block float-left justify-content-center align-items-center align-content-center justify-content-xl-start align-items-xl-end"
-     style="width: 30%;margin-left: 9%;height: 75vh;background-color: #ffffff;margin-top: 3px;padding-top: 24px;"><a href="/update-profile"><i class="fas fa-edit float-right" data-toggle="tooltip" data-bs-tooltip="" data-bs-hover-animate="flash" style="margin-left: 9px;color: rgb(6,92,171);font-size: 26px;" title="Update Info"></i></a><i class="fas fa-user d-flex justify-content-xl-center"
-                                                                                                                                                                                                                                                                                                                                                    style="font-size: 111px;color: rgb(0,135,153);"></i>
+<div class="container-fluid text-left shadow d-block float-left justify-content-center align-items-center align-content-center justify-content-xl-start align-items-xl-end" style="width: 30%;margin-left: 9%;height: 75vh;background-color: #ffffff;margin-top: 3px;padding-top: 24px;">
+    <button class="btn btn-success float-right" data-target="#updatemodal" data-toggle="modal" type="button" style="background-color: rgba(0,123,255,0);border-style: none;width: 33px;height: 34px;padding: 0px;color: rgba(255,255,255,0);">
+        <i data-toggle="tooltip" class="fas fa-edit float-right" style="margin-left: 0px;color: rgb(6,92,171);font-size: 26px;" title="Update Info"></i>
+    </button>
+    <i class="fas fa-user d-flex justify-content-xl-center" style="font-size: 111px;color: rgb(0,135,153);"></i>
     <p class="text-left d-block" data-toggle="tooltip" data-bs-tooltip="" style="height: 10%;width: 100%;font-size: 28px;font-family: 'Archivo Black', sans-serif;margin-bottom: -7px;margin-top: 26px;"
        title="Registered name">{{fname}} {{lname}}<i class="fas fa-check-circle" data-toggle="tooltip" data-bs-tooltip="" style="margin-left: 9px;color: rgb(85,157,13);font-size: 22px;" title="All details Verified"></i></p>
     <p class="text-left d-none" style="height: 10%;width: 100%;font-size: 28px;font-family: 'Archivo Black', sans-serif;margin-bottom: -7px;margin-top: 26px;">{{fname}} {{lname}}<i class="far fa-times-circle" data-toggle="tooltip" data-bs-tooltip="" style="margin-left: 9px;color: rgb(188,0,0);font-size: 22px;" title="Details incomplete, update info"></i></p>
@@ -50,6 +52,54 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--model to updte details-->
+<div role="dialog" tabindex="-1" class="modal fade text-center shadow show" id="updatemodal" style="background-color: rgba(255,255,255,0);">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+            <div class="modal-body text-left">
+                <form method="post" action="/landlord-updateInfo">
+                    <fieldset class="d-table-row" style="border-width: 1px;border-style: solid;padding: 0px;padding-left: 10px;">
+                        <legend style="width: 143px;margin-left: 0px;">Basic Details</legend>
+                        <label class="d-inline" style="margin-right: 0px;" for="fname">First Name: </label>
+                        <input type="text" class="border rounded border-secondary form-control form-control-sm d-inline" id="fname" name="fname" value={{fname}} style="width: 22%;padding: 3px;margin-bottom: 2%;" autofocus />
+                        <label style="margin-right: -1px;margin-left: 15px;width: 84px;" for="lname">Last Name: </label>
+                        <input type="text" class="border rounded border-info form-control form-control-sm d-inline" id="lname" name="lname" value={{lname}} style="width: 27%;" /><label class="d-inline-flex" style="margin-right: 9px;" for="mobile">Mobile: </label>
+                        <input type="tel" class="border rounded border-info form-control form-control-sm d-inline-flex" id="mobile" name="mobile" value={{data.mobile}} style="width: 23%;" />
+                        <label id="email" style="margin-right: 9px;margin-bottom: 0px;margin-left: 30px;width: 40px;" for="email">Email: </label>
+                        <input type="tel" class="border rounded border-info form-control form-control-sm d-inline" id="email" name="email" value={{data.email}} style="width: 42%;" />
+                        <label class="d-inline" id="address" style="margin-right: 9px;margin-bottom: 0px;margin-left: -1px;width: 59px;" for="address">Address: </label>
+<!--                        <input type="text" class="border rounded border-secondary form-control form-control-sm d-inline" id="address" name="address" value={{data.address}} style="width: 90%;margin-left: 21px;margin-bottom: 8px;" />-->
+                        <textarea class="form-control form-control-sm" id="address" name="address" rows="3" autocomplete="on" inputmode="verbatim" spellcheck="true" wrap="soft" style="margin-bottom: 9px">{{data.address}}</textarea>
+                    </fieldset>
+                    <fieldset class="d-block" style="border-width: 1px;border-style: solid;padding: 0px;padding-left: 10px;">
+                        <legend style="width: 143px;margin-left: 0px;">Rent Metrics</legend>
+                        <label class="d-inline" style="margin-right: 9px;" for="baserent">Base Rent: </label>
+                        <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="baserent" name="baserent" value={{data.baseRent}} style="width: 25%;margin-bottom: 2%;" />
+                        <label class="d-inline" style="margin-right: 9px;margin-left: 53px;" for="water">Water: </label>
+                        <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="water" name="water" value={{data.water}} style="width: 25%;" />
+                        <label class="d-inline" style="margin-right: 6px;width: 80px;" for="electricity">Electricity:</label>
+                        <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="electricity" name="electricity" value={{data.electricity}} style="width: 25%;margin-bottom: 2%;" />
+                        <label style="margin-right: 9px;margin-left: 14px;" for="maint">Maintenence: </label>
+                        <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="maint" name="maint" value={{data.maintenance}} style="width: 25%;" />
+                        <label class="d-inline" style="margin-right: 9px;margin-left: 3px;" for="security">Security: </label>
+                        <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="security" name="security" value={{data.security}} style="width: 25%;margin-bottom: 2%;" />
+                    </fieldset>
+                    <small class="form-text text-muted">**Do not <strong>change field </strong> which you don&#39;t want to update.</small>
+<!--                    Password initialy disabled-->
+<!--                    <fieldset class="d-none" style="border-width: 1px;border-style: solid;padding: 0px;padding-left: 10px;">-->
+<!--                        <legend style="width: 92px;margin-left: 0px;">Security</legend><label class="d-inline" style="margin-right: 9px;" for="fname">New Password: </label>-->
+<!--                        <input type="password" class="form-control d-inline" id="fname-8" name="password" value="5622" style="width: 51%;margin-bottom: 2%;margin-right: 28px;"-->
+<!--                    /></fieldset>-->
+                    <hr>
+                    <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-info float-right" type="submit">Update</button>
+                </form>
             </div>
         </div>
     </div>

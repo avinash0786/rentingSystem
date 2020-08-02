@@ -52,7 +52,7 @@ router.post('/landlord-login',
     const valError=validationResult(req);
     if(!valError.isEmpty())
     {   console.log("Validation Error!")
-        return res.render("main",{message: "Invalid Value"})
+        return res.render("main",{layout: false,message: "Invalid Value"})
     }
     console.log("Running Landlord login")
     let userid=req.body.name;
@@ -63,7 +63,7 @@ router.post('/landlord-login',
     if(user==null)
     {
         console.log("Landlord not Found!");
-        res.render("main",{message: "INCORRECT credentials"})
+        res.render("main",{layout: false,message: "INCORRECT credentials"})
     }
     else {
         if(await bcrypt.compare(req.body.password,user.pswd)){
@@ -74,7 +74,7 @@ router.post('/landlord-login',
             return res.redirect('/landlord-landing')// forwording to landing
         }
         else {
-            res.render("main", {message: "INCORRECT credentials"})
+            res.render("main", {layout: false,message: "INCORRECT credentials"})
         }
     }
 });
@@ -235,6 +235,32 @@ router.get('/landlord-profile',redirectLogin,async (req, res)=> {
             })
         })
 });
+
+router.post("/landlord-updateInfo",redirectLogin,async (req,res)=>{
+    console.log(req.body)
+    landlord.updateOne({landlordID:req.session.userID},{
+        fname:req.body.fname,
+        lname:req.body.lname,
+        mobile:req.body.mobile,
+        email:req.body.email,
+        baseRent:req.body.baserent,
+        water:req.body.water,
+        electricity:req.body.electricity,
+        security:req.body.security,
+        maintenance:req.body.maint,
+        address:req.body.address
+    })
+        .then((dta)=>{
+            req.session.fname=req.body.fname;
+            req.session.lname=req.body.lname
+            res.redirect("/landlord-profile")
+        })
+        .catch((e)=>{
+            res.send("Update request recieved")
+            console.log("error in Update")
+            console.log(e)
+        })
+})
 
 router.get('/landlord-trans',redirectLogin,async(req, res)=> {
     const user=parseInt(req.session.userID);

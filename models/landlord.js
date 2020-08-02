@@ -15,12 +15,16 @@ const landlord=mongoose.Schema({
         type:String,
         trim:true,
         required:true
-        
     },
     mobile:{
         type:String,
         trim:true,
         default:"",
+    },
+    email:{
+      type:String,
+      trim:true,
+      default:""
     },
     baseRent:{
         type:Number,
