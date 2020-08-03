@@ -256,7 +256,7 @@ router.post("/landlord-updateInfo",redirectLogin,async (req,res)=>{
             res.redirect("/landlord-profile")
         })
         .catch((e)=>{
-            res.send("Update request recieved")
+            res.send("Update request Failed")
             console.log("error in Update")
             console.log(e)
         })
@@ -423,7 +423,7 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
     console.log("Year: "+req.session.year)
     var monthName=months[month-1];
     req.session.monthname=monthName
-    var trans=await transaction.findOne({landlordID:req.session.userID,year:year,month:month})
+    var trans=await transaction.findOne({landlordID:req.session.userID,year:year,month:month}).lean()
     console.log(trans)
     if(!(trans===null))
     {
@@ -439,7 +439,7 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
         })
     }
     console.log("Landlord: "+req.session.userID)
-    var ans=await tenant.find({landlordID:req.session.userID,verified:true})
+    var ans=await tenant.find({landlordID:req.session.userID,verified:true}).lean()
     console.log("Rendering tenane")
     res.render("billGenerate",{
         alreadyGenerated:false,
@@ -465,18 +465,19 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
     var ten=await tenant.find({landlordID:req.session.userID,verified:true})
     var tidnew=await transaction.countDocuments({});
     console.log(tidnew)
-    console.log("Date: "+new Date(req.session.billGendate))
+    //console.log("Date: "+new Date(req.session.billGendate))
     ten.forEach((t)=>{
          tidnew+=1;
-        var ini="initial"+t.tenantID;
-        var fin="current"+t.tenantID;
+        // var ini="initial"+t.tenantID;
+        // var fin="current"+t.tenantID;
         var eleAmount=elecMetric*Math.abs((req.body["current"+t.tenantID]-req.body["initial"+t.tenantID]));
+        console.log("Elec : "+eleAmount)
         var transac=new transaction({
             tid:tidnew,
             month:req.session.month,
             paidON:null,
             year:req.session.year,
-            amount:eleAmount+extras,
+            amount:(eleAmount+extras),
             landlordID:req.session.userID,
             tenantID:t.tenantID,
             baseRent:ans.baseRent,
@@ -493,6 +494,10 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
             })
             .catch((e)=>{
                 console.log("Database save Error !")
+                console.log("Error: "+e)
+                res.render("error",{
+                    layout: false
+                });
             })
     })
 
@@ -571,6 +576,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
             })
             .catch((E)=>{
                 console.log("error db notification"+E)
+                res.redirect("/landlord-error");
             })
     }
     else {
@@ -588,6 +594,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
             })
             .catch((E)=>{
                 console.log("error db rec"+E)
+                res.redirect("/landlord-error");
             })
 
     }
@@ -607,7 +614,7 @@ router.get('/landlord-send',redirectLogin,function (req, res, next) {
             })
         })
         .catch((e)=>{
-            res.send("Error in Fetch")
+            res.redirect("/landlord-error");
         })
 });
 
@@ -680,6 +687,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
             })
             .catch(()=>{
                 console.log("Fetch error!")
+                res.redirect("/landlord-error");
             })
     }
 });
@@ -700,6 +708,13 @@ router.get('/landlord-maint',redirectLogin,function(req, res, next) {
 
 router.get('/landlord-recExp',redirectLogin,function(req, res, next) {
     res.send("Profile Recieved request ")
+});
+
+router.get('/landlord-error',redirectLogin,function(req, res) {
+    console.log("Error Page Requested")
+    res.render("error",{
+        layout: false
+    })
 });
 
 router.get('/landlord-logout',redirectLogin,function(req, res, next) {

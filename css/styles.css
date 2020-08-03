@@ -4,4 +4,12 @@
 #selection {
   align-items: center;
 }
+#loading{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF
+  url("inf.png") no-repeat;
+  z-index: 999999;
+}
 
