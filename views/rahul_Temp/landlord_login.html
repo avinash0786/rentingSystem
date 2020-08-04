@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Tenant Log In/Sign Up</title>
+    <title>Landlord LogIn/ SignUp</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
+      
     <nav class="navbar navbar-expand-sm navbar-dark bg-secondary fixed-top">
         <a class="navbar-brand mr-auto" href="#"><img src="Renting_Logo.png" height="41" width="80"></a>
           <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-              aria-expanded="false" aria-label="Toggle navigation"></button>
+              aria-expanded="false" aria-label="Toggle navigation"></button> 
        <!--   <div class="collapse navbar-collapse" id="collapsibleNavId">
               <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                   <li class="nav-item active">
@@ -36,8 +37,8 @@
               </form>
           </div>
       </nav>
-      <div class="jumbotron">
-          <h1 class="display-3">LogIn / SingUp For Tenant</h1>
+      <div class="jumbotron jumbotron-fluid">
+          <h1 class="display-4 text-center"> <i> Login/Singup For Landlord!</i></h1>
 <!--          <p class="lead">Create your Account or Log in if aready hade one!</p>-->
 <!--          <p class="lead">**For Landlord ID contact your Landlord.</p>-->
           <hr class="my-2">
@@ -46,7 +47,6 @@
         <div class="row">
             <div class="col-md-6 login-form-1">
                 <h3>Log In </h3>
-                <h5>{{massage}} </h5>
                 <form method="post" action="/tenant-login">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Your ID*" required  name="tenantID" />
@@ -57,7 +57,7 @@
                     <div class="form-group">
                        <!--- <input type="submit" class="btnSubmit" value="Login" /> -->
 <!--                        <a name="" id="" class="btn btnSubmit" href="/tenant-login" role="button">LogIn</a>-->
-                        <button class="btnSubmit" type="submit" class="subm" value="submit">LOGIN</button>
+                        <button class="btnSubmit" type="submit" class="subm" value="submit">Login</button>
                     </div>
                     <div class="form-group">
                         <a href="#" class="ForgetPwd">Forget Password?</a>
@@ -71,7 +71,8 @@
                         <input type="text" class="form-control" placeholder="Your Full Name *" value="" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Landlord ID *" value="" />
+                      <!--  <input type="textarea" class="form-control" placeholder="Your Address* " value="" /> -->
+                        <textarea class="form-control" rows="4" placeholder="Your Address*" id="Address"></textarea>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Your Email *" value="" />
@@ -82,19 +83,14 @@
                         <input type="text" class="form-control" placeholder="Confirm Your Password *" value="" />
                     </div>
                     <div class="form-group">
-                        <a name="" id="" class="btn btnSubmit" href="#" role="button">SignUp</a>
-                    </div>
-                    <div class="form-group">
-
-                     <!--   <a href="#" class="ForgetPwd" value="Login">Forget Password?</a>  -->
+                        <button class="btnSubmit" type="submit" class="subm" value="submit">Signup</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-    {{>try}}
-    {{add 12 232}}
+    
 <footer>
     <div class="row justify-content-center">             
         <div>
