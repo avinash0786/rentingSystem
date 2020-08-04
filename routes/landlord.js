@@ -40,7 +40,7 @@ const redirectLogin=(req,res,next)=>{
 }
 
 router.get('/landlord-login',redirectLanding,function (req,res) {
-    res.render("main", {layout: false})
+    res.render("landlord_login", {layout: false})
 })
 
 router.post('/landlord-login',

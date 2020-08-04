@@ -48,7 +48,9 @@ app.use(express.static(path.join(__dirname,"./icons")));
 app.use(bodyparser.urlencoded({extended:true}));
 
 app.get("/", async (req,res)=>{
-    res.render("first")
+    res.render("first",{
+      layout: false
+    })
 })
 app.get("/test", async (req,res)=>{
    var ans=await tenant.find({}).lean()

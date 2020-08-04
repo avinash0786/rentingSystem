@@ -38,7 +38,9 @@ const redirectLogin=(req,res,next)=>{
 }
 
 router.get('/tenant-login',redirectLanding,function(req, res, next) {
-    res.render("tenant")
+    res.render("tenant",{
+        layout: false
+    })
 });
 
 router.post('/tenant-login',redirectLanding,function(req, res) {
