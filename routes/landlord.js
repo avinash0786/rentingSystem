@@ -74,7 +74,7 @@ router.post('/landlord-login',
             return res.redirect('/landlord-landing')// forwording to landing
         }
         else {
-            res.render("main", {layout: false,message: "INCORRECT credentials"})
+            res.render("landlord_login", {layout: false,message: "INCORRECT credentials"})
         }
     }
 });
