@@ -52,7 +52,7 @@ router.post('/landlord-login',
     const valError=validationResult(req);
     if(!valError.isEmpty())
     {   console.log("Validation Error!")
-        return res.render("main",{layout: false,message: "Invalid Value"})
+        return res.render("landlord_login",{layout: false,message: "Invalid Value"})
     }
     console.log("Running Landlord login")
     let userid=req.body.name;
@@ -63,7 +63,7 @@ router.post('/landlord-login',
     if(user==null)
     {
         console.log("Landlord not Found!");
-        res.render("main",{layout: false,message: "INCORRECT credentials"})
+        res.render("landlord_login",{layout: false,message: "INCORRECT credentials"})
     }
     else {
         if(await bcrypt.compare(req.body.password,user.pswd)){
