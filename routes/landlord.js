@@ -78,52 +78,37 @@ router.post('/landlord-login',
         }
     }
 });
-router.get('/landlord-signup',redirectLanding,function (req,res) {
-    res.render("createTenant")
-})
 
-router.post('/landlord-signup',redirectLanding,function(req, res) {
-    var pswd=req.body.pswd;
-    const qq=new Promise((resole,reject)=>{  //geeting new id
-        landlord.countDocuments( {},function(err,r){
-            let newID = r + 1;
-            resole(newID)
-        })
-            .then((A)=>{
-                console.log("Running then block")
-            })
-    });
-    qq.then( (id)=>{
-        bcrypt.hash(pswd,saltRound, function (err,hash) {
-            if(err){
-                return res.send("Password Error")
-            }
-            else {
-                console.log("Registering user")
-                var newLandlord=new landlord({
-                    landlordID:id,
-                    fname:req.body.fname,
-                    lname:req.body.lname,
-                    mobile:req.body.mobile,
-                    baserent:req.body.baseRent,
-                    water:req.body.water,
-                    electricity:req.body.electricity,
-                    security:req.body.security,
-                    maintenance:req.body.maint,
-                    address:req.body.address,
-                    startRoom:req.body.startRoom,
-                    endRoom:req.body.endRoom,
-                    pswd:hash
-                })
-                newLandlord.save()
-                    .then(doc=>{
-                        res.status(201).send("Data insterted successfully");
-                    })
-                    .catch(err=>{
-                        res.send("Error inserting ladlord")
-                    })
-            }
+router.post('/landlord-signup',async (req, res)=> {
+    console.log(req.body)
+    var newID;
+    await landlord.countDocuments({})
+        .then((d)=>{
+            newID=d+1;
         });
+    var password=req.body.pswd;
+    bcrypt.hash(password,saltRound,function (err,hash) {
+        if(err)
+        {
+            console.log("Error hashing")
+            return res.redirect("/landlord-login")
+        }
+        else {
+            console.log(newID)
+            var ll=new landlord({
+                landlordID:newID,
+                fname:req.body.fname,
+                lname:req.body.lname,
+                email:req.body.email,
+                pswd:hash
+            })
+            ll.save()
+            console.log(ll)
+            res.render("landlord_login", {
+                layout: false,
+                message2: "New Landlord Created Successfully ID: "+newID
+            })
+        }
     })
 });
 

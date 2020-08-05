@@ -24,6 +24,7 @@ const landlord=mongoose.Schema({
     email:{
       type:String,
       trim:true,
+        required:true,
       default:""
     },
     baseRent:{
@@ -54,6 +55,7 @@ const landlord=mongoose.Schema({
     address:{
         type:String,
         trim:true,
+        default:""
     },
     startRoom:{
         type:Number,

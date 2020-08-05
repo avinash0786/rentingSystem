@@ -66,22 +66,23 @@
                 </form>
             </div>
             <div class="col-md-6 login-form-2">
+                <p style=" font-size: 20px;color: #FFFFFF;text-align: center "> {{message2}}</p>
                 <h3>Sign Up</h3>
-                <form>
+                <form method="post" action="/landlord-signup">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Full Name *" value="" />
+                        <input type="text" class="form-control" placeholder=" First Name *" name="fname" required />
                     </div>
                     <div class="form-group">
-                      <!--  <input type="textarea" class="form-control" placeholder="Your Address* " value="" /> -->
-                        <textarea class="form-control" rows="4" placeholder="Your Address*" id="Address"></textarea>
+                        <input type="text" class="form-control" placeholder=" Last Name *" name="lname" required/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Email *" value="" />
-                    </div>
-                    <div class="form-group">                        <input type="password" class="form-control" placeholder="Create Your Password *" value="" />
+                        <input type="text" class="form-control" placeholder=" Email *" name="email" required  />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Confirm Your Password *" value="" />
+                        <input type="password" class="form-control" placeholder="Create Your Password *" name="pswd" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Confirm Your Password *" required />
                     </div>
                     <div class="form-group">
                         <button class="btnSubmit" type="submit" class="subm" value="submit">Signup</button>

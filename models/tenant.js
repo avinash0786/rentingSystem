@@ -20,12 +20,14 @@ const tenant=mongoose.Schema({
     mobile:{
         type:String,
         unique:true,
-        trim:true
+        trim:true,
+        default:""
     },
     email:{
         type:String,
         unique:true,
         trim:true,
+        required:true
     },
     room:{
         type:Number,
