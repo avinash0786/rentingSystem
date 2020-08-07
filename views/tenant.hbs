@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="CSStenet.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="/fonts/fontawesome5-overrides.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+      <script src="new.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-secondary fixed-top">
@@ -75,7 +80,9 @@
                         <input type="text" class="form-control" placeholder=" Last Name *" name="lname" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Landlord ID *" name="id" />
+                        <small class="form-text text-light" ID="exist" style="display: none; width: 115px;"><i class="fa fa-check bg-light border rounded-0" style="color: rgb(39,150,20);"></i>  Landlord <strong>exists</strong></small>
+                        <small class="form-text text-light" id="notexist"  style="display: none; width: 170px;"><i class="fa fa-close bg-light border rounded-0" style="color: rgb(232,27,27);width: 14px;padding-left: 1px;"></i>  Landlord does <strong>not </strong>exist</small>
+                        <input type="text" class="form-control" oninput="checkLandlord()" placeholder="Your Landlord ID *" id="landlordinp" name="id" />
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Your Email *" name="email" />

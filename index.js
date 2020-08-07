@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname,"./css")));
 app.use(express.static(path.join(__dirname,"./script")));
 app.use(express.static(path.join(__dirname,"./fonts")));
 app.use(express.static(path.join(__dirname,"./icons")));
-
+app.use(express.static(path.join(__dirname,"./js")));
 
 app.use(bodyparser.urlencoded({extended:true}));
 
@@ -53,75 +53,16 @@ app.get("/", async (req,res)=>{
     })
 })
 app.get("/test", async (req,res)=>{
-   var ans=await tenant.find({}).lean()
-   console.log(ans[0])
+   // var ans=await tenant.find({}).lean()
+   // console.log(ans[0])
   res.render("test",{
     title:"Wroking",
-    res:ans,
-    answer: {
-      name:"Fri Jul 31 2020 10:46:55 GMT+0530 (India Standard Time)"
-    }
+    // res:ans,
+    // answer: {
+    //   name:"Fri Jul 31 2020 10:46:55 GMT+0530 (India Standard Time)"
+    // }
   })
 })
-
-app.post("/register",function(req,res){
-  console.log("registering USER")
-  var newID;
-
-  const qq=new Promise((resole,reject)=>{
-    landlord.countDocuments( {},function(err,r){
-      newID=r+1;
-      resole(newID)
-    })
-  })
-  qq.then((a)=>{
-    let newlandlord= new landlord({
-      landlordID: a,
-      fname:  req.body.fname,
-      lname:  req.body.lname,
-      address:req.body.address,
-      pswd:req.body.spassword
-    })
-    newlandlord.save().then((doc)=>{
-      res.render("main",{message2:"SIGNUP SUCCESSFULL ID:"+newID})
-    }).catch(err=>{
-      console.log(err)
-        return res.send("insert error")
-    })
-  })
-})
-
-app.post("/createnewuser", function(req,res){
-  console.log("CREATING NEW USER")
-  var newID;
-
-  const qq=new Promise((resole,reject)=>{
-    tenant.countDocuments( {},function(err,r){
-      newID=r+1;
-      resole(newID)
-    })
-  })
-  qq.then((a)=>{
-    let newtenant= new tenant({
-      tenantID:a,
-      room:a,
-      landlordID: req.session.userid ,
-      verified:true,
-      fname: req.body.fname,
-      lname: req.body.lname,
-      email:req.body.email,
-      mobile:req.body.mobile,
-      pswd: req.body.password
-    })
-    newtenant.save().then((doc)=>{
-      res.render("createuser",{message2:"USER CREATED SUCCESSFULLY ID:"+newID})
-    }).catch(err=>{
-      console.log(err)
-        return res.send("insert error")
-    })
-  })
-})
-
 ///  LISITING SERVER  DONT EDIT   //
 app.listen(process.env.PORT, function(req,result){
     console.log(" Server up and running:: http://localhost:3000")

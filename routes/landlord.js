@@ -677,6 +677,36 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
     }
 });
 
+router.get('/transinfo',async (req,res)=> {
+    console.log("Tid recieved: "+req.query.tid)
+    var ans=await transaction.findOne({tid:req.query.tid})
+    //console.log("Ans: "+ans)
+    return res.send({
+        data:ans
+    })
+})
+
+router.get('/landlordcheck',function (req,res) {
+    console.log("checking landlord for: "+req.query.lid);
+    landlord.findOne({landlordID:req.query.lid})
+        .then(data=>{
+            if(data)
+            {
+                return res.send({
+                    exist:true
+                })
+            }
+            else {
+                return res.send({
+                    exist:false
+                })
+            }
+        })
+        .catch(e=>{
+            res.send("Error checking")
+        })
+})
+
 router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
     res.render("createTenant",{
         tenantID:null
