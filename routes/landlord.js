@@ -707,6 +707,31 @@ router.get('/landlordcheck',function (req,res) {
         })
 })
 
+router.get("/loadlast",function (req,res) {
+    transaction.aggregate([
+        {
+            $match: {
+                landlordID:parseInt(req.session.userID),
+                year:parseInt(req.session.year)
+            }
+        },
+        {
+            $group:{
+                _id: { tenantID : "$tenantID" },
+                finalUnit: { $last : "$finalUnit" }
+            }
+        },
+        { $sort : { _id: 1 } }
+    ])
+        .then(data=>{
+            // console.log("Load data")
+            // console.log(data);
+            return res.send({
+                load:data
+            })
+        })
+})
+
 router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
     res.render("createTenant",{
         tenantID:null
