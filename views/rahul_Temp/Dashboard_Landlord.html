@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Landlord Dashboard</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="Dash_css.css">
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand mr-auto " href="#"><img src="Renting_Logo.png" height="41" width="100"></a>
+          <button class="navbar-toggler navbar-toggler-icon d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+              aria-expanded="false" aria-label="Toggle navigation"></button>
+          <div class="collapse navbar-collapse" id="collapsibleNavId">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active lead" href="#">Dashboard</a>
+                </li>
+                  <li class="nav-item">
+                      <a class="nav-link lead" href="#">Profile</a>
+                  </li>
+                <li class="nav-item">
+                    <a class="nav-link lead" href="#">Tenants</a>
+                </li>
+                
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle lead" href="#" id="dropdownTransaction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownTransaction">
+                          <a class="dropdown-item lead my-1" href="#">Recived Payment</a>
+                          <a class="dropdown-item lead my-1" href="#">Pending payment </a>
+                      </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle lead" href="#" id="dropdownBill" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Generate Bill</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownBill">
+                        <a class="dropdown-item lead my-1" href="#">Basic rent</a>
+                        <a class="dropdown-item lead my-1" href="#">Water </a>
+                        <a class="dropdown-item lead my-1" href="#">Electricity</a>
+                        <a class="dropdown-item lead my-1" href="#">Maintenence </a>
+                        <a class="dropdown-item lead my-1" href="#">Security </a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link lead" href="#">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link lead" href="#">About Us</a>
+            </li>
+              </ul>
+              
+              <form class="form-inline my-2 my-lg-0">
+                  <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+          </div>
+          
+      </nav>
+      
+      <header class="jumbotron bg-secondary">
+        <div class="container">
+            <div class="row row-header"> 
+                <div class="col-12 col-sm-6">
+                    <h1 class="display-4">Renting Management System</h1>
+                    <p class="lead">We take the Responsibility to Match each tenant with a Landlord!</p>
+                </div>
+                <div class="col-12 col-sm align-self-center">
+                    <img src="Renting_Logo.png"height="200" width="200" >
+                </div>
+                <div class="col-12 col-sm align-self-center">
+                    <a role="button" id="createTenant" class="btn btn-block nav-link btn-warning bg-dark" data-toggle="modal"
+                    >Create Tenant</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+      <div class="row row-content align-items-center">
+          <div class="col-12 col-sm-4 order-sm-last col-md-3">
+              <h3 class="display-4">Earning Review Graphically</h3>
+          </div>
+          <div class="col col-sm order-sm-first col-md">
+              <p class="display-4">Graph</p>              
+          </div>
+      </div>
+
+      <div class="row row-content align-items-center">
+        <div class="col-sm-4 col-md-3">
+            <h3 class="display-4">Rent Matrix</h3>
+        </div>
+        <div class="col-sm col-md">
+        <!--  <div class="table-wrapper-scroll-y my-custom-scrollbar"> -->
+            <table class="table table-bordered table-striped mb-0 ">
+              <thead class="bg-dark" style="color: floralwhite;">
+                <tr>
+                  <th scope="col">Sl.No</th>
+                  <th scope="col">Facility</th>
+                  <th scope="col">Rent (In Rs.)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1.</th>
+                  <td class="lead">Base Rent</td>
+                  <td class="lead">4500</td>
+                </tr>
+                <tr>
+                  <th scope="row">2.</th>
+                  <td class="lead">Water</td>
+                  <td class="lead">200</td>
+                </tr>
+                <tr>
+                  <th scope="row">3.</th>
+                  <td class="lead">Electricity</td>
+                  <td class="lead">10 (per Unit)</td> 
+                </tr>
+                <tr>
+                  <th scope="row">4.</th>
+                  <td class="lead">Security</td>
+                  <td class="lead">2000</td>
+                </tr>
+                <tr>
+                  <th scope="row">5.</th>
+                  <td class="lead">Maintainance</td>
+                  <td class="lead">500</td>
+                </tr>
+              </tbody>
+            </table>
+         <!-- </div> -->
+        <center> <a name="SetNew" id="SetNew" class="btn btn-primary bg-dark" href="#" role="button">Set New</a> </center>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row row-content align-items-center">
+            <div class="col-12 col-sm-4 order-sm-last col-md-3">
+                <h3 class="display-4">User Approvals</h3>
+            </div>
+            <div class="col col-sm order-sm-first col-md">
+              <h4><span class="badge badge-dark lead">Total Approved:</span> <span class="badge badge-dark lead">50</span></h4>
+              <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table table-bordered table-striped mb-0">
+                  <thead class="bg-dark" style="color: floralwhite;">
+                    <tr>
+                      <th scope="col">Request No.</th>
+                      <th scope="col">Request Name.</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1.</th>
+                      <td class="lead">Tarun</td>
+                      <td> <button type="submit" class="btn-primary-Action bg-dark">Approve</button> 
+                        <button type="submit" class="btn-primary-Action bg-danger">Discard</button></td> 
+                    </tr>
+                    <tr>
+                      <th scope="row">2.</th>
+                      <td class="lead">Avinash</td>
+                      <td> <button type="submit" class="btn-primary-Action bg-dark">Approve</button> 
+                        <button type="submit" class="btn-primary-Action bg-danger">Discard</button></td> 
+                    </tr>
+                    <tr>
+                      <th scope="row">3.</th>
+                      <td class="lead">Pradeep</td>
+                      <td> <button type="submit" class="btn-primary-Action bg-dark">Approve</button> 
+                        <button type="submit" class="btn-primary-Action bg-danger">Discard</button></td>  
+                    </tr>
+                    <tr>
+                      <th scope="row">4.</th>
+                      <td class="lead">Yogesh</td>
+                      <td> <button type="submit" class="btn-primary-Action bg-dark">Approve</button> 
+                        <button type="submit" class="btn-primary-Action bg-danger">Discard</button></td> 
+                    </tr>
+                    <tr>
+                      <th scope="row">5.</th>
+                      <td class="lead">Rahul</td>
+                      <td> <button type="submit" class="btn-primary-Action bg-dark">Approve</button> 
+                        <button type="submit" class="btn-primary-Action bg-danger">Discard</button></td> 
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <center> <a name="ApproveAll" id="ApproveAll" class="btn btn-primary bg-dark" href="#" role="button">Approve All</a> <br>
+                
+                
+              </center>
+            </div>
+        </div>
+
+
+
+
+    <footer >
+    <div class="row justify-content-center bg-light footer">
+<div>
+  <p class="lead">© Copyright 2020 Renting Management System</p>
+</div>
+</div>
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
