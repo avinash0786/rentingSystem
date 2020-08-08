@@ -425,8 +425,11 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
     }
     console.log("Landlord: "+req.session.userID)
     var ans=await tenant.find({landlordID:req.session.userID,verified:true}).lean()
+    var land=await landlord.find({landlordID:req.session.userID}).lean()
+    console.log(land)
     console.log("Rendering tenane")
     res.render("billGenerate",{
+        land:land[0],
         alreadyGenerated:false,
         tenantDetails:true,
         dropdown:false,

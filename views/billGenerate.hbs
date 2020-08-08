@@ -68,6 +68,30 @@
     {{/if}}
     {{# if tenantDetails}}
         <p class="text-center" style="color: rgb(129,139,149);">Load last final reading as Initial  <input type="checkbox" onchange="loadlast()" data-toggle="tooltip" id="prevload" name="load" title="Load last reading" style="background-color: #e74242;border-style: none;" /></p>
+        <div class="container text-center text-info border rounded-0 d-flex justify-content-center" style="width: 90%;"><small class="form-text text-center text-muted d-inline-block"><strong style="font-size: 20px;">Current Rent Metrices</strong></small>
+            <div class="table-responsive table-borderless" style="width: 100%;">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr style="height: 25px;">
+                        <th style="padding: 0px;height: 20px;">Water</th>
+                        <th style="padding: 0px;height: 20px;">Electricity</th>
+                        <th style="padding: 0px;height: 20px;">Base Rent</th>
+                        <th style="padding: 0px;height: 20px;">Maintenence</th>
+                        <th style="padding: 0px;height: 20px;">Security</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-center" style="font-size: 18px;background-color: #98cdcd;border-width: 1px;border-top-style: solid;height: 28px;">
+                        <td style="padding: 0px;">Rs {{land.water}}</td>
+                        <td style="padding: 0px;">Rs {{land.electricity}} per unit</td>
+                        <td style="padding: 0px;">Rs {{land.baseRent}}</td>
+                        <td style="padding: 0px;">Rs {{land.maintenance}}</td>
+                        <td style="padding: 0px;">Rs {{land.security}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <form method="post" action="/landlord-finalBill" id="reading">
         {{#each tenants}}
             <div  class="container-fluid shadow" style="width: 82%;margin-top: 1%;"><label style="margin-right: 1%;font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;">Tenant ID:
