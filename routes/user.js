@@ -8,6 +8,7 @@ const transaction=require("../models/transaction")
 const notifications=require("../models/notifications")
 const val = require("express-validator")
 var bcrypt =require('bcrypt');
+const saltRound=2312;
 
 const router=express.Router();
 router.use(bodyparser.urlencoded({extended:true}));
@@ -38,7 +39,9 @@ const redirectLogin=(req,res,next)=>{
 }
 
 router.get('/tenant-login',redirectLanding,function(req, res, next) {
-    res.render("tenant")
+    res.render("tenant",{
+        layout: false
+    })
 });
 
 router.post('/tenant-login',redirectLanding,function(req, res) {
@@ -50,7 +53,7 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
             if(user.length<1) {
                 console.log("tenant not Found!");
                 returnres.render("tenant",{
-                    massage:"Invalid Credential"
+                    message:"Invalid Credential"
                 })
             }
             else {
@@ -58,7 +61,7 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
                     if(err)
                     {
                         return res.render("tenant",{
-                            massage:"Invalid Credential"
+                            message:"Invalid Credential"
                         })
                     }
                     if(result){
@@ -68,7 +71,7 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
                     }
                     else {
                         res.render("tenant",{
-                            massage:"Invalid Credential"
+                            message:"Invalid Credential"
                         })
                     }
                 })
@@ -79,8 +82,56 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
         })
 });
 
-router.get('/tenant-signup',function(req, res, next) {
-    res.send("/tenant-signup Recieved request ")
+router.post('/tenant-signup',async (req, res)=> {
+    console.log(req.body)
+    var landlordID
+    await landlord.findOne({landlordID:req.body.id})
+        .then((d)=>{
+            console.log(d)
+            if(d)
+            {
+                console.log("Landlord exist")
+                landlordID=d.landlordID;
+            }
+            else {
+                return res.render("tenant",{
+                    message1:"Landlord Does Not Exist Please Check Again !"
+                })
+            }
+        });
+    var newID;
+    await tenant.countDocuments({})
+        .then((d)=>{
+            newID=d+2;
+            console.log("New id: "+d)
+        })
+    var password=req.body.pswd;
+    bcrypt.hash(password,saltRound,function (err,hash) {
+        if(err)
+        {
+            console.log("Error Hashing")
+            return res.redirect("/tenant-login")
+        }
+        else {
+            var tt=new tenant({
+                tenantID:newID,
+                fname:req.body.fname,
+                lname:req.body.lname,
+                email:req.body.email,
+                room:newID,
+                verified:false,
+                landlordID:landlordID,
+                pswd:hash,
+            })
+            console.log(tt)
+            tt.save()
+                .then((s)=>{
+                    return res.render("tenant",{
+                        message1:"Tenant Created Successfully use ID: "+newID+" to Login"
+                    })
+                })
+        }
+    })
 });
 
 router.get('/tenant-landing',function(req, res, next) {

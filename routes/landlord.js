@@ -40,7 +40,7 @@ const redirectLogin=(req,res,next)=>{
 }
 
 router.get('/landlord-login',redirectLanding,function (req,res) {
-    res.render("main", {layout: false})
+    res.render("landlord_login", {layout: false})
 })
 
 router.post('/landlord-login',
@@ -52,7 +52,7 @@ router.post('/landlord-login',
     const valError=validationResult(req);
     if(!valError.isEmpty())
     {   console.log("Validation Error!")
-        return res.render("main",{layout: false,message: "Invalid Value"})
+        return res.render("landlord_login",{layout: false,message: "Invalid Value"})
     }
     console.log("Running Landlord login")
     let userid=req.body.name;
@@ -63,7 +63,7 @@ router.post('/landlord-login',
     if(user==null)
     {
         console.log("Landlord not Found!");
-        res.render("main",{layout: false,message: "INCORRECT credentials"})
+        res.render("landlord_login",{layout: false,message: "INCORRECT credentials"})
     }
     else {
         if(await bcrypt.compare(req.body.password,user.pswd)){
@@ -74,56 +74,41 @@ router.post('/landlord-login',
             return res.redirect('/landlord-landing')// forwording to landing
         }
         else {
-            res.render("main", {layout: false,message: "INCORRECT credentials"})
+            res.render("landlord_login", {layout: false,message: "INCORRECT credentials"})
         }
     }
 });
-router.get('/landlord-signup',redirectLanding,function (req,res) {
-    res.render("createTenant")
-})
 
-router.post('/landlord-signup',redirectLanding,function(req, res) {
-    var pswd=req.body.pswd;
-    const qq=new Promise((resole,reject)=>{  //geeting new id
-        landlord.countDocuments( {},function(err,r){
-            let newID = r + 1;
-            resole(newID)
-        })
-            .then((A)=>{
-                console.log("Running then block")
-            })
-    });
-    qq.then( (id)=>{
-        bcrypt.hash(pswd,saltRound, function (err,hash) {
-            if(err){
-                return res.send("Password Error")
-            }
-            else {
-                console.log("Registering user")
-                var newLandlord=new landlord({
-                    landlordID:id,
-                    fname:req.body.fname,
-                    lname:req.body.lname,
-                    mobile:req.body.mobile,
-                    baserent:req.body.baseRent,
-                    water:req.body.water,
-                    electricity:req.body.electricity,
-                    security:req.body.security,
-                    maintenance:req.body.maint,
-                    address:req.body.address,
-                    startRoom:req.body.startRoom,
-                    endRoom:req.body.endRoom,
-                    pswd:hash
-                })
-                newLandlord.save()
-                    .then(doc=>{
-                        res.status(201).send("Data insterted successfully");
-                    })
-                    .catch(err=>{
-                        res.send("Error inserting ladlord")
-                    })
-            }
+router.post('/landlord-signup',async (req, res)=> {
+    console.log(req.body)
+    var newID;
+    await landlord.countDocuments({})
+        .then((d)=>{
+            newID=d+1;
         });
+    var password=req.body.pswd;
+    bcrypt.hash(password,saltRound,function (err,hash) {
+        if(err)
+        {
+            console.log("Error hashing")
+            return res.redirect("/landlord-login")
+        }
+        else {
+            console.log(newID)
+            var ll=new landlord({
+                landlordID:newID,
+                fname:req.body.fname,
+                lname:req.body.lname,
+                email:req.body.email,
+                pswd:hash
+            })
+            ll.save()
+            console.log(ll)
+            res.render("landlord_login", {
+                layout: false,
+                message2: "New Landlord Created Successfully ID: "+newID
+            })
+        }
     })
 });
 
@@ -440,8 +425,11 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
     }
     console.log("Landlord: "+req.session.userID)
     var ans=await tenant.find({landlordID:req.session.userID,verified:true}).lean()
+    var land=await landlord.find({landlordID:req.session.userID}).lean()
+    console.log(land)
     console.log("Rendering tenane")
     res.render("billGenerate",{
+        land:land[0],
         alreadyGenerated:false,
         tenantDetails:true,
         dropdown:false,
@@ -691,6 +679,61 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
             })
     }
 });
+
+router.get('/transinfo',async (req,res)=> {
+    console.log("Tid recieved: "+req.query.tid)
+    var ans=await transaction.findOne({tid:req.query.tid})
+    //console.log("Ans: "+ans)
+    return res.send({
+        data:ans
+    })
+})
+
+router.get('/landlordcheck',function (req,res) {
+    console.log("checking landlord for: "+req.query.lid);
+    landlord.findOne({landlordID:req.query.lid})
+        .then(data=>{
+            if(data)
+            {
+                return res.send({
+                    exist:true
+                })
+            }
+            else {
+                return res.send({
+                    exist:false
+                })
+            }
+        })
+        .catch(e=>{
+            res.send("Error checking")
+        })
+})
+
+router.get("/loadlast",function (req,res) {
+    transaction.aggregate([
+        {
+            $match: {
+                landlordID:parseInt(req.session.userID),
+                year:parseInt(req.session.year)
+            }
+        },
+        {
+            $group:{
+                _id: { tenantID : "$tenantID" },
+                finalUnit: { $last : "$finalUnit" }
+            }
+        },
+        { $sort : { _id: 1 } }
+    ])
+        .then(data=>{
+            // console.log("Load data")
+            // console.log(data);
+            return res.send({
+                load:data
+            })
+        })
+})
 
 router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
     res.render("createTenant",{
