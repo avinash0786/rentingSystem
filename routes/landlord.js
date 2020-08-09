@@ -128,7 +128,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     var recnamearr=[]
     var recnames;
     name=user.fname;
-    baserent=user.baserent
+    baserent=user.baseRent
     water= user.water
     electricity=user.electricity
     security=user.security
