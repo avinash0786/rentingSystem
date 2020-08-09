@@ -81,10 +81,16 @@ router.post('/landlord-login',
 router.post('/landlord-signup',async (req, res)=> {
     console.log(req.body)
     var newID;
-    await landlord.countDocuments({})
+    // await landlord.countDocuments({})
+    //     .then((d)=>{
+    //         newID=d+1;
+    //     });
+    await landlord.aggregate([{ $group : { _id: null, maxid: { $max : "$landlordID" }}}])
         .then((d)=>{
-            newID=d+1;
-        });
+            console.log(d[0])
+            newID=d[0].maxid+1;
+            console.log("New id: "+d)
+        })
     var password=req.body.pswd;
     bcrypt.hash(password,saltRound,function (err,hash) {
         if(err)
