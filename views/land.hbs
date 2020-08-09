@@ -1,189 +1,115 @@
-<!--<head>-->
-<!--    &lt;!&ndash;Style for landing page&ndash;&gt;-->
-<!--    <style>-->
-<!--        .table-fixed thead {-->
-<!--            width: 97%;-->
-<!--        }-->
-<!--        .container{-->
-<!--            width: 600px;-->
-<!--        }-->
-<!--        .panel-heading{-->
-<!--            height: 40px;-->
-<!--            padding: 10px 10px;-->
-<!--            font-size: 15px;}-->
-<!--        .inputHeader{width:100%}-->
-<!--        .table-fixed tbody {-->
-<!--            height: 230px;-->
-<!--            overflow-y: auto;-->
-<!--            width: 100%;-->
-<!--        }-->
-<!--        .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {-->
-<!--            display: block;-->
-<!--        }-->
-<!--        .table-fixed tbody td, .table-fixed thead > tr> th {-->
-<!--            float: left;-->
-<!--            border-bottom-width: 0;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-
-<!--<body>-->
+<link rel="stylesheet" href="Dash_css.css">
 {{>navBarL}}
-<h3 style="align-items: center;">LANDLORD LANDING PAGE DATA</h3>
-<!--  <canvas id="chartjs-0" class="chartjs" style="position: relative;height:500px;width: 500px" ></canvas>-->
-<!--    <script>-->
-<!--        new Chart(document.getElementById("chartjs-0"),-->
-<!--        {"type":"line","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"borderColor":"rgb(75, 192, 192)","lineTension":0.1}]},"options":{}});-->
-<!--    </script>-->
-<!--  <canvas id="chartjs-1" class="chartjs" style="position: relative;height:500px;width: 500px" ></canvas>-->
-<!--  <script>-->
-<!--      new Chart(document.getElementById("chartjs-1"),-->
-<!--      chartjs-1.canvas.parentNode.style.height = '128px';-->
-<!--      chartjs-1.canvas.parentNode.style.width = '128px';        -->
-<!--      {"type":"line","data":{"labels":["January","February","March","April","May","June","July"],"datasets":[{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":false,"borderColor":"rgb(75, 192, 192)","lineTension":0.1}]},"options":{}});-->
-<!--  </script>-->
-<div id="main">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Data</th>
-            <th scope="col">Values fetched</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Name </td>
-            <td>{{username}}</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Id </td>
-            <td>{{userid}}</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Date </td>
-            <td>{{date}}</td>
-        </tr>
-        <tr>
-            <th scope="row">5</th>
-            <td>Recieved Payment </td>
-            <td>
-                <button type="button" class="btn btn-primary">
-                    Recieved Payment <span class="badge badge-light">{{recpaycount}}</span>
-                </button></td>
-            <td><table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Tenant ID</th>
-                    <th scope="col">Tenant Name</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each recpay}}
-                    <tr>
-                        <td>{{this.tid}}</td>
-                        <td>{{this.fname}}</td>
-                        <td >{{this.paidON}}</td>
-                        <td>{{this.amount}}</td>
-                    </tr>
-                {{/each}}
+<header class="jumbotron bg-secondary">
+    <div class="container">
+        <div class="row row-header">
+            <div class="col-12 col-sm-6">
+                <h1 class="display-4">Renting Management System</h1>
+                <p class="lead">We take the Responsibility to Match each tenant with a Landlord!</p>
+            </div>
+            <div class="col-12 col-sm align-self-center">
+                <img src="Renting_Logo.png"height="200" width="200" >
+            </div>
+            <div class="col-12 col-sm align-self-center">
+                <a role="button" id="createTenant" href="/landlord-createTenant" class="btn btn-block nav-link btn-warning bg-dark" data-toggle="modal">Create Tenant</a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row row-content align-items-center">
+        <div class="col-12 col-sm-4 order-sm-last col-md-3">
+            <h3 class="display-4">Earning Review Graphically</h3>
+        </div>
+        <div class="col col-sm order-sm-first col-md">
+            <p class="display-4">Graph</p>
+        </div>
+    </div>
 
-                </tbody>
-            </table></td>
-        </tr>
-
-        <tr>
-            <th scope="row">6</th>
-            <td>Pending Payment Count </td>
-            <td>
-                <button type="button" class="btn btn-primary">
-                    Pending Payment  <span class="badge badge-light">{{penpaycount}}</span>
-                </button></td>
-            <td><table class="table table-striped">
-                <thead>
+    <div class="row row-content align-items-center">
+        <div class="col-sm-4 col-md-3">
+            <h3 class="display-4">Rent Metric</h3>
+        </div>
+        <div class="col-sm col-md">
+            <!--  <div class="table-wrapper-scroll-y my-custom-scrollbar"> -->
+            <table class="table table-bordered table-striped mb-0 ">
+                <thead class="bg-dark" style="color: floralwhite;">
                 <tr>
-                    <th scope="col">Tenant ID</th>
-                    <th scope="col">Tenant Name</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Amount</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each pendpay}}
-                    <tr>
-                        <td>{{this.tid}}</td>
-                        <td>{{this.fname}}</td>
-                        <td >{{this.dateGenerated}}</td>
-                        <td>{{this.amount}}</td>
-                    </tr>
-                {{/each}}
-                </tbody>
-            </table></td>
-        </tr>
-
-        <tr>
-            <th scope="row">7</th>
-            <td>Rent metrices </td>
-            <td><table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Base Rent</th>
-                    <th scope="col">{{baserent}}</th>
+                    <th scope="col">Sl.No</th>
+                    <th scope="col">Metric Name</th>
+                    <th scope="col">Rent (In Rs.)</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <th scope="row">Water</th>
-                    <td>{{water}}</td>
+                    <th scope="row">1.</th>
+                    <td class="lead">Base Rent</td>
+                    <td class="lead">Rs {{baserent}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Electricity</th>
-                    <td>{{electricity}}</td>
+                    <th scope="row">2.</th>
+                    <td class="lead">Water</td>
+                    <td class="lead">Rs {{water}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Security</th>
-                    <td>{{security}}</td>
+                    <th scope="row">3.</th>
+                    <td class="lead">Electricity</td>
+                    <td class="lead">Rs {{electricity}} (per Unit)</td>
                 </tr>
                 <tr>
-                    <th scope="row">Maintenance</th>
-                    <td>{{maintenance}}</td>
+                    <th scope="row">4.</th>
+                    <td class="lead">Security</td>
+                    <td class="lead">Rs {{security}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">5.</th>
+                    <td class="lead">Maintainance</td>
+                    <td class="lead">Rs {{maintenance}}</td>
                 </tr>
                 </tbody>
-            </table></td>
-        </tr>
-        <tr>
-            <th scope="row">8</th>
-            <td>Total profit </td>
-            <td>{{totalprofit}}</td>
-        </tr>
-        <tr>
-            <th scope="row">9</th>
-            <td>Tenant count </td>
-            <td>{{tenantcount}}</td>
-        </tr>
-        <tr>
-            <th scope="row">10</th>
-            <td>User  approval count </td>
-            <td>{{approvalcount}}</td>
-            <td><table class="table table-striped">
+            </table>
+            <!-- </div> -->
+            <center> <a name="SetNew" id="SetNew" class="btn btn-primary bg-dark" href="#" role="button">Set New</a> </center>
+        </div>
+    </div>
 
-                <tbody>
-                {{#each aprov}}
-                    <tr>
-                        <td>{{this.fname}}</td>
-                    </tr>
-                {{/each}}
+    <div class="container">
+        <div class="row row-content align-items-center">
+            <div class="col-12 col-sm-4 order-sm-last col-md-3">
+                <h3 class="display-4">User Approvals</h3>
+            </div>
+            <div class="col col-sm order-sm-first col-md">
+                <h4><span class="badge badge-dark lead">Pending Approvals </span> <span class="badge badge-dark lead">{{approvalcount}}</span></h4>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead class="bg-dark" style="color: floralwhite;">
+                        <tr>
+                            <th scope="col">Request No.</th>
+                            <th scope="col">Request Name.</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each aprov}}
+                            <tr>
+                                <th scope="row">{{this.tenantID}}</th>
+                                <td class="lead">{{this.fname}}</td>
+                                <td>
+                                    <button type="submit" class="btn-primary-Action bg-dark" style="width: auto">Approve</button>
+                                    <button type="submit" class="btn-primary-Action bg-danger" style="width: auto">Discard</button>
+                                </td>
+                            </tr>
+                        {{/each}}
 
-                </tbody>
-            </table></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-{{>footerL}}
-<!--</body>-->
+                        </tbody>
+                    </table>
+                </div>
+                <center> <a name="ApproveAll" id="ApproveAll" class="btn btn-primary bg-dark" href="#" role="button">Approve All</a> <br>
+
+
+                </center>
+            </div>
+        </div>
+
+
+        {{>footerL}}

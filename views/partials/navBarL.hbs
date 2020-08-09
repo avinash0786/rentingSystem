@@ -1,17 +1,61 @@
-<section id="hero" style="width: 100%;height: 60px;font-size: 15px;font-family: 'Alegreya Sans', sans-serif;padding: -7px;filter: blur(0px);">
-    <nav class="navbar navbar-dark navbar-expand-md fixed-top border-info text-center border rounded-0 shadow-sm visible" data-toggle="tooltip" data-bs-tooltip="" style="background-color: #39424E;height: 60px;padding: 12px;color: rgb(255,255,255);">
-        <div class="container-fluid"><a class="navbar-brand" href="/landlord-landing" style="color: rgba(247,247,247,0.9);font-size: 29px;font-family: 'Archivo Black', sans-serif;">Renting System</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1" style="color: rgb(246,243,243);margin-top: 3px;">
-                <ul class="nav navbar-nav" style="font-size: 24px;">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/landlord-trans?fetch=all" style="color: rgb(255,255,255);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;padding: 0px;margin: 6px;margin-right: 15px;">TRANSACTIONS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/landlord-createTenant" style="color: rgb(249,247,247);font-family: 'Alegreya Sans', sans-serif;font-size: 18px;margin-right: 15px;filter: blur(0px);">CREATE TENANT</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/landlord-genBill" style="color: rgb(254,254,254);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">BILL GENERATE</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/landlord-tenant" style="color: rgb(255,255,255);font-size: 18px;font-family: 'Alegreya Sans', sans-serif;margin-right: 15px;">TENANTS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/landlord-notification" style="color: rgb(255,255,255);margin-right: 15px;font-size: 18px;">NOTIFICATIONS</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/landlord-profile" style="font-size: 18px;font-family: 'Alegreya Sans', sans-serif;">Welcome, {{fname}} {{lname}}&nbsp; &nbsp; &nbsp; ID: {{id}}</a></li>
-                </ul><a class="btn text-white border-white ml-auto" role="button" href="/landlord-profile" style="margin-right: 38px;font-size: 23px;font-family: 'Alegreya Sans', sans-serif;background-color: rgba(255,255,255,0);padding: 4px;padding-top: 1px;padding-right: 17px;padding-bottom: 1px;padding-left: 17px;">Profile</a>
-                <a class="btn text-white border-white" role="button" href="/landlord-logout" style="font-size: 23px;font-family: 'Alegreya Sans', sans-serif;filter: blur(0px) grayscale(0%);padding: 0px;padding-right: 17px;padding-top: 1px;padding-left: 17px;padding-bottom: 1px;">Logout</a>
-            </div>
-        </div>
-    </nav>
-</section>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+<!--    <a class="navbar-brand mr-auto " href="#"><img src="Renting_Logo.png" height="41" width="100"></a>-->
+    <h2 style="color: rgba(247,247,247,0.9);font-size: 29px;font-family: 'Archivo Black', sans-serif;">Renting System</h2>
+    <button class="navbar-toggler navbar-toggler-icon d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+            aria-expanded="false" aria-label="Toggle navigation"></button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active lead" href="/landlord-landing">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link lead" href="/landlord-profile">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link lead" href="/landlord-logout">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link lead" href="/landlord-tenant">Tenants</a>
+            </li>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link lead" href="/landlord-trans">Transactions</a>-->
+<!--            </li>-->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lead" href="#" id="dropdownTransaction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownTransaction">
+                    <a class="dropdown-item lead my-1" href="#">Recived Payment</a>
+                    <a class="dropdown-item lead my-1" href="#">Pending payment </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link lead" href="/landlord-genBill">Bill Generate</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link lead" href="/landlord-profile">Welcome, {{fname}} {{lname}}&nbsp; &nbsp; &nbsp; ID: {{id}}</a>
+            </li>
+
+            <!--                  <li class="nav-item dropdown">-->
+            <!--                    <a class="nav-link dropdown-toggle lead" href="#" id="dropdownBill" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Generate Bill</a>-->
+            <!--                    <div class="dropdown-menu" aria-labelledby="dropdownBill">-->
+            <!--                        <a class="dropdown-item lead my-1" href="#">Basic rent</a>-->
+            <!--                        <a class="dropdown-item lead my-1" href="#">Water </a>-->
+            <!--                        <a class="dropdown-item lead my-1" href="#">Electricity</a>-->
+            <!--                        <a class="dropdown-item lead my-1" href="#">Maintenence </a>-->
+            <!--                        <a class="dropdown-item lead my-1" href="#">Security </a>-->
+            <!--                    </div>-->
+            <!--                </li>-->
+            <!--                <li class="nav-item">-->
+            <!--                  <a class="nav-link lead" href="#">Contact Us</a>-->
+            <!--              </li>-->
+            <!--              <li class="nav-item">-->
+            <!--                <a class="nav-link lead" href="#">About Us</a>-->
+            <!--            </li>-->
+        </ul>
+
+        <!--              <form class="form-inline my-2 my-lg-0">-->
+        <!--                  <input class="form-control mr-sm-2" type="text" placeholder="Search">-->
+        <!--                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+        <!--              </form>-->
+    </div>
+
+</nav>

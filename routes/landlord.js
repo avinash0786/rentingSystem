@@ -13,8 +13,7 @@ const saltRound=2312;
 const router=express.Router();
 router.use(bodyparser.json({ limit: "50mb" }));
 router.use(bodyparser.urlencoded({extended:true}));
-router.use(express.static('../images'));
-router.use(express.static('../css'));
+
 //MIDDLEWARES
 
 const redirectLanding=(req,res,next)=>{
@@ -114,7 +113,7 @@ router.post('/landlord-signup',async (req, res)=> {
 
 router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     console.log("Running landlord- landing")
-    var user=await landlord.findOne({landlordID:req.session.userID})
+    var user=await landlord.findOne({landlordID:req.session.userID}).lean()
     //****************AGGREGATING DATA FOR LANDING PAGE*************************
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -135,14 +134,14 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     security=user.security
     maintenance=user.maintenance
 
-    var result=await tenant.find({landlordID:req.session.userID, verified:false},'fname')
+    var result=await tenant.find({landlordID:req.session.userID, verified:false},'fname tenantID').lean()
     aprov=result;
     approvCount=result.length;
 
-    var d1=await tenant.countDocuments({landlordID:req.session.userID,verified: true})
+    var d1=await tenant.countDocuments({landlordID:req.session.userID,verified: true}).lean()
     totaltenant=d1;
 
-    var d2=await transaction.find({landlordID:req.session.userID, paidON: null},'tenantID tid dateGenerated amount');
+    var d2=await transaction.find({landlordID:req.session.userID, paidON: null},'tenantID tid dateGenerated amount').lean();
     pendPayCount=d2.length;
     var i;
 
@@ -154,7 +153,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     }
     pendtenantId=d2;
 
-    var d3=await transaction.find({landlordID:req.session.userID, paidON: {$ne:null}},'tenantID tid paidON amount')
+    var d3=await transaction.find({landlordID:req.session.userID, paidON: {$ne:null}},'tenantID tid paidON amount').lean()
     recPayCount=d3.length;
     var i;
     for(i=0;i<d3.length;i++)
@@ -165,24 +164,25 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     }
     rectenantId=d3
 
-    const d5 =await tenant.find({tenantID:{$in:recnamearr}},'fname')
+    const d5 =await tenant.find({tenantID:{$in:recnamearr}},'fname').lean()
     recnames=d5;
     var i=0;
     for (i in rectenantId){
         rectenantId[i]['fname']=recnames[i].fname.toString();
         i++;
     }
-    const d4=await tenant.find({tenantID:{$in:pednamearr}},'fname')
+    const d4=await tenant.find({tenantID:{$in:pednamearr}},'fname tenantID').lean()
     pendnames=d4;
+
     var i=0;
-    for (i in pendtenantId){
-        //pendtenantId[i]['fname']=pendnames[i].fname.toString();
+    pendnames.forEach(name=>{
+        pendtenantId[i]['fname']=name.fname;
         i++;
-    }
+    })
 
 
     console.log("RENDERING")
-    res.render("index",
+    res.render("land",
         {
             username:name,
             userid:req.session.userID ,

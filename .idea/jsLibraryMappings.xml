@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{rentingSystem/node_modules}" />
-    <file url="PROJECT" libraries="{all, animate.css, font-awesome, jquery, rentingSystem/node_modules, twitter-bootstrap}" />
+    <file url="PROJECT" libraries="{all, animate.css, bootstrap, font-awesome, jquery, rentingSystem/node_modules, twitter-bootstrap}" />
     <includedPredefinedLibrary name="HTTP Response Handler" />
   </component>
 </project>
