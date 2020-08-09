@@ -100,9 +100,10 @@ router.post('/tenant-signup',async (req, res)=> {
             }
         });
     var newID;
-    await tenant.countDocuments({})
+    await tenant.aggregate([{ $group : { _id: null, maxid: { $max : "$tenantID" }}}])
         .then((d)=>{
-            newID=d+2;
+            console.log(d[0])
+            newID=d[0].maxid+1;
             console.log("New id: "+d)
         })
     var password=req.body.pswd;

@@ -1,5 +1,52 @@
 console.log("Script for tenant login , landlord exist check")
 
+async function approve(obj){
+    // console.log(obj.valueOf())
+    // console.log(obj.value)
+    obj.innerText="Approved"
+    obj.disabled=true;
+    obj.nextElementSibling.style.display="none"
+    var sending={
+        val:obj.value
+    }
+    fetch('/landlord-approve',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(sending)
+    }).then(d=>{
+        console.log("Approve req recieved")
+    }).catch(e=>{
+        console.log("Error approve")
+    })
+}
+
+async function cancleapprove(obj){
+    obj.innerText="Discarded"
+    obj.disabled=true;
+    obj.previousElementSibling.style.display="none"
+    var sending={
+        val:obj.value
+    }
+    fetch('/landlord-discard',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(sending)
+    }).then(d=>{
+        console.log("Cancle req recieved")
+    }).catch(e=>{
+        console.log("Error discard")
+    })
+}
+
+
+
+
 async function loadlast() {
     var load=document.getElementById('prevload');
     console.log(load.checked)

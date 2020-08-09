@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="Dash_css.css">
+<script src="new.js"></script>
 {{>navBarL}}
 <header class="jumbotron bg-secondary">
     <div class="container">
@@ -84,19 +85,24 @@
                     <table class="table table-bordered table-striped mb-0">
                         <thead class="bg-dark" style="color: floralwhite;">
                         <tr>
-                            <th scope="col">Request No.</th>
-                            <th scope="col">Request Name.</th>
+                            <th scope="col">Tenant ID</th>
+                            <th scope="col">Tenant Name</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
                         <tbody>
+                        {{#unless aprov}}
+                            <tr>
+                                <td colspan="3" align="center">No pending approval</td>
+                            </tr>
+                        {{/unless}}
                         {{#each aprov}}
                             <tr>
                                 <th scope="row">{{this.tenantID}}</th>
                                 <td class="lead">{{this.fname}}</td>
-                                <td>
-                                    <button type="submit" class="btn-primary-Action bg-dark" style="width: auto">Approve</button>
-                                    <button type="submit" class="btn-primary-Action bg-danger" style="width: auto">Discard</button>
+                                <td align="center">
+                                    <button type="button" value={{this.tenantID}} onclick="approve(this)" class="btn-primary-Action bg-dark" style="width: auto">Approve</button>
+                                    <button type="button" value={{this.tenantID}} onclick="cancleapprove(this)" class="btn-primary-Action bg-danger" style="width: auto">Discard</button>
                                 </td>
                             </tr>
                         {{/each}}

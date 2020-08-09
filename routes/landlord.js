@@ -735,6 +735,27 @@ router.get("/loadlast",function (req,res) {
         })
 })
 
+router.post('/landlord-approve',function (req,res) {
+    console.log("Running approval route")
+    tenant.findOneAndUpdate({tenantID:req.body.val},{verified:true})
+        .then(d=>{
+            console.log("Approve success")
+            return res.json({
+                success:true
+            })
+        })
+})
+
+router.post('/landlord-discard',function (req,res) {
+    console.log("Running discard route")
+    tenant.deleteOne({tenantID:req.body.val}).then(d=>{
+        console.log("Discard success")
+        return res.json({
+            success:true
+        })
+    })
+})
+
 router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
     res.render("createTenant",{
         tenantID:null
