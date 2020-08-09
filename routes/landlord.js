@@ -185,11 +185,30 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
         pendtenantId[i]['fname']=name.fname;
         i++;
     })
+    var metricwise=await transaction.aggregate([
+        {
+            $match:{
+                landlordID:1
+            }
+        },
+        {
+            $group:{
+                _id:null,
+                baseRent: { $sum : "$baseRent" },
+                water:{ $sum:"$water"},
+                electricity:{ $sum:"$electricity"},
+                security:{ $sum:"$security"},
+                maintenance:{ $sum:"$maintenance"},
+                amount:{$sum:"$amount"}
+            }
+        }
+    ]);
 
 
     console.log("RENDERING")
     res.render("land",
         {
+            res:metricwise[0],
             username:name,
             userid:req.session.userID ,
             baserent:baserent,

@@ -1,7 +1,81 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
-<button id="modelbutton" class="btn btn-success" data-target="#transmodel" value="21" data-toggle="modal" type="button" >
-        Open model
-</button>
+<div class="chart-container" style="position: relative; height:40vh; width:40vw">
+    <canvas id="myChart" ></canvas>
+</div><script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['BaseRent', 'Water', 'Electricity', 'Security', 'Maintenance'],
+            datasets: [{
+                label: '# of Votes',
+                data: [{{res.baseRent}}, {{res.water}}, {{res.electricity}}, {{res.security}}, {{res.maintenance}}],
+                backgroundColor: [
+                    '#00bcd4',
+                    '#ff5722',
+                    '#436f8a',
+                    '#a8df65',
+                    '#5c2a9d'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+
+            maintainAspectRatio:false,
+            responsive:true
+        }
+    });
+</script>
+
+
+<div class="chart-container" style="position: relative; height:40vh; width:40vw">
+    <canvas id="myChart2" ></canvas>
+</div><script>
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Month Revenue',
+                data: [56612, 66615,99219, 59995, 64646],
+                backgroundColor:"#118ab2",
+                pointBackgroundColor:"#ee6c4d"
+            }]
+        },
+        options: {
+            legend:{
+                display:true,
+                position:'bottom'
+            },
+            title:{
+                display:true,
+                text:"Month wise revenue",
+                fontSize:20
+            },
+
+        }
+    });
+</script>
+
+
+
+
+
+
+
+<!--<button id="modelbutton" class="btn btn-success" data-target="#transmodel" value="21" data-toggle="modal" type="button" >-->
+<!--        Open model-->
+<!--</button>-->
 
 <script>
     document.getElementById('modelbutton').addEventListener('click',getDetail);

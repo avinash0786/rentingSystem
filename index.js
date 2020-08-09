@@ -5,6 +5,7 @@ const session=require("express-session");
 require("./database");
 const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
+const transaction=require("./models/transaction")
 const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
 const path=require("path")
@@ -53,11 +54,50 @@ app.get("/", async (req,res)=>{
     })
 })
 app.get("/test", async (req,res)=>{
-   // var ans=await tenant.find({}).lean()
-   // console.log(ans[0])
+   var monthprofit=await transaction.aggregate([
+     {
+       $match:{
+         landlordID:1
+       }
+     },
+     {
+       $group:{
+         _id: { month : "$month" },
+         profit: { $sum : "$amount" },
+         month:{$max:"$month"}
+       }
+     },
+     {
+       $sort:{
+         month:1
+       }
+     }
+   ]);
+
+  var metricwise=await transaction.aggregate([
+    {
+      $match:{
+        landlordID:1
+      }
+    },
+    {
+      $group:{
+        _id:null,
+        baseRent: { $sum : "$baseRent" },
+        water:{ $sum:"$water"},
+        electricity:{ $sum:"$electricity"},
+        security:{ $sum:"$security"},
+        maintenance:{ $sum:"$maintenance"},
+        amount:{$sum:"$amount"}
+      }
+    }
+  ]);
+
+   console.log(monthprofit)
+  console.log(metricwise[0])
   res.render("test",{
     title:"Wroking",
-    // res:ans,
+     res:metricwise[0],
     // answer: {
     //   name:"Fri Jul 31 2020 10:46:55 GMT+0530 (India Standard Time)"
     // }
