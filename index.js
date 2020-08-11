@@ -93,11 +93,20 @@ app.get("/test", async (req,res)=>{
     }
   ]);
 
-   console.log(monthprofit)
-  console.log(metricwise[0])
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var rentmonth=[]
+  var rentrev=[]
+  monthprofit.forEach(d=>{
+    rentmonth.push(months[d.month-1].toString())
+    rentrev.push(d.profit)
+    d['month']=months[d.month-1]
+  })
   res.render("test",{
     title:"Wroking",
-     res:metricwise[0],
+    res:metricwise[0],
+    months:rentmonth,
+    revenue:rentrev,
+    ans:monthprofit
     // answer: {
     //   name:"Fri Jul 31 2020 10:46:55 GMT+0530 (India Standard Time)"
     // }

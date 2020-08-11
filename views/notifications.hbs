@@ -31,6 +31,8 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</nav>-->
+<script src="new.js"></script>
+
 {{>navBarL}}
 <h1 class="d-flex flex-row justify-content-center align-items-center align-self-center flex-wrap mx-auto" style="width: 50%;background-repeat: no-repeat;background-color: #FFFFFF;font-size: 20px;margin-left: 10%;margin-top: 1%;margin-bottom: 1%;">Dashbord <i class="fa fa-chevron-right"></i>
      Notifications<a class="btn btn-info text-center d-flex float-right" role="button" style="width: 189px;border-style: none;border-radius: 15px;border-top-right-radius: -35px;border-top-left-radius: 14px;border-bottom-right-radius: 14px;border-bottom-left-radius: 14px;margin-left: 2%;margin-bottom: 1%;"href="/landlord-send">Generate Notification</a></h1>
@@ -54,8 +56,8 @@
                         <p>POSTED BY: {{this.fromLandlord}}</p>
                         {{/if}}
 
-                        {{# if this.toLandlord}}
-                            <p>SENT FORM: {{this.toLandlord}}</p>
+                        {{# if this.from}}
+                            <p>SENT FROM: {{this.from}}</p>
                         {{/if}}
 
                         {{# if this.fromTenant}}
@@ -66,6 +68,14 @@
                             <p>SENT TO: {{this.toTenant}}</p>
                         {{/if}}
                         <p>SENT ON: {{replace (remove (moment this.dateGenerated) "+05:30") "T" " Time: "}}</p>
+
+                        {{#if this.readON}}
+                            <p>READ ON: {{replace (remove (moment this.readON) "+05:30") "T" " Time: "}}</p>
+                        {{else}}
+                            <button class="btn btn-primary" value={{this.requestID}} type="button" onclick="readOnMessage(this)" style="border-radius: 39px;padding: 0px;width: 110px;">Mark as read</button>
+                        {{/if}}
+
+
                     </td>
                 </tr>
                 </tbody>

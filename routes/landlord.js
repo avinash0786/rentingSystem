@@ -66,6 +66,19 @@ router.post('/landlord-login',
     }
     else {
         if(await bcrypt.compare(req.body.password,user.pswd)){
+            var newreq;
+            await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                .then((d)=>{
+                    console.log(d[0])
+                    newreq=d[0].maxid+1;
+                })
+            var loginmessage=new notifications({
+                requestID:newreq,
+                message:"New login at: "+Date().toString(),
+                toLandlord:userid,
+                from:"Admin"
+            })
+            loginmessage.save()
             console.log("Session Init")
             req.session.userID=userid;
             req.session.fname=user.fname;
@@ -108,6 +121,18 @@ router.post('/landlord-signup',async (req, res)=> {
                 pswd:hash
             })
             ll.save()
+            notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                .then((d)=>{
+                    console.log(d[0])
+                    var newreq=d[0].maxid+1;
+                    var admmessage=new notifications({
+                        requestID:newreq,
+                        message:"Welcome, "+req.body.fname+" here you can find all the notifications and alerts",
+                        toLandlord:req.session.userID,
+                        from:"Admin"
+                    })
+                    admmessage.save()
+                })
             console.log(ll)
             res.render("landlord_login", {
                 layout: false,
@@ -188,7 +213,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     var metricwise=await transaction.aggregate([
         {
             $match:{
-                landlordID:1
+                landlordID:parseInt(req.session.userID)
             }
         },
         {
@@ -202,12 +227,38 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
                 amount:{$sum:"$amount"}
             }
         }
-    ]);
+    ])
 
+    var monthprofit=await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.userID)
+            }
+        },
+        {
+            $group:{
+                _id: { month : "$month" },
+                profit: { $sum : "$amount" },
+                month:{$max:"$month"},
+                eleUnit:{ $sum: { $subtract: ["$finalUnit","$initialUnit"] } }
+            }
+        },
+        {
+            $sort:{
+                month:1
+            }
+        }
+    ]);
+    monthprofit.forEach(d=>{
+        d['month']=months[d.month-1]
+    })
+    console.log(monthprofit)
+    console.log(metricwise)
 
     console.log("RENDERING")
     res.render("land",
         {
+            ans:monthprofit,
             res:metricwise[0],
             username:name,
             userid:req.session.userID ,
@@ -261,6 +312,18 @@ router.post("/landlord-updateInfo",redirectLogin,async (req,res)=>{
         address:req.body.address
     })
         .then((dta)=>{
+             notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                .then((d)=>{
+                    console.log(d[0])
+                    var newreq=d[0].maxid+1;
+                    var admmessage=new notifications({
+                        requestID:newreq,
+                        message:"Profile details upated ",
+                        toLandlord:req.session.userID,
+                        from:"Admin"
+                    })
+                    admmessage.save()
+                })
             req.session.fname=req.body.fname;
             req.session.lname=req.body.lname
             res.redirect("/landlord-profile")
@@ -513,6 +576,18 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
                 });
             })
     })
+    await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+        .then((d)=>{
+            console.log(d[0])
+            newreq=d[0].maxid+1;
+        })
+    var admmessage=new notifications({
+        requestID:newreq,
+        message:ten.length+" new Trasnactions created for month: "+req.session.monthname,
+        toLandlord:req.session.userID,
+        from:"Admin"
+    })
+    admmessage.save()
 
     res.render("billGenerate",{
         alreadyGenerated:false,
@@ -545,7 +620,7 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
     console.log(newTenantID)
     var pswd=toString(req.body.password);
     console.log(req.body)
-    bcrypt.hash(pswd,saltRound,function (err,hash) {
+    bcrypt.hash(pswd,saltRound,async (err,hash) =>{
         if(err){
             console.log("Error Hashing Password! ")
         }
@@ -561,6 +636,19 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
                 landlordID:req.session.userID,
             })
             tenantnew.save();
+
+            await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                .then((d)=>{
+                    console.log(d[0])
+                    newreq=d[0].maxid+1;
+                })
+            var admmessage=new notifications({
+                requestID:newreq,
+                message:"New approved Tenant created by you Tenant ID: "+newTenantID,
+                toLandlord:req.session.userID,
+                from:"Admin"
+            })
+            admmessage.save()
             res.render("createTenant",{
                 tenantID:newTenantID,
                 title:"Create Tenant",
@@ -578,7 +666,6 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
         console.log("Sent messages retieve")
         notifications.find({fromLandlord:req.session.userID}).sort({_id:-1}).lean()
             .then((not)=>{
-                console.log(not)
                 return res.render("notifications",{
                     notif:not,
                     title:"Notification",
@@ -596,7 +683,6 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
         console.log("REcieved messages retieve")
         notifications.find({toLandlord:req.session.userID}).sort({_id:-1}).lean()
             .then((not)=>{
-                console.log(not)
                 return res.render("notifications",{
                     notif:not,
                     title:"Notifications",
@@ -714,6 +800,19 @@ router.get('/transinfo',async (req,res)=> {
     })
 })
 
+router.get('/updatereadon',function (req,res) {
+    console.log("Updating read on for: "+req.query.rid);
+    notifications.updateOne({requestID:req.query.rid},{readON:Date()})
+        .then(d=>{
+            return res.send({
+                respose:d
+            })
+        })
+        .catch(e=>{
+            console.log("error read on: "+e)
+        })
+})
+
 router.get('/landlordcheck',function (req,res) {
     console.log("checking landlord for: "+req.query.lid);
     landlord.findOne({landlordID:req.query.lid})
@@ -760,8 +859,20 @@ router.get("/loadlast",function (req,res) {
         })
 })
 
-router.post('/landlord-approve',function (req,res) {
+router.post('/landlord-approve',async (req,res)=> {
     console.log("Running approval route")
+    await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+        .then((d)=>{
+            console.log(d[0])
+            newreq=d[0].maxid+1;
+        })
+    var admmessage=new notifications({
+        requestID:newreq,
+        message:"Tenant Id: "+req.body.val+" Approval request Accepted!",
+        toLandlord:req.session.userID,
+        from:"Admin"
+    })
+    admmessage.save()
     tenant.findOneAndUpdate({tenantID:req.body.val},{verified:true})
         .then(d=>{
             console.log("Approve success")
@@ -771,8 +882,20 @@ router.post('/landlord-approve',function (req,res) {
         })
 })
 
-router.post('/landlord-discard',function (req,res) {
+router.post('/landlord-discard',async (req,res)=> {
     console.log("Running discard route")
+    await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+        .then((d)=>{
+            console.log(d[0])
+            newreq=d[0].maxid+1;
+        })
+    var admmessage=new notifications({
+        requestID:newreq,
+        message:"Tenant Id: "+req.body.val+" Approval request discarded!",
+        toLandlord:req.session.userID,
+        from:"Admin"
+    })
+    admmessage.save()
     tenant.deleteOne({tenantID:req.body.val}).then(d=>{
         console.log("Discard success")
         return res.json({
@@ -806,7 +929,19 @@ router.get('/landlord-error',redirectLogin,function(req, res) {
     })
 });
 
-router.get('/landlord-logout',redirectLogin,function(req, res, next) {
+router.get('/landlord-logout',redirectLogin,async (req, res, next)=> {
+    await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+        .then((d)=>{
+            console.log(d[0])
+            newreq=d[0].maxid+1;
+        })
+    var admmessage=new notifications({
+        requestID:newreq,
+        message:"Logout at: "+Date().toString(),
+        toLandlord:req.session.userID,
+        from:"Admin"
+    })
+    admmessage.save()
     req.session.destroy(function (err) {
         if(err){
             res.redirect('/');

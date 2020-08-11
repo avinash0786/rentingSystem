@@ -1,6 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
-<div class="chart-container" style="position: relative; height:40vh; width:40vw">
+<div class="chart-container" style="position: relative; margin: auto;height: 40vh;width: 40vw;">
     <canvas id="myChart" ></canvas>
 </div><script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -9,7 +9,6 @@
         data: {
             labels: ['BaseRent', 'Water', 'Electricity', 'Security', 'Maintenance'],
             datasets: [{
-                label: '# of Votes',
                 data: [{{res.baseRent}}, {{res.water}}, {{res.electricity}}, {{res.security}}, {{res.maintenance}}],
                 backgroundColor: [
                     '#00bcd4',
@@ -29,25 +28,43 @@
             }]
         },
         options: {
-
             maintainAspectRatio:false,
-            responsive:true
+            responsive:true,
+            legend:{
+                display:true,
+                position:'left',
+                labels:{
+                    fontSize:25,
+                },
+            },
+            title:{
+                display:true,
+                text:"Metric wise revenue",
+                fontSize:20
+            },
         }
     });
 </script>
 
-
-<div class="chart-container" style="position: relative; height:40vh; width:40vw">
+<div class="chart-container" style="position: relative; margin: auto;height: 40vh;width: 40vw;">
     <canvas id="myChart2" ></canvas>
 </div><script>
     var ctx = document.getElementById('myChart2').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May'],
+            labels: [
+                {{#forEach ans}}
+                    "{{this.month}}",
+                {{/forEach}}
+            ],
             datasets: [{
                 label: 'Month Revenue',
-                data: [56612, 66615,99219, 59995, 64646],
+                data:  [
+                    {{#forEach ans}}
+                        "{{this.profit}}",
+                    {{/forEach}}
+                ],
                 backgroundColor:"#118ab2",
                 pointBackgroundColor:"#ee6c4d"
             }]
@@ -55,7 +72,10 @@
         options: {
             legend:{
                 display:true,
-                position:'bottom'
+                position:'bottom',
+                labels:{
+                    fontSize:25,
+                },
             },
             title:{
                 display:true,

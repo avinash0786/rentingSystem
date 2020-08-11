@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="Dash_css.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script src="new.js"></script>
 {{>navBarL}}
 <header class="jumbotron bg-secondary">
@@ -9,7 +10,7 @@
                 <p class="lead">We take the Responsibility to Match each tenant with a Landlord!</p>
             </div>
             <div class="col-12 col-sm align-self-center">
-                <img src="RentingLogo.png"height="100" width="250" >
+                <img src="logof.png"height="100" width="250" >
             </div>
             <div class="col-12 col-sm align-self-center">
                 <a role="button" id="createTenant" href="/landlord-createTenant" class="btn btn-block nav-link btn-warning bg-dark" style="color: #FFFFFF" data-toggle="modal">Create Tenant</a>
@@ -19,11 +20,105 @@
 </header>
 <div class="container">
     <div class="row row-content align-items-center">
-        <div class="col-12 col-sm-4 order-sm-last col-md-3">
-            <h3 class="display-4">Earning Review Graphically</h3>
+        <div class="col-12 col-sm-12 order-sm-last col-md-12">
+            <div class="chart-container" style="position: relative; margin: auto ; height: 40vh;width: 50%">
+                <canvas id="myChart" ></canvas>
+            </div><script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['BaseRent', 'Water', 'Electricity', 'Security', 'Maintenance'],
+                    datasets: [{
+                        data: [{{res.baseRent}}, {{res.water}}, {{res.electricity}}, {{res.security}}, {{res.maintenance}}],
+                        backgroundColor: [
+                            '#EA4335',
+                            '#3c7ef1',
+                            '#FBBC05',
+                            '#34A853',
+                            'rgb(130,65,217)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgb(54,162,235)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio:false,
+                    responsive:true,
+                    legend:{
+                        display:true,
+                        position:'left',
+                        labels:{
+                            fontSize:25,
+                        },
+                    },
+                    title:{
+                        display:true,
+                        text:"Metric wise revenue",
+                        fontSize:20
+                    },
+                }
+            });
+        </script>
         </div>
-        <div class="col col-sm order-sm-first col-md">
-            <p class="display-4">Graph</p>
+
+        <div class="col-12 col-sm-12 order-sm-last col-md-12">
+            <div class="chart-container" style="position: relative; margin: auto ;height: 60vh;width: 80%">
+                <canvas id="myChart2" ></canvas>
+            </div><script>
+            var ctx = document.getElementById('myChart2').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                        {{#forEach ans}}
+                            "{{this.month}}",
+                        {{/forEach}}
+                    ],
+                    datasets: [{
+                        label: 'Month Revenue',
+                        data:  [
+                            {{#forEach ans}}
+                                "{{this.profit}}",
+                            {{/forEach}}
+                        ],
+                        backgroundColor:"rgba(17,138,178,0.55)",
+                        pointBackgroundColor:"#ee6c4d",
+                        borderColor:"rgba(14,109,177,0.95)"
+                    }]
+                },
+                options: {
+                    legend:{
+                        display:true,
+                        position:'bottom',
+                        labels:{
+                            fontSize:25,
+                        },
+                    },
+                    title:{
+                        display:true,
+                        text:"Month wise revenue",
+                        fontSize:20
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '₹' + value;
+                                }
+                            }
+                        }]
+                    },
+
+                }
+            });
+        </script>
         </div>
     </div>
 

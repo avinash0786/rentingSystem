@@ -15,6 +15,9 @@ const notifications=mongoose.Schema({
         type:Date,
         default:Date.now()
     },
+    from:{
+        type:String
+    },
     fromLandlord:{
         type:Number
     },

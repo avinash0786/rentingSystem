@@ -1,5 +1,9 @@
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand mr-auto " href="/landlord-landing"><img src="RentingLogo - Copy.png" height="41" width="100"></a>
+    <a class="navbar-brand mr-auto " href="/landlord-landing"><img src="logof.png" height="41" width="100"></a>
 <!--    <h2 style="color: rgba(247,247,247,0.9);font-size: 29px;font-family: 'Archivo Black', sans-serif;">Renting System</h2>-->
     <button class="navbar-toggler navbar-toggler-icon d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation"></button>
@@ -25,6 +29,14 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownTransaction">
                     <a class="dropdown-item lead my-1" href="/landlord-trans?fetch=paid">Recived Payment</a>
                     <a class="dropdown-item lead my-1" href="/landlord-trans?fetch=unpaid">Pending payment </a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle lead" href="#" id="dropdownTransaction" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notifications</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownTransaction">
+                    <a class="dropdown-item lead my-1" href="/landlord-send">Generate Notification </a>
+                    <a class="dropdown-item lead my-1" href="/landlord-notification?type=rec">Recived Notifications</a>
+                    <a class="dropdown-item lead my-1" href="/landlord-notification?type=sent">Sent Notification </a>
                 </div>
             </li>
             <li class="nav-item">
@@ -59,6 +71,3 @@
     </div>
 
 </nav>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
