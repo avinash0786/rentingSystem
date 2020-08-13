@@ -1,0 +1,40 @@
+.row-header {
+  margin: 0px auto;
+  padding: 0px 0px; }
+
+.row-content {
+  margin: 0px auto;
+  padding: 50px 0px;
+  border-bottom: 1px ridge;
+  min-height: 400px; }
+
+.footer {
+  width: 100%;
+  margin: 0px auto;
+  padding: 20px 0px; }
+
+.jumbotron {
+  margin: 0px auto;
+  padding: 70px 30px;
+  
+  color: floralwhite; }
+
+body {
+  padding: 50px 0px 0px 0px;
+  z-index: 0;
+}
+  
+.btn-primary{
+  width: 25%;
+  border-radius: 2rem;
+  padding: 1.5%;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.btn-primary-Action{
+  width: 35%;
+  border-radius: 2rem ;
+  cursor: pointer;
+  color: rgb(255, 255, 255)
+}
