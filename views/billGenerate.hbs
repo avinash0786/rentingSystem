@@ -37,6 +37,7 @@
 <!--    </section>-->
 <script src="new.js"></script>
 {{>navBarL}}
+<div class="jumbotron jumbotron-fluid">
     <h1 style="width: 50%;background-repeat: no-repeat;background-color: #ffffff;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;Tenant Bill Generate{{# if tenantDetails}}<i class="fa fa-chevron-right"></i> Month: {{month}}<i class="fa fa-chevron-right"></i>Showing {{Tenantcount}} VERIFIED tenants{{/if}}</h1>
     {{# if alreadyGenerated}}
     <div class="alert alert-info text-center text-dark shadow d-inline-block" role="alert" style="width: 50%;margin-left: 25%;"><span><strong>Not Allowed !&nbsp; &nbsp;  {{month}} month bill has been already Generated check in&nbsp;</strong><i class="fa fa-chevron-right"></i><strong>&nbsp;</strong><a class="alert-link text-black-50" href="/landlord-trans?fetch=all">Transactions</a></span></div>
@@ -107,6 +108,7 @@
         </form>
 
     {{/if}}
+    </div>
 {{>footerL}}
 <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>-->
