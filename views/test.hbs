@@ -1,181 +1,45 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<div class="chart-container" style="position: relative; margin: auto;height: 40vh;width: 40vw;">
-    <canvas id="myChart" ></canvas>
-</div><script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['BaseRent', 'Water', 'Electricity', 'Security', 'Maintenance'],
-            datasets: [{
-                data: [{{res.baseRent}}, {{res.water}}, {{res.electricity}}, {{res.security}}, {{res.maintenance}}],
-                backgroundColor: [
-                    '#00bcd4',
-                    '#ff5722',
-                    '#436f8a',
-                    '#a8df65',
-                    '#5c2a9d'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            maintainAspectRatio:false,
-            responsive:true,
-            legend:{
-                display:true,
-                position:'left',
-                labels:{
-                    fontSize:25,
-                },
-            },
-            title:{
-                display:true,
-                text:"Metric wise revenue",
-                fontSize:20
-            },
-        }
-    });
-</script>
-
-<div class="chart-container" style="position: relative; margin: auto;height: 40vh;width: 40vw;">
-    <canvas id="myChart2" ></canvas>
-</div><script>
-    var ctx = document.getElementById('myChart2').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [
-                {{#forEach ans}}
-                    "{{this.month}}",
-                {{/forEach}}
-            ],
-            datasets: [{
-                label: 'Month Revenue',
-                data:  [
-                    {{#forEach ans}}
-                        "{{this.profit}}",
-                    {{/forEach}}
-                ],
-                backgroundColor:"#118ab2",
-                pointBackgroundColor:"#ee6c4d"
-            }]
-        },
-        options: {
-            legend:{
-                display:true,
-                position:'bottom',
-                labels:{
-                    fontSize:25,
-                },
-            },
-            title:{
-                display:true,
-                text:"Month wise revenue",
-                fontSize:20
-            },
-
-        }
-    });
-</script>
-
-
-
-
-
-
-
-<!--<button id="modelbutton" class="btn btn-success" data-target="#transmodel" value="21" data-toggle="modal" type="button" >-->
-<!--        Open model-->
-<!--</button>-->
+<center><br><br><br><br>
+    <label for="autotenant">Tenant Name: </label>
+    <input id="autotenant" type="text" placeholder="Tenant">
+</center>
 
 <script>
-    document.getElementById('modelbutton').addEventListener('click',getDetail);
-    var tid=document.getElementById('modelbutton').value;
+    //document.ready.function
+    $(function () {
 
-    async function getDetail() {
-        console.log("Function called for tid: "+tid)
-        var returned=await fetch("/transinfo?tid="+tid)
-        returned.json()
-        .then(d=>{
-            document.getElementById("Tid").textContent="Transaction ID: "+d.data.tid;
-            document.getElementById("Tname").textContent="Tenant Name: Waiting.."
-            document.getElementById("Tyr").textContent="Year: "+d.data.year;
-            document.getElementById("Tmnt").textContent="Month: "+d.data.month;
-            document.getElementById("Tpd").textContent="Paid on: "+d.data.paidON;
-            document.getElementById("Tbr").textContent="Base Rent: Rs "+d.data.baseRent;
-            document.getElementById("Tcr").textContent="Created on: "+(d.data.dateGenerated).slice(0,-14);
-            document.getElementById("Twt").textContent="Water:Rs "+d.data.water;
-            document.getElementById("Tel").textContent="Electricity:Rs "+d.data.electricity;
-            document.getElementById("Tmn").textContent="Maintenance:Rs "+d.data.maintenance;
-            document.getElementById("Tini").textContent="Initial Unit: "+d.data.initialUnit;
-            document.getElementById("Tfin").textContent="Final Unit: "+d.data.finalUnit;
-            document.getElementById("Tene").textContent="Tenant ID: "+d.data.tenantID;
-            document.getElementById("Tsec").textContent="Security: "+d.data.security;
-            document.getElementById("Tamt").textContent="Total Amount:Rs "+d.data.amount;
+    $('#autotenant').autocomplete({
+        source:function (req,res) {
+            $.ajax({
+                url:'/tenantGet',
+                dataType:'jsonp',
+                type:"GET",
+                data:req,
+                success:function (data) {
+                res(data)
+                },
+                error:function (err) {
+                    console.log("Error Tenant Fetch!")
+                }
+            });
+        },
+        minLength:1,
+        focus:function (event,ui) {
+            if(ui.items){
+                $("#autotenant").text(ui.items.label)
+            }
+        },
+        select:function (event,ui) {
+            if(ui.items){
+                $("#autotenant").text(ui.items.label)
+            }
+        },
 
-        })
-        console.log(res)
-    }
+
+    });
+
+    })
 </script>
-
-<div role="dialog" id="transmodel" tabindex="-1" class="modal fade show" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-info" style="padding: 4px;">
-                <h4 class="modal-title">Transaction Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-            <div class="modal-body text-left" style="padding: 0px;height: 223px;background-color: #ffffff;width: 498px;">
-                <div class="table-responsive table-borderless d-flex" style="width: 100%;height: 253px;padding: 0px;padding-left: 18px;margin-top: 1px;margin-left: 0px;padding-right: 18px;">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th id="Tid" style="width: 15%;height: 30px;padding: 2px;">Transaction ID:</th>
-                            <th id="Tname" style="width: 20%;padding: 0px;">Tenant Name:</th>
-                        </tr>
-                        </thead>
-                        <tbody style="height: 154px;">
-                        <tr style="height: 27px;">
-                            <td  id="Tyr" style="padding: 0px;padding-right: 0px;height: 24px;">Year: </td>
-                            <td  id="Tmnt" style="padding: 0px;">Month: </td>
-                        </tr>
-                        <tr style="height: 27px;">
-                            <td  id="Tpd" style="padding: 0px;padding-right: 0px;height: 24px;">Paid on: </td>
-                            <td id="Tbr"  style="padding: 0px;">Base Rent: </td>
-                        </tr>
-                        <tr>
-                            <td  id="Tcr" style="padding: 0px;padding-right: 0;">Created on:</td>
-                            <td  id="Twt" style="padding: 0px;height: 27px;">Water: </td>
-                        </tr>
-                        <tr>
-                            <td  id="Tel" style="padding: 0px;height: 27px;">Electricity: </td>
-                            <td  id="Tmn" style="padding: 0px;height: 27px;">Maintenance: </td>
-                        </tr>
-                        <tr>
-                            <td  id="Tini" style="padding: 0px;padding-right: 0px;">Initial Unit: </td>
-                            <td  id="Tfin" style="padding: 0px;height: 27px;">Final Unit: </td>
-                        </tr>
-                        <tr>
-                            <td  id="Tene" style="padding: 0px;padding-right: 0;">Tenant ID: </td>
-                            <td  id="Tsec" style="padding: 0px;height: 27px;">Security: </td>
-                        </tr>
-                        <tr>
-                            <th  id="Tamt" class="table-success text-center" style="padding: 0px;padding-right: 0;background-color: rgb(45,190,200); color: #FFFFFF" colspan="2">Total Amount: </th>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-<!--            <div class="modal-footer" style="background-color: #ffffff;padding: 2px;">-->
-<!--                <button class="btn btn-light " type="button" data-dismiss="modal">Close</button>-->
-<!--            </div>-->
-        </div>
-    </div>
-</div>

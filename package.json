@@ -15,6 +15,8 @@
     "memorystore": "^1.6.2",
     "mongodb": "^3.6.0",
     "mongoose": "^5.9.26",
+    "nodemailer": "^6.4.11",
+    "nodemailer-mailgun-transport": "^2.0.0",
     "nodemon": "^2.0.4",
     "saslprep": "^1.0.3"
   },
