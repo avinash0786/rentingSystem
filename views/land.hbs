@@ -3,23 +3,24 @@
 <script src="new.js"></script>
 {{>navBarL}}
 <header class="jumbotron bg-secondary">
-    <div class="container-fluid" style="width: 100vw; overflow-x: hidden">
-        <div class="row row-header">
-            <div class="col-12 col-sm-6">
-                <h1 class="display-4">Renting Management System</h1>
-                <p class="lead">We take the Responsibility to Match each tenant with a Landlord!</p>
-            </div>
-            <div class="col-12 col-sm align-self-center">
-                <img src="logof.png"height="100" width="250" >
-            </div>
-            <div class="col-12 col-sm align-self-center">
-                <a role="button" id="createTenant" href="/landlord-createTenant" class="btn btn-block nav-link btn-warning bg-dark" style="color: #FFFFFF" >Create Tenant</a>
+        <div class="container">
+            <div class="row row-header"> 
+                <div class="col-12 col-sm-6">
+                    <h1 class="display-4">Renting Management System</h1>
+                    <p class="lead">We take the Responsibility to Match each tenant with a Landlord!</p>
+                </div>
+                <div class="col-12 col-sm align-self-center">
+                    <img src="Renting_Logo.png"height="200" width="200" >
+                </div>
+                <div class="col-12 col-sm align-self-center">
+                    <a role="button" id="createTenant" class="btn btn-block nav-link btn-warning bg-dark" data-toggle="modal"
+                    >Create Tenant</a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<div class="container-fluid" style="width: 85%">
+<div class="container-fluid" style="width: 100%">
     <div class="row ">
         <div class="  col-lg-3 col-sm-6 col-xs-6 " style="margin-top: 2%">
             <div class="shadow" style="background-color: rgba(166,129,151,0.5);width: 100%;height: 109px;border-radius: 14px;margin: 0px;margin-left: 0px;margin-top: 0px;"><span></span><i class="fa fa-users" style="font-size: 2rem;color: rgb(137,4,92);background-color: rgba(223,149,185,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;"></i>
@@ -50,11 +51,11 @@
         </div>
 </div>
 
-<div class="container">
+<div class="container " style="width: 100vw;">
     <div class="row row-content align-items-center">
-        <div class="col-12 col-sm-12 order-sm-last col-md-12">
-            <div class="chart-container" style="position: relative; margin: auto ; height: 40vh;width: 50%">
-                <canvas id="myChart" ></canvas>
+        <div class="col-lg-4 col-sm-12 order-sm-last col-md-4">
+            <div class="chart-container">
+                <canvas id="myChart" height="300" width="400" style="display: block; height: 280px; width: 320px;"></canvas>
             </div><script>
             var ctx = document.getElementById('myChart').getContext('2d');
             var myChart = new Chart(ctx, {
@@ -100,15 +101,9 @@
         </script>
         </div>
 
-<<<<<<< HEAD
-        <div class="col-lg-8 col-sm-12 order-sm-last col-md-12">
+        <div class="col-lg-8 col-sm-12 order-sm-last col-md-8">
             <div class="chart-container" >
-                <canvas id="myChart2" height="300" width="400" style="display: block; height: 280px; width: 320px;"></canvas>
-=======
-        <div class="col-12 col-sm-12 order-sm-last col-md-12">
-            <div class="chart-container" style="position: relative; margin: auto ;height: 60vh;width: 80%">
-                <canvas id="myChart2" ></canvas>
->>>>>>> 4e16f1447df47c2e8064cb4191e2b295e8772f76
+                <canvas id="myChart2" height="300" width="400" style="display: block;"></canvas>
             </div><script>
             var ctx = document.getElementById('myChart2').getContext('2d');
             var myChart = new Chart(ctx, {
