@@ -19,30 +19,30 @@
     </div>
 </header>
 
-<div class="container-fluid">
+<div class="container-fluid" style="width: 85%">
     <div class="row ">
-        <div class="  col-lg-3 col-sm-6 col-xs-6 ">
+        <div class="  col-lg-3 col-sm-6 col-xs-6 " style="margin-top: 2%">
             <div class="shadow" style="background-color: rgba(166,129,151,0.5);width: 100%;height: 109px;border-radius: 14px;margin: 0px;margin-left: 0px;margin-top: 0px;"><span></span><i class="fa fa-users" style="font-size: 2rem;color: rgb(137,4,92);background-color: rgba(223,149,185,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;"></i>
                 <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;font-size: 1rem;"><strong style="font-size: 2rem;margin-top: 0px;margin-right: 0px;">89</strong>
                     <p style="font-size: 1.3em;">Total Verified Tenants</p>
                 </div>
             </div>
         </div>
-        <div class=" col-lg-3 col-sm-6 col-xs-6 ">
+        <div class=" col-lg-3 col-sm-6 col-xs-6 " style="margin-top: 2%">
             <div class="shadow" style="background-color: rgba(163,194,173,0.5);width: 100%;height: 109px;border-radius: 14px;margin-left: 0px;margin-top: 0px;"><span></span><i class="fa fa-arrow-circle-o-down" style="font-size: 37px;color: rgb(34,119,37);background-color: rgba(118,206,111,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 11px;padding-top: 9px;"></i>
                 <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;margin-top: 0px;margin-right: 0px;">56</strong>
                     <p style="font-size: 1.3em;">Total Recieved Payments</p>
                 </div>
             </div>
         </div>
-        <div class=" col-lg-3 col-sm-6 col-xs-6 ">
+        <div class=" col-lg-3 col-sm-6 col-xs-6 " style="margin-top: 2%">
             <div class="shadow" style="background-color: rgba(200,183,139,0.5);width: 100%;height: 109px;border-radius: 14px;margin-left: 0px;margin-top: 0px;"><span></span><i class="fa fa-rupee" style="font-size: 37px;color: rgb(207,14,118);background-color: rgba(223,135,135,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 19px;padding-top: 9px;"></i>
                 <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;margin-top: 0px;margin-right: 0px;">569462</strong>
                     <p style="font-size: 1.3em;">Total Revenue Generated</p>
                 </div>
             </div>
         </div>
-        <div class=" col-lg-3 col-sm-6 col-xs-6 ">
+        <div class=" col-lg-3 col-sm-6 col-xs-6 " style="margin-top: 2%">
             <div class="shadow" style="background-color: rgba(248,159,159,0.5);width: 100%;height: 109px;border-radius: 14px;margin-left: 0px;margin-top: 0px;"><span></span><i class="fa fa-info-circle" style="font-size: 37px;color: rgb(164,13,13);background-color: rgba(206,111,122,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 11px;padding-top: 9px;"></i>
                 <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;margin-top: 0px;margin-right: 0px;">26</strong>
                     <p style="font-size: 1.3em;">Total Pending Payments</p></div>
@@ -158,9 +158,9 @@
         <div class="col-sm-4 col-md-3">
             <h3 class="display-4">Rent Metric</h3>
         </div>
-        <div class="col-sm col-md">
+        <div class="col-sm col-md ">
             <!--  <div class="table-wrapper-scroll-y my-custom-scrollbar"> -->
-            <table class="table table-bordered table-striped mb-0 ">
+            <table class="table table-bordered table-striped mb-0 shadow">
                 <thead class="bg-dark" style="color: floralwhite;">
                 <tr>
                     <th scope="col">Sl.No</th>
@@ -209,7 +209,7 @@
             <div class="col col-sm order-sm-first col-md">
                 <h4><span class="badge badge-dark lead">Pending Approvals </span> <span class="badge badge-dark lead">{{approvalcount}}</span></h4>
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    <table class="table table-bordered table-striped mb-0">
+                    <table class="table table-bordered table-striped mb-0 shadow">
                         <thead class="bg-dark" style="color: floralwhite;">
                         <tr>
                             <th scope="col">Tenant ID</th>
@@ -237,10 +237,10 @@
                         </tbody>
                     </table>
                 </div>
+                {{#if aprov}}
                 <center> <a name="ApproveAll" id="ApproveAll" class="btn btn-primary bg-dark" href="#" role="button">Approve All</a> <br>
-
-
                 </center>
+                {{/if}}
             </div>
         </div>
 

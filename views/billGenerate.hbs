@@ -37,7 +37,7 @@
 <!--    </section>-->
 <script src="new.js"></script>
 {{>navBarL}}
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid" style="background-color: #FFFFFF">
     <h1 style="width: 50%;background-repeat: no-repeat;background-color: #ffffff;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;Tenant Bill Generate{{# if tenantDetails}}<i class="fa fa-chevron-right"></i> Month: {{month}}<i class="fa fa-chevron-right"></i>Showing {{Tenantcount}} VERIFIED tenants{{/if}}</h1>
     {{# if alreadyGenerated}}
     <div class="alert alert-info text-center text-dark shadow d-inline-block" role="alert" style="width: 50%;margin-left: 25%;"><span><strong>Not Allowed !&nbsp; &nbsp;  {{month}} month bill has been already Generated check in&nbsp;</strong><i class="fa fa-chevron-right"></i><strong>&nbsp;</strong><a class="alert-link text-black-50" href="/landlord-trans?fetch=all">Transactions</a></span></div>
@@ -68,7 +68,7 @@
         <hr>
     {{/if}}
     {{# if tenantDetails}}
-        <p class="text-center" style="color: rgb(129,139,149);">Load last final reading as Initial  <input type="checkbox" onchange="loadlast()" data-toggle="tooltip" id="prevload" name="load" title="Load last reading" style="background-color: #e74242;border-style: none;" /></p>
+        <p class="text-center" style="color: rgb(0,0,0);">Load last final reading as Initial  <input type="checkbox" onchange="loadlast()" data-toggle="tooltip" id="prevload" name="load" title="Load last reading" style="background-color: #e74242;border-style: none;" /></p>
         <div class="container text-center text-info border rounded-0 d-flex justify-content-center" style="width: 90%;"><small class="form-text text-center text-muted d-inline-block"><strong style="font-size: 20px;">Current Rent Metrices</strong></small>
             <div class="table-responsive table-borderless" style="width: 100%;">
                 <table class="table table-bordered">
@@ -95,7 +95,7 @@
         </div>
         <form method="post" action="/landlord-finalBill" id="reading">
         {{#each tenants}}
-            <div  class="container-fluid shadow" style="width: 82%;margin-top: 1%;"><label style="margin-right: 1%;font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;">Tenant ID:
+            <div  class="container-fluid shadow col-md-12" style="background-color:#E9ECEF;width: 100%;margin-top: 1%;"><label style="margin-right: 1%;font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;">Tenant ID:
                 {{this.tenantID}}</label><label class="d-inline" style="font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;margin-right: 1%;">Tenant Name:
                 {{this.fname}} {{this.lname}}&nbsp;</label>
                 <label class="d-inline" style="font-family: 'Alegreya Sans', sans-serif;font-size: 22px;margin-top: 1%;margin-right: 1%;">Initial Meter Reading:</label>
