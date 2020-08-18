@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer')
 const mailgunTransport = require('nodemailer-mailgun-transport')
 const path=require("path")
 var filepath = path.join(__dirname, '/images/');
-console.log("Filepath: "+filepath)
 const mailgunOptions = {
     auth: {
         api_key: process.env.MAILGUN_ACTIVE_API_KEY,
