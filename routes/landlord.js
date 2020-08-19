@@ -174,42 +174,91 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
 
     var d2=await transaction.find({landlordID:req.session.userID, paidON: null},'tenantID tid dateGenerated amount').lean();
     pendPayCount=d2.length;
-    var i;
-
-    for(i=0;i<d2.length;i++)
-    {
-        pednamearr.push(d2[i].tenantID);
-        var temp=d2[i].dateGenerated.toString()
-        d2[i].dateGenerated=temp.slice(0,21)
-    }
-    pendtenantId=d2;
-
     var d3=await transaction.find({landlordID:req.session.userID, paidON: {$ne:null}},'tenantID tid paidON amount').lean()
     recPayCount=d3.length;
-    var i;
-    for(i=0;i<d3.length;i++)
-    {
-        recnamearr.push(d3[i].tenantID);
-        var temp=d3[i].paidON.toString()
-        d3[i].paidON=temp.slice(0,21)
-    }
-    rectenantId=d3
 
-    const d5 =await tenant.find({tenantID:{$in:recnamearr}},'fname').lean()
-    recnames=d5;
-    var i=0;
-    for (i in rectenantId){
-        rectenantId[i]['fname']=recnames[i].fname.toString();
-        i++;
-    }
-    const d4=await tenant.find({tenantID:{$in:pednamearr}},'fname tenantID').lean()
-    pendnames=d4;
 
-    var i=0;
-    pendnames.forEach(name=>{
-        pendtenantId[i]['fname']=name.fname;
-        i++;
-    })
+    var mot=await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.userID),
+            }
+        },
+        {
+            $group:
+                {
+                    _id:null,
+                    month: {
+                        $max: "$month"
+                    }
+                }
+        }
+    ])
+    var maxMonth=mot[0].month;
+    var d5=await transaction.countDocuments({landlordID:req.session.userID, month:maxMonth}).lean()
+    console.log("TOtal: "+d5)
+    const recieved= await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.userID),
+                paidON:{$ne:null},
+                month:maxMonth
+            }
+        },
+        {
+            $lookup:
+                {
+                    from: "tenant",
+                    localField: "tenantID",
+                    foreignField: "tenantID",
+                    as: "NameMatch"
+                }
+        },
+        {
+            $project:{
+                NameMatch: {fname:1},
+                tid:1,
+                amount:1
+            }
+        },
+        { $sort : { _id: -1 } }
+    ])
+
+    const pending= await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.userID),
+                paidON:null,
+                month:maxMonth
+            }
+        },
+        {
+            $lookup:
+                {
+                    from: "tenant",
+                    localField: "tenantID",
+                    foreignField: "tenantID",
+                    as: "NameMatch"
+                }
+        },
+        {
+            $project:{
+                NameMatch: {fname:1},
+                tid:1,
+                amount:1
+            }
+        },
+        { $sort : { _id: -1 } }
+    ])
+    var recmonth=(recieved.length/d5)*100;
+    var penmonth=(pending.length/d5)*100;
+    console.log("rec: "+recmonth)
+    console.log("pend: "+penmonth)
+
+
+    console.log(recieved)
+    console.log(pending)
+    console.log(maxMonth)
     var metricwise=await transaction.aggregate([
         {
             $match:{
@@ -270,16 +319,18 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
             date:date,
             recpaycount:recPayCount,
             penpaycount:pendPayCount,
-            totalprofit:"",
             tenantcount:totaltenant,
             approvalcount:approvCount,
-            pendpay:pendtenantId,
+            pendpay:pending,
             aprov:aprov,
-            recpay:rectenantId,
+            recpay:recieved,
+            maxmo:months[maxMonth-1],
             title:"Dashboard",
             fname:req.session.fname,
             lname:req.session.lname,
-            id:req.session.userID
+            id:req.session.userID,
+            rec:recmonth,
+            pen:penmonth
         })
 });
 

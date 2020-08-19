@@ -23,11 +23,11 @@
     <div class="row row-content align-items-center ">
         <div class="col-xl-2 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="margin-top: 5%;background-color: rgba(248,159,159,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-info-circle" style="font-size: 37px;color: rgb(164,13,13);background-color: rgba(206,111,122,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 11px;padding-top: 9px;"></i>
-                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">26</strong>
+                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">{{penpaycount}}</strong>
                     <p style="font-size: 1.3em;">Total Pending Payments</p></div>
             </div>
             <div class="shadow" style="margin-top: 15%;background-color: rgba(241,135,237,0.55);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-rupee" style="font-size: 37px;color: rgb(207,14,118);background-color: rgba(224,119,236,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 19px;padding-top: 9px;"></i>
-                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">569462</strong>
+                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">{{res.amount}}</strong>
                     <p style="font-size: 1.3rem;">Total Revenue Generated</p>
                 </div>
             </div>
@@ -140,12 +140,12 @@
 
         <div class="col-xl-2 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="margin-top: 5%;background-color: rgba(163,194,173,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-arrow-circle-o-down" style="font-size: 37px;color: rgb(34,119,37);background-color: rgba(118,206,111,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 11px;padding-top: 9px;"></i>
-                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;">56</strong>
+                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;">{{recpaycount}}</strong>
                     <p style="font-size: 1.3em;">Total Recieved Payments</p>
                 </div>
             </div>
             <div class="shadow" style="margin-top: 15%;background-color: rgba(245,143,207,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-users" style="font-size: 2rem;color: rgb(137,4,92);background-color: rgba(223,149,185,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;"></i>
-                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;font-size: 1rem;"><strong style="font-size: 2rem;">89</strong>
+                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;font-size: 1rem;"><strong style="font-size: 2rem;">{{tenantcount}}</strong>
                     <p style="font-size: 1.3em;">Total Verified Tenants</p>
                 </div>
         </div>
@@ -157,40 +157,47 @@
     <div class="row row-content align-items-center ">
         <div class="col-xl-4 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 80%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;;margin-top: 5%">
-                <p class="d-inline" style="margin-left: 0px;width: 172px;">Recieved Payments</p><span class="float-right" style="margin-right: 12px;">68%</span>
+                <p class="d-inline" style="margin-left: 0px;width: 172px;">Recieved Payments</p><span class="float-right" style="margin-right: 12px;">{{rec}}%</span>
                 <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
-                    <div class="progress-bar bg-success progress-bar-animated" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;"></div>
+                    <div class="progress-bar bg-success progress-bar-animated" aria-valuenow="{{rec}}" aria-valuemin="0" aria-valuemax="100" style="width: {{rec}}%;"></div>
                 </div>
                 <div class="table-responsive table-borderless" style="height: 86%;background-color: rgba(244,244,244,0);width: 100%;padding-right: 12px;">
                     <table class="table table-bordered table-hover">
                         <tbody>
+                        {{#each recpay}}
                         <tr style="height: 18px;font-size: 16px;">
-                            <td style="padding: 0px;height: 18px;width: 20%;">TID 1</td>
-                            <td style="padding: 0px;height: 17px;width: 40%;">Sumit </td>
-                            <td style="padding: 0px;height: 17px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> 5694 <i class="fa fa-check-square-o float-right" style="color: rgb(43,116,31);margin-top: 5px;"></i></td>
+                            <td style="padding: 0px;height: 18px;width: 20%;">TID {{this.tid}}</td>
+                            {{#each this.NameMatch}}
+                            <td style="padding: 0px;height: 17px;width: 40%;">{{this.fname}} </td>{{/each}}
+                            <td style="padding: 0px;height: 17px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}}  <i class="fa fa-check-square-o float-right" style="color: rgb(43,116,31);margin-top: 5px;"></i></td>
                         </tr>
+                        {{/each}}
                         </tbody>
                     </table>
-                </div><small class="form-text text-muted" style="margin-top: 0px;">*Recieved payment last month billing</small></div>
+                </div><small class="form-text text-muted" style="margin-top: 0px;">*Recieved payment month: {{maxmo}} billing</small></div>
         </div>
         <div class="col-xl-4 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 80%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;margin-top: 5%">
-                <p class="d-inline" style="margin-left: 0px;width: 172px;font-size: 18px;">Pending Payments</p><span class="float-right" style="margin-right: 12px;">29%</span>
+                <p class="d-inline" style="margin-left: 0px;width: 172px;font-size: 18px;">Pending Payments</p><span class="float-right" style="margin-right: 12px;">{{pen}}%</span>
                 <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
-                    <div class="progress-bar bg-danger progress-bar-animated" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 29%;"><span class="sr-only"></span></div>
+                    <div class="progress-bar bg-danger progress-bar-animated" aria-valuenow="{{pen}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pen}}%;"><span class="sr-only"></span></div>
                 </div>
                 <div class="table-responsive table-borderless" style="height: 86%;background-color: rgba(244,244,244,0);width: 100%;padding-right: 11px;font-size: 21px;">
                     <table class="table table-bordered table-hover">
                         <tbody>
-                        <tr style="height: 18px;font-size: 16px;">
-                            <td style="padding: 0px;height: 18px;width: 24%;">TID 1</td>
-                            <td style="padding: 0px;height: 17px;width: 40%;">Sumit </td>
-                            <td style="padding: 0px;height: 17px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> 5694 <i class="fa fa-question-circle float-right" style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px;"></i></td>
+                        {{#each pendpay}}
+                        <tr style="height: 12px;font-size: 16px;">
+                            <td style="padding: 0px;height: 12px;width: 24%;">TID {{this.tid}}</td>
+                            {{#each this.NameMatch}}
+                            <td style="padding: 0px;height: 12px;width: 40%;">{{this.fname}} </td>
+                            {{/each}}
+                            <td style="padding: 0px;height: 12px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}} <i class="fa fa-question-circle float-right" style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px;"></i></td>
                         </tr>
+                        {{/each}}
                         </tbody>
                     </table>
                 </div>
-                <small class="form-text text-muted" style="margin-top: 0px;">*Pending payment last month billing</small></div>
+                <small class="form-text text-muted" style="margin-top: 0px;">*Pending payment month: {{maxmo}} billing</small></div>
         </div>
     </div>
 </div>
