@@ -2,10 +2,26 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- Google Maps JavaScript library -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBiiXOLkrpn0LHp7HnNrHc3APlHMYFh5sY"></script>
+
 <center><br><br><br><br>
     <label for="autotenant">Tenant Name: </label>
     <input id="autotenant" type="text" placeholder="Tenant">
 </center>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <p><h1>Google Maps JavaScript API with Places Library Autocomplete Address Field</h1></p>
+            <!-- Autocomplete location search input -->
+            <div class="form-group">
+                <label>Location:</label>
+                <input type="text" class="form-control" id="search_input" placeholder="Type address..." />
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     //document.ready.function
@@ -42,4 +58,26 @@
     });
 
     })
+</script>
+
+
+
+
+
+<script>
+    var searchInput = 'search_input';
+
+    $(document).ready(function () {
+        var autocomplete;
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+            types: ['geocode'],
+            /*componentRestrictions: {
+             country: "USA"
+            }*/
+        });
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var near_place = autocomplete.getPlace();
+        });
+    });
 </script>
