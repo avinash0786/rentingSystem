@@ -191,7 +191,10 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
                 }
         }
     ])
-    var maxMonth=mot[0].month;
+    if(mot[0]!==undefined)
+    {
+        var maxMonth=mot[0].month;
+    }
     var d5=await transaction.countDocuments({landlordID:req.session.userID, month:maxMonth}).lean()
     const recieved= await transaction.aggregate([
         {
@@ -283,6 +286,13 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
             }
         }
     ]);
+    if(totalelec[0]!==undefined)
+    {
+        totalelec=totalelec[0].total
+    }
+    else {
+        totalelec=0;
+    }
 
     var monthunits=await transaction.aggregate([
         {
@@ -364,7 +374,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
             id:req.session.userID,
             rec:recmonth,
             pen:penmonth,
-            totalunit:totalelec[0].total,
+            totalunit:totalelec,
             monthunits:monthunits
         })
 });
