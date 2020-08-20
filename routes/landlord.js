@@ -712,7 +712,12 @@ router.get('/landlord-createTenant',redirectLogin,function(req, res, next) {
 });
 
 router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
-    var newTenantID=await tenant.countDocuments({})+2;
+    var newTenantID;
+    await tenant.aggregate([{ $group : { _id: null, maxid: { $max : "$tenantID" }}}])
+        .then((d)=>{
+            console.log(d[0])
+            newTenantID=d[0].maxid+1;
+        })
     console.log(newTenantID)
     var pswd=toString(req.body.password);
     console.log(req.body)
@@ -732,7 +737,6 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
                 landlordID:req.session.userID,
             })
             tenantnew.save();
-
             await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
                 .then((d)=>{
                     console.log(d[0])
