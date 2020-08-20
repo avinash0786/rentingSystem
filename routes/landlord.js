@@ -92,7 +92,6 @@ router.post('/landlord-login',
 });
 
 router.post('/landlord-signup',async (req, res)=> {
-    console.log(req.body)
     var newID;
     // await landlord.countDocuments({})
     //     .then((d)=>{
@@ -102,7 +101,6 @@ router.post('/landlord-signup',async (req, res)=> {
         .then((d)=>{
             console.log(d[0])
             newID=d[0].maxid+1;
-            console.log("New id: "+d)
         })
     var password=req.body.pswd;
     bcrypt.hash(password,saltRound,function (err,hash) {
@@ -133,7 +131,6 @@ router.post('/landlord-signup',async (req, res)=> {
                     })
                     admmessage.save()
                 })
-            console.log(ll)
             res.render("landlord_login", {
                 layout: false,
                 message2: "New Landlord Created Successfully ID: "+newID
@@ -196,7 +193,6 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     ])
     var maxMonth=mot[0].month;
     var d5=await transaction.countDocuments({landlordID:req.session.userID, month:maxMonth}).lean()
-    console.log("TOtal: "+d5)
     const recieved= await transaction.aggregate([
         {
             $match:{
@@ -252,13 +248,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     ])
     var recmonth=(recieved.length/d5)*100;
     var penmonth=(pending.length/d5)*100;
-    console.log("rec: "+recmonth)
-    console.log("pend: "+penmonth)
 
-
-    console.log(recieved)
-    console.log(pending)
-    console.log(maxMonth)
     var metricwise=await transaction.aggregate([
         {
             $match:{
@@ -277,6 +267,51 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
             }
         }
     ])
+
+    var totalelec=await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.userID)
+            }
+        },
+        {
+            $group:{
+                _id: null,
+                total: {
+                    $sum: {$subtract:["$finalUnit","$initialUnit"]}
+                }
+            }
+        }
+    ]);
+
+    var monthunits=await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.userID)
+            }
+        },
+        {
+            $group:{
+                _id: {month:"$month"},
+                elec:{$sum:{$subtract:["$finalUnit","$initialUnit"]}}
+            }
+        },
+        {
+            $sort:{
+                _id: 1
+            }
+        },
+        {
+            $project:{
+                elec:1,
+                month:"$_id.month",
+                _id:0
+            }
+        }
+    ]);
+    monthunits.forEach(d=>{
+        d['month']=months[d.month-1]
+    })
 
     var monthprofit=await transaction.aggregate([
         {
@@ -301,8 +336,6 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     monthprofit.forEach(d=>{
         d['month']=months[d.month-1]
     })
-    console.log(monthprofit)
-    console.log(metricwise)
 
     console.log("RENDERING")
     res.render("land",
@@ -330,7 +363,9 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
             lname:req.session.lname,
             id:req.session.userID,
             rec:recmonth,
-            pen:penmonth
+            pen:penmonth,
+            totalunit:totalelec[0].total,
+            monthunits:monthunits
         })
 });
 

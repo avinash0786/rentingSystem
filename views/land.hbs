@@ -155,8 +155,8 @@
 
 <div class="container-fluid shadow" >
     <div class="row row-content align-items-center ">
-        <div class="col-xl-4 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
-            <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 80%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;;margin-top: 5%">
+        <div class="col-xl-3 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
+            <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 90%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;;margin-top: 5%">
                 <p class="d-inline" style="margin-left: 0px;width: 172px;">Recieved Payments</p><span class="float-right" style="margin-right: 12px;">{{rec}}%</span>
                 <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
                     <div class="progress-bar bg-success progress-bar-animated" aria-valuenow="{{rec}}" aria-valuemin="0" aria-valuemax="100" style="width: {{rec}}%;"></div>
@@ -176,8 +176,8 @@
                     </table>
                 </div><small class="form-text text-muted" style="margin-top: 0px;">*Recieved payment month: {{maxmo}} billing</small></div>
         </div>
-        <div class="col-xl-4 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
-            <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 80%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;margin-top: 5%">
+        <div class="col-xl-3 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
+            <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 90%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;margin-top: 5%">
                 <p class="d-inline" style="margin-left: 0px;width: 172px;font-size: 18px;">Pending Payments</p><span class="float-right" style="margin-right: 12px;">{{pen}}%</span>
                 <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
                     <div class="progress-bar bg-danger progress-bar-animated" aria-valuenow="{{pen}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pen}}%;"><span class="sr-only"></span></div>
@@ -199,6 +199,71 @@
                 </div>
                 <small class="form-text text-muted" style="margin-top: 0px;">*Pending payment month: {{maxmo}} billing</small></div>
         </div>
+
+        <div class="col-xl-4 col-lg-8 col-sm-12 order-sm-last col-md-8">
+            <div class="chart-container" >
+                <canvas id="myChart3" height="300" width="400" style="display: block; height: 100%; width: 100%;"></canvas>
+            </div>
+            <script>
+                var ctx = document.getElementById('myChart3').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [
+                            {{#forEach monthunits}}
+                                "{{this.month}}",
+                            {{/forEach}}
+                        ],
+                        datasets: [{
+                            label: 'Month Electricity Unit',
+                            data:  [
+                                {{#forEach monthunits}}
+                                    "{{this.elec}}",
+                                {{/forEach}}
+                            ],
+                            backgroundColor:"rgba(231,88,117,0.55)",
+                            pointBackgroundColor:"#52db09",
+                            borderColor:"rgba(165,11,11,0.97)"
+                        }]
+                    },
+                    options: {
+                        responsive:true,
+                        maintainAspectRatio:true,
+                        legend:{
+                            display:true,
+                            position:'bottom',
+                            labels:{
+                                fontSize:15,
+                            },
+                        },
+                        title:{
+                            display:true,
+                            text:"Tenants Electricity Unit Consumption",
+                            fontSize:20
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        return  value+' kwh';
+                                    }
+                                }
+                            }]
+                        },
+
+                    }
+                });
+            </script>
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
+        <div class="shadow" style="background-color: rgba(154,170,227,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-flash" style="font-size: 37px;color: rgb(7,4,137);background-color: rgba(155,149,223,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 1px;margin-top: 24px;margin-left: 16px;padding-bottom: 0px;padding-left: 19px;padding-top: 10px;"></i>
+            <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;">{{totalunit}}</strong>
+                <p>Total Electricity Unit consumed</p>
+            </div>
+        </div>
+        </div>
+
     </div>
 </div>
 
