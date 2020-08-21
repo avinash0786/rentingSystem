@@ -87,7 +87,6 @@ router.post('/tenant-signup',async (req, res)=> {
     var landlordID
     await landlord.findOne({landlordID:req.body.id})
         .then((d)=>{
-            console.log(d)
             if(d)
             {
                 console.log("Landlord exist")
@@ -119,7 +118,6 @@ router.post('/tenant-signup',async (req, res)=> {
                 fname:req.body.fname,
                 lname:req.body.lname,
                 email:req.body.email,
-                room:newID,
                 verified:false,
                 landlordID:landlordID,
                 pswd:hash,

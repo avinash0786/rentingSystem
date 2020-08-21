@@ -57,21 +57,18 @@ const landlord=mongoose.Schema({
         trim:true,
         default:""
     },
-    startRoom:{
+    rooms:{
         type:Number,
         default:0,
-        //required:true,
-        min:0
-    },
-    endRoom:{
-        type:Number,
-        default:0,
-        //require:true,
+        require:true,
         min:0
     },
     pswd:{
         type:String,
         required:true
+    },
+    avail:{
+        type:Array,
     }
 },
 { collection : 'landlord' }

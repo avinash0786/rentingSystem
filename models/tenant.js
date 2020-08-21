@@ -25,15 +25,12 @@ const tenant=mongoose.Schema({
     },
     email:{
         type:String,
-        unique:true,
         trim:true,
         required:true
     },
     room:{
         type:Number,
-        min:0,
-        unique:true,
-        required:true
+        min:0
     },
     verified:{
         type:Boolean,
@@ -51,8 +48,6 @@ const tenant=mongoose.Schema({
     },
     allotON:{
         type:Date,
-        required:true,
-        default:Date.now
     },
     pswd:{
         type:String,

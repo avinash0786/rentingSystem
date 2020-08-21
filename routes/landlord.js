@@ -111,12 +111,15 @@ router.post('/landlord-signup',async (req, res)=> {
         }
         else {
             console.log(newID)
+            const availrooms=[...Array(parseInt(req.body.rooms)).keys()];
             var ll=new landlord({
                 landlordID:newID,
                 fname:req.body.fname,
                 lname:req.body.lname,
                 email:req.body.email,
-                pswd:hash
+                pswd:hash,
+                rooms:req.body.rooms,
+                avail:availrooms
             })
             ll.save()
             notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
@@ -715,31 +718,38 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
     var newTenantID;
     await tenant.aggregate([{ $group : { _id: null, maxid: { $max : "$tenantID" }}}])
         .then((d)=>{
-            console.log(d[0])
             newTenantID=d[0].maxid+1;
         })
-    console.log(newTenantID)
+    var roomNo;
+    await landlord.find({landlordID:parseInt(req.session.userID)},"avail")
+        .then(data=>{
+            roomNo=data[0].avail.shift()
+            landlord.updateOne({landlordID:parseInt(req.session.userID)},{ $pop: { avail: -1 }})
+                .then(d=>{
+                    console.log("Success shift")
+                })
+        })
     var pswd=toString(req.body.password);
-    console.log(req.body)
     bcrypt.hash(pswd,saltRound,async (err,hash) =>{
         if(err){
             console.log("Error Hashing Password! ")
         }
         else {
-            var tenantnew=new tenant({
+            console.log("Saving tenant")
+            let tenantnew=new tenant({
                 tenantID:newTenantID,
                 fname:req.body.fname,
                 lname:req.body.lname,
                 email:req.body.email,
                 pswd:hash,
-                room:newTenantID,
+                room:roomNo,
                 verified:true,
+                allotON:Date.now(),
                 landlordID:req.session.userID,
             })
             tenantnew.save();
             await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
                 .then((d)=>{
-                    console.log(d[0])
                     newreq=d[0].maxid+1;
                 })
             var admmessage=new notifications({
@@ -958,6 +968,28 @@ router.get("/loadlast",function (req,res) {
             })
         })
 })
+router.post('/landlord-removeTenant',async (req,res)=>{
+    console.log("Server tenant delete request");
+    tenant.findOne({tenantID:parseInt(req.body.val)},'tenantId room')
+        .then(ten=>{
+            console.log(ten.room)
+            landlord.updateOne({landlordID:parseInt(req.session.userID)},{$push: {
+                    avail: {
+                        $each: [ten.room],
+                        $position: 0
+                    }
+                }})
+                .then(s=>{
+                    console.log("Pushed room to avail")
+                    tenant.deleteOne({tenantID:parseInt(req.body.val)}).then(aa=>{
+                        console.log("Deleted");
+                        return res.json({
+                            success:true
+                        })
+                    })
+                })
+        })
+})
 
 router.post('/landlord-approve',async (req,res)=> {
     console.log("Running approval route")
@@ -973,12 +1005,26 @@ router.post('/landlord-approve',async (req,res)=> {
         from:"Admin"
     })
     admmessage.save()
-    tenant.findOneAndUpdate({tenantID:req.body.val},{verified:true})
-        .then(d=>{
-            console.log("Approve success")
-            return res.json({
-                success:true
-            })
+
+    landlord.find({landlordID:parseInt(req.session.userID)},"avail")
+        .then(data=>{
+            let roomNo;
+            console.log(data[0].avail)
+            roomNo=data[0].avail.shift()
+            console.log(data[0].avail)
+            console.log("Shifting done--New room no: "+roomNo)
+             landlord.updateOne({landlordID:parseInt(req.session.userID)},{ $pop: { avail: -1 }})
+                .then(a=>{
+                    console.log("Update avalialble")
+                    console.log(a)
+                    tenant.findOneAndUpdate({tenantID:req.body.val},{verified:true,room:roomNo,allotON:Date.now()})
+                        .then(d=>{
+                            console.log("Approve success")
+                            return res.json({
+                                success:true
+                            })
+                        })
+                })
         })
 })
 
@@ -1004,11 +1050,11 @@ router.post('/landlord-discard',async (req,res)=> {
     })
 })
 
-router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
-    res.render("createTenant",{
-        tenantID:null
-    })
-});
+// router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
+//     res.render("createTenant",{
+//         tenantID:null
+//     })
+// });
 
 router.get('/landlord-rentMetric',redirectLogin,function(req, res, next) {
     res.send("landlord-rentMetric Recieved request ")

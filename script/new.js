@@ -1,5 +1,27 @@
 console.log("Script for tenant login , landlord exist check")
 
+async function deleteTenant(obj){
+   console.log("Delete tenent: ")
+    obj.innerText="Removed"
+    obj.disabled=true;
+    var sending={
+        val:obj.value
+    }
+    fetch('/landlord-removeTenant',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(sending)
+    }).then(d=>{
+        console.log("Delete tenant req recieved")
+    }).catch(e=>{
+        console.log("Error approve")
+    })
+}
+
+
 async function readOnMessage(obj)
 {
     console.log("Read on message clicked ")

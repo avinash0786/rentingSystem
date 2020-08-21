@@ -32,6 +32,7 @@
 <!--            </div>-->
 <!--        </nav>-->
 <!--    </section>-->
+<script src="new.js"></script>
 {{>navBarL}}
 <div class="jumbotron jumbotron-fluid " style="background-color: #FFFFFF">
     <h1 style="width: 50%;background-repeat: no-repeat;background-color: #ffffff;font-size: 20px;margin-left: 10%;margin-top: 1%;">Dashboard&nbsp;<i class="fa fa-chevron-right"></i>&nbsp;Tenant Details</h1>
@@ -63,8 +64,11 @@
                         {{/if}}
 <!--                        <td style="padding-right: 0;">Verified: {{this.verified}}</td>-->
                     </tr>
-                    <tr></tr>
-                    <tr></tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button type="button" value={{this.tenantID}} onclick="deleteTenant(this)" class="btn-primary-Action bg-danger" style="margin:0px;padding:2px 8px;width: auto;color: #FFFFFF;border-radius: 30px">Remove Tenant</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

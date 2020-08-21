@@ -6,6 +6,14 @@
 <!-- Google Maps JavaScript library -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBiiXOLkrpn0LHp7HnNrHc3APlHMYFh5sY"></script>
 
+<!--testing scripts-->
+<script>
+    console.log("Running testing script")
+    const availrooms=[...Array(20).keys()];
+    console.log(availrooms)
+</script>
+
+
 <center><br><br><br><br>
     <label for="autotenant">Tenant Name: </label>
     <input id="autotenant" type="text" placeholder="Tenant">
@@ -64,20 +72,20 @@
 
 
 
-<script>
-    var searchInput = 'search_input';
+<!--<script>-->
+<!--    var searchInput = 'search_input';-->
 
-    $(document).ready(function () {
-        var autocomplete;
-        autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-            types: ['geocode'],
-            /*componentRestrictions: {
-             country: "USA"
-            }*/
-        });
+<!--    $(document).ready(function () {-->
+<!--        var autocomplete;-->
+<!--        autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {-->
+<!--            types: ['geocode'],-->
+<!--            /*componentRestrictions: {-->
+<!--             country: "USA"-->
+<!--            }*/-->
+<!--        });-->
 
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            var near_place = autocomplete.getPlace();
-        });
-    });
-</script>
+<!--        google.maps.event.addListener(autocomplete, 'place_changed', function () {-->
+<!--            var near_place = autocomplete.getPlace();-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->

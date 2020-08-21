@@ -1,6 +1,90 @@
 example video on youtube:
 https://youtu.be/ZSMgqPOw5dw
 
+//new room allocation
+landlord.find({landlordID:parseInt(req.session.userID)},"avail")
+        .then(data=>{
+            console.log(data[0].avail)
+            roomNo=data[0].avail.shift()
+            console.log("Shifting done--New room no: "+roomNo)
+            landlord.updateOne({landlordID:parseInt(1)},{avail:data[0].avail})
+        })
+
+//verifying alocation
+landlord.find({},'landlordID avail')
+      .then(id=>{
+        id.forEach(a=>{
+          tenant.find({landlordID:a.landlordID},'tenantID')
+              .then(tid=>{
+                var aloc=[];
+                tid.forEach(i=>{
+                  aloc.push(parseInt(i.tenantID))
+                })
+                console.log("Aloc: "+aloc.toString())
+                var gotavail=a.avail;
+                var full=[...Array(50).keys()]
+                console.log(full.filter(x=>!gotavail.includes(x)))
+              })
+        })
+      })
+
+
+///when updating for room alailable diff
+landlord.find({},'landlordID avail')
+      .then(id=>{
+        id.forEach(a=>{
+          tenant.find({landlordID:a.landlordID},'tenantID')
+              .then(tid=>{
+                var aloc=[];
+                tid.forEach(i=>{
+                  aloc.push(parseInt(i.tenantID))
+                })
+                let update=a.avail.filter(x=>!aloc.includes(x))
+                landlord.updateOne({landlordID:a.landlordID},{avail:update})
+                    .then(r=>{
+                      console.log("Updat Success: ")
+                      console.log(r)
+                    })
+              })
+        })
+      })
+
+
+landlord.update({}, {$unset: {startRoom:1,endRoom:1}} , {multi: true})
+      .then(s=>{
+        console.log(s)
+      })
+
+console.log(text)
+    var all="<html>\n" +
+        "<head>\n" +
+        "\t<title></title>\n" +
+        "\t<link href=\"https://svc.webspellchecker.net/spellcheck31/lf/scayt3/ckscayt/css/wsc.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
+        "</head>\n" +
+        "<body aria-readonly=\"false\">Hi, this is a web application under development and would like your suggestions and feedback,<br />\n" +
+        "this web application facilitate&nbsp;the hectic work done by landlords in managing there tenant, your helpful suggested feature would definitely&nbsp;&nbsp;be implemented, kindly spend some moment in viewing this.<br />\n" +
+        "A project by your friend.<br />\n" +
+        "<br />\n" +
+        "Also anyone willing to work in this project is welcomed having knowledge of web application development, would learn together.😊✌<br />\n" +
+        "<br />\n" +
+        "<a href=\"https://www.renting.systems/\">https://www.renting.systems</a><br />\n" +
+        "<br />\n" +
+        "Regards<br />\n" +
+        "Admin Renting Systems<br />\n" +
+        "<a href=\"https://www.renting.systems/logof.png\" target=\"_blank\"><img alt=\"Logo\" src=\"https://www.renting.systems/logof.png\" style=\"float:left; height:84px; width:200px\" /></a></body>\n" +
+        "</html>\n"
+
+  EmailService.sendText(emailname ,'Response',
+      text
+  )
+      .then(() => {
+        console.log("Email success")
+      })
+      .catch(() => {
+        console.log("Email fail!")
+      })
+
+
 
   var welomeMessage="<html>\n" +
       "<head>\n" +
