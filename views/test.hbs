@@ -5,12 +5,25 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- Google Maps JavaScript library -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBiiXOLkrpn0LHp7HnNrHc3APlHMYFh5sY"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+<p id="pda"></p>
+<p id="conv"></p>
+<p id="bb" >{{#convLocal}} {{send}} {{/convLocal}}</p>
+
+<p>{{#makeBold}} {{send}} {{/makeBold}}</p>
 
 <!--testing scripts-->
 <script>
     console.log("Running testing script")
+    document.getElementById("pda").innerHTML=moment().format("LLLL");
+    document.getElementById("conv").innerHTML=moment.utc("2020-08-18T06:50:27.921+00:00").local().format("LLLL");
+    console.log(moment().format("LLLL"))
     const availrooms=[...Array(20).keys()];
-    console.log(availrooms)
+    function convDate(obj) {
+        console.log("Date conv function called")
+        console.log(obj.textContent)
+        obj.textContent=moment.utc(obj.textContent).local().format("LLLL");
+    }
 </script>
 
 
@@ -18,18 +31,7 @@
     <label for="autotenant">Tenant Name: </label>
     <input id="autotenant" type="text" placeholder="Tenant">
 </center>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <p><h1>Google Maps JavaScript API with Places Library Autocomplete Address Field</h1></p>
-            <!-- Autocomplete location search input -->
-            <div class="form-group">
-                <label>Location:</label>
-                <input type="text" class="form-control" id="search_input" placeholder="Type address..." />
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
     //document.ready.function

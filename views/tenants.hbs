@@ -48,7 +48,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="padding-right: 0;">Joined on: {{replace (remove (moment this.idcreatedON) "+05:30") "T" " Time: "}}</td>
+                        <td style="padding-right: 0;">Joined on: {{#convLocal}} {{this.idcreatedON}} {{/convLocal}}</td>
                         <td>Mobile no: {{this.mobile}}</td>
                     </tr>
                     <tr>
@@ -56,7 +56,7 @@
                         <td>Email: {{this.email}}</td>
                     </tr>
                     <tr>
-                        <td style="padding: 12px;padding-right: 0px;">Allocated on: {{replace (remove (moment this.allotON) "+05:30") "T" " Time: "}}</td>
+                        <td style="padding: 12px;padding-right: 0px;">Allocated on: {{#convLocal}} {{this.allotON}} {{/convLocal}}</td>
                         {{#if this.verified}}
                             <td>Verified: <i data-toggle="tooltip" class="fa fa-check-circle" style="font-size: 20px;color: rgb(8,140,215);" title="Verified User"></i></td>
                         {{else}}

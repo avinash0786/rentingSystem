@@ -68,10 +68,10 @@
                         {{# if this.toTenant}}
                             <p>SENT TO: {{this.toTenant}}</p>
                         {{/if}}
-                        <p>SENT ON: {{replace (remove (moment this.dateGenerated) "+05:30") "T" " Time: "}}</p>
+                        <p>SENT ON: {{#convLocal}} {{this.dateGenerated}} {{/convLocal}}</p>
 
                         {{#if this.readON}}
-                            <p>READ ON: {{replace (remove (moment this.readON) "+05:30") "T" " Time: "}}</p>
+                            <p>READ ON: {{#convLocal}} {{this.readON}} {{/convLocal}}</p>
                         {{else}}
                             <button class="btn btn-primary" value={{this.requestID}} type="button" onclick="readOnMessage(this)" style="border-radius: 39px;padding: 0px;width: 110px;">Mark as read</button>
                         {{/if}}

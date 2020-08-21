@@ -7,6 +7,8 @@ const transaction=require("../models/transaction")
 const notifications=require("../models/notifications")
 const { check, validationResult } = require('express-validator');
 const val = require("express-validator")
+var moment = require('moment');
+var tz=require("moment-timezone")
 const bcrypt =require('bcrypt');
 const saltRound=2312;
 
@@ -74,7 +76,7 @@ router.post('/landlord-login',
                 })
             var loginmessage=new notifications({
                 requestID:newreq,
-                message:"New login at: "+Date().toString(),
+                message:"New login at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
                 toLandlord:userid,
                 from:"Admin"
             })
@@ -164,6 +166,7 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
     electricity=user.electricity
     security=user.security
     maintenance=user.maintenance
+    var avail=user.avail.length;
 
     var result=await tenant.find({landlordID:req.session.userID, verified:false},'fname tenantID').lean()
     aprov=result;
@@ -378,7 +381,8 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
             rec:recmonth,
             pen:penmonth,
             totalunit:totalelec,
-            monthunits:monthunits
+            monthunits:monthunits,
+            roomsa:avail
         })
 });
 
@@ -682,7 +686,7 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
         })
     var admmessage=new notifications({
         requestID:newreq,
-        message:ten.length+" new Trasnactions created for month: "+req.session.monthname,
+        message:ten.length+" new Trasnactions created for month: "+req.session.monthname+" at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
         toLandlord:req.session.userID,
         from:"Admin"
     })
@@ -754,7 +758,7 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
                 })
             var admmessage=new notifications({
                 requestID:newreq,
-                message:"New approved Tenant created by you Tenant ID: "+newTenantID,
+                message:"New approved Tenant created by you Tenant ID: "+newTenantID+" At: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
                 toLandlord:req.session.userID,
                 from:"Admin"
             })
@@ -968,6 +972,7 @@ router.get("/loadlast",function (req,res) {
             })
         })
 })
+//moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
 router.post('/landlord-removeTenant',async (req,res)=>{
     console.log("Server tenant delete request");
     tenant.findOne({tenantID:parseInt(req.body.val)},'tenantId room')
@@ -980,6 +985,20 @@ router.post('/landlord-removeTenant',async (req,res)=>{
                     }
                 }})
                 .then(s=>{
+                    var newreq;
+                    notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                        .then((d)=>{
+                            console.log(d[0])
+                            newreq=d[0].maxid+1;
+                            var admmessage=new notifications({
+                                requestID:newreq,
+                                message:"Tenant Id: "+req.body.val+" Removed Successfully! at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
+                                toLandlord:req.session.userID,
+                                from:"Admin"
+                            })
+                            admmessage.save()
+                        })
+
                     console.log("Pushed room to avail")
                     tenant.deleteOne({tenantID:parseInt(req.body.val)}).then(aa=>{
                         console.log("Deleted");
@@ -1083,7 +1102,7 @@ router.get('/landlord-logout',redirectLogin,async (req, res, next)=> {
         })
     var admmessage=new notifications({
         requestID:newreq,
-        message:"Logout at: "+Date().toString(),
+        message:"Logout at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
         toLandlord:req.session.userID,
         from:"Admin"
     })
@@ -1094,7 +1113,7 @@ router.get('/landlord-logout',redirectLogin,async (req, res, next)=> {
         }
     })
     console.log("Session destroyed: Logout")
-    res.redirect('/');
+    res.redirect('/landlord-login');
 });
 
 

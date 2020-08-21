@@ -11,6 +11,8 @@ const landlordRoute=require('./routes/user');
 const path=require("path")
 var MemoryStore = require('memorystore')(session)
 const expHbs=require("express-handlebars")
+var moment = require('moment');
+var tz=require("moment-timezone")
 const helper=require("handlebars-helpers")();
 const EmailService = require('./emailService')
 
@@ -39,6 +41,14 @@ var hbs=expHbs.create({
 app.engine("hbs",hbs.engine)
 app.set('view engine', 'hbs');
 
+helper.convLocal=function(option){
+  var da=option.fn(this);
+    return moment(da).tz('Asia/Kolkata').format("LLLL");
+}
+helper.makeBold=function(option){
+  return "<strong>"+ option.fn(this)+"<strong>";
+}
+
 app.use(userRoute);
 app.use(landlordRoute);
 app.use(express.static(path.join(__dirname,"./images")));
@@ -62,6 +72,7 @@ app.get("/test", async (req,res)=>{
   var arr=[...Array(50).keys()]
   res.render("test",{
     title:"Wroking",
+    send:"2020-08-20T06:39:16.811+00:00"
   })
 })
 
