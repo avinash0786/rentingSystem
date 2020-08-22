@@ -76,7 +76,8 @@ router.post('/landlord-login',
                 })
             var loginmessage=new notifications({
                 requestID:newreq,
-                message:"New login at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
+                dateGenerated:Date(),
+                message:"New User login Detected at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
                 toLandlord:userid,
                 from:"Admin"
             })
@@ -130,6 +131,7 @@ router.post('/landlord-signup',async (req, res)=> {
                     var newreq=d[0].maxid+1;
                     var admmessage=new notifications({
                         requestID:newreq,
+                        dateGenerated:Date(),
                         message:"Welcome, "+req.body.fname+" here you can find all the notifications and alerts",
                         toLandlord:req.session.userID,
                         from:"Admin"
@@ -421,6 +423,7 @@ router.post("/landlord-updateInfo",redirectLogin,async (req,res)=>{
                     var newreq=d[0].maxid+1;
                     var admmessage=new notifications({
                         requestID:newreq,
+                        dateGenerated:Date(),
                         message:"Profile details upated ",
                         toLandlord:req.session.userID,
                         from:"Admin"
@@ -686,6 +689,7 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
         })
     var admmessage=new notifications({
         requestID:newreq,
+        dateGenerated:Date(),
         message:ten.length+" new Trasnactions created for month: "+req.session.monthname+" at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
         toLandlord:req.session.userID,
         from:"Admin"
@@ -758,6 +762,7 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
                 })
             var admmessage=new notifications({
                 requestID:newreq,
+                dateGenerated:Date(),
                 message:"New approved Tenant created by you Tenant ID: "+newTenantID+" At: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
                 toLandlord:req.session.userID,
                 from:"Admin"
@@ -843,6 +848,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
                     var notif=new notifications({
                         requestID:newID++,
                         message:mes,
+                        dateGenerated:Date(),
                         fromLandlord:req.session.userID,
                         toTenant:tenant.tenantID
                     })
@@ -870,6 +876,7 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
                     console.log("Tenant found")
                     var notif=new notifications({
                         requestID:newID++,
+                        dateGenerated:Date(),
                         message:req.body.message,
                         fromLandlord:req.session.userID,
                         toTenant:tid
@@ -992,6 +999,7 @@ router.post('/landlord-removeTenant',async (req,res)=>{
                             newreq=d[0].maxid+1;
                             var admmessage=new notifications({
                                 requestID:newreq,
+                                dateGenerated:Date(),
                                 message:"Tenant Id: "+req.body.val+" Removed Successfully! at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
                                 toLandlord:req.session.userID,
                                 from:"Admin"
@@ -1019,6 +1027,7 @@ router.post('/landlord-approve',async (req,res)=> {
         })
     var admmessage=new notifications({
         requestID:newreq,
+        dateGenerated:Date(),
         message:"Tenant Id: "+req.body.val+" Approval request Accepted!",
         toLandlord:req.session.userID,
         from:"Admin"
@@ -1056,6 +1065,7 @@ router.post('/landlord-discard',async (req,res)=> {
         })
     var admmessage=new notifications({
         requestID:newreq,
+        dateGenerated:Date(),
         message:"Tenant Id: "+req.body.val+" Approval request discarded!",
         toLandlord:req.session.userID,
         from:"Admin"
@@ -1102,6 +1112,7 @@ router.get('/landlord-logout',redirectLogin,async (req, res, next)=> {
         })
     var admmessage=new notifications({
         requestID:newreq,
+        dateGenerated:Date(),
         message:"Logout at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
         toLandlord:req.session.userID,
         from:"Admin"

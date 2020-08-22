@@ -67,6 +67,7 @@ app.get("/", async (req,res)=>{
 })
 app.get("/test", async (req,res)=>{
   console.log("Testing get")
+  console.log(Date.toString())
   var emailname=req.query.email;
   var text=req.query.text;
   var arr=[...Array(50).keys()]

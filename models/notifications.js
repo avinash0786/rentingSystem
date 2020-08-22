@@ -13,7 +13,7 @@ const notifications=mongoose.Schema({
     },
     dateGenerated:{
         type:Date,
-        default:Date.now()
+        default:Date()
     },
     from:{
         type:String
