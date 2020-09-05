@@ -1104,6 +1104,51 @@ router.get('/landlord-error',redirectLogin,function(req, res) {
     })
 });
 
+router.get('/landlord-invoice',function (req,res){
+    let tid=parseInt(req.query.tid);
+    transaction.aggregate([
+        {
+            $match:{
+                tid:req.query.tid,
+            }
+        },
+        {
+            $lookup:
+                {
+                    from: "tenant",
+                    localField: "tenantID",
+                    foreignField: "tenantID",
+                    as: "NameMatch"
+                },
+        },
+        {
+            $lookup:
+                {
+                    from: "landlord",
+                    localField: "landlordID",
+                    foreignField: "landlordID",
+                    as: "landlordname"
+                },
+        },
+        {
+            $project:{
+                NameMatch: {fname:1,lname:1,address:1,tenantID:1},fname:1,lname:1,address:1,
+                landlordname: {fname:1,lname:1,address:1,landlordID:1,electricity:1},
+                tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1,paidON:1,dateGenerated:1,
+            }
+        }
+    ])
+        .then(d=>{
+            console.log(d[0])
+            res.render("recipt",{
+                data:d[0],
+                landlord:d[0].landlordname[0],
+                tenant:d[0].NameMatch[0],
+                now:Date()
+            })
+        })
+})
+
 router.get('/landlord-logout',redirectLogin,async (req, res, next)=> {
     await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
         .then((d)=>{

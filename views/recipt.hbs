@@ -1,0 +1,76 @@
+<div class="container-fluid text-warning">
+    <h1 class="display-6 text-capitalize text-left text-dark border rounded-0" style="height: 102px;border-style: none;border-color: rgb(255,255,255);border-bottom-style: solid;font-family: 'Alegreya Sans', sans-serif;">Invoice<img class="float-right" src="logof.png" width="200px" /><button class="btn btn-info" type="button" style="padding: 3px;font-size: 16px;font-family: 'Alegreya Sans', sans-serif;margin-left: 33%;">Print Invoice</button></h1>
+</div>
+<div style="margin: 17px;">
+    <div class="container-fluid" style="margin-top: 9px;">
+        <div class="row">
+            <div class="col" style="border-bottom-style: solid;margin-bottom: 12px;">
+                <h4>Transaction ID: {{data.tid}}</h4>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-6" style="border-style: none;border-bottom-style: solid;margin-bottom: 15px;">
+                <h4>Billed to: Tenant</h4>
+                <p style="margin-bottom: 1px;">Name: {{tenant.fname}} {{tenant.lname}}</p>
+                <p style="margin-bottom: 1px;">Tenant ID: {{data.tenantID}}</p>
+                <p style="margin-bottom: 1px;">Bill Month: {{data.month}} Year: {{data.year}}</p>
+                <p style="margin-bottom: 1px;">Paid ON: {{#convLocal}} {{data.paidON}} {{/convLocal}}</p>
+            </div>
+            <div class="col-6 col-md-6" style="border-style: none;border-bottom-style: solid;margin-bottom: 15px;">
+                <h4>Billed From: Landlord</h4>
+                <p style="margin-bottom: 1px;">Name: {{landlord.fname}} {{landlord.lname}}</p>
+                <p style="margin-bottom: 1px;">Landlord ID: {{landlord.landlordID}}</p>
+                <p style="margin-bottom: 1px;">Bill Generated ON: {{#convLocal}} {{data.dateGenerated}} {{/convLocal}}</p>
+                <p style="margin-bottom: 1px;">Address: {{landlord.address}}</p>
+                <p style="margin-bottom: 1px;"></p>
+            </div>
+            <div class="col-12 col-md-12 m-auto">
+                <h4>Bill Details: </h4>
+                <div class="table-responsive" style="font-size: 16px;">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style="padding: 0px;font-size: 24px;">Electricity Initial Unit: </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;">{{data.initialUnit}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;font-size: 24px;">Electricity Final Unit: </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;">{{data.finalUnit}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;font-size: 24px;">Electricity Rate:  </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;"><i class="fa fa-rupee"></i> {{landlord.electricity}} Per Unit</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;font-size: 24px;">Water: </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;"><i class="fa fa-rupee"></i> {{data.water}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;font-size: 24px;">Electricity: </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;"><i class="fa fa-rupee"></i> {{data.electricity}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;font-size: 24px;">Maintenance: </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;"><i class="fa fa-rupee"></i> {{data.maintenance}}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;font-size: 24px;">Security: </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;"><i class="fa fa-rupee"></i> {{data.security}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right" style="padding: 0px;font-size: 26px;border-style: none;border-top-style: solid;border-top-color: rgb(0,1,2);background-color: #cdcdcd;font-family: 'Archivo Black', sans-serif;" colspan="2">Total Rent: <i class="fa fa-rupee"></i> {{data.amount}}</td>
+                        </tr>
+                        <tr></tr>
+                        <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Payment Mode: Online</p><img class="d-block float-right" src="RentingLogo.png" width="300" />
+                <p class="text-muted" style="font-size: 20px;">*This is a online generated invoice, To verify go to https://www.renting.systems/tidcheck</p><span class="border rounded-0 border-dark d-block" style="border-width: 0px;width: 434px;">Printed ON: {{#convLocal}} {{now}} {{/convLocal}}</span></div>
+        </div>
+    </div>
+</div>
