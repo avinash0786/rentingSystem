@@ -1106,10 +1106,13 @@ router.get('/landlord-error',redirectLogin,function(req, res) {
 
 router.get('/landlord-invoice',function (req,res){
     let tid=parseInt(req.query.tid);
+    console.log(req.query)
+    console.log(tid)
     transaction.aggregate([
         {
             $match:{
-                tid:req.query.tid,
+                tid:tid,
+                landlordID:parseInt(req.session.userID)
             }
         },
         {
@@ -1146,6 +1149,9 @@ router.get('/landlord-invoice',function (req,res){
                 tenant:d[0].NameMatch[0],
                 now:Date()
             })
+        })
+        .catch(e=>{
+            res.send("Enter correct Transaction ID")
         })
 })
 
