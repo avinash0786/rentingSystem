@@ -1142,7 +1142,20 @@ router.get('/landlord-invoice',function (req,res){
         }
     ])
         .then(d=>{
-            console.log(d[0])
+            notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                .then((d)=>{
+                    console.log(d[0])
+                    let newreq=d[0].maxid+1;
+                    var admmessage=new notifications({
+                        requestID:newreq,
+                        dateGenerated:Date(),
+                        message:"Invoice Generated for Transaction Id: "+tid+" at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
+                        toLandlord:req.session.userID,
+                        from:"Admin"
+                    })
+                    admmessage.save()
+                })
+
             res.render("recipt",{
                 data:d[0],
                 landlord:d[0].landlordname[0],

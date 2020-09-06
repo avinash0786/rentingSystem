@@ -1,5 +1,7 @@
 <div class="container-fluid text-warning">
-    <h1 class="display-3 text-capitalize text-left text-dark border rounded-0" style="height: 102px;border-style: none;border-color: rgb(255,255,255);border-bottom-style: solid;font-family: 'Alegreya Sans', sans-serif;">Invoice<img class="float-right" src="logof.png" width="200px" />
+    <h1 class="display-3 text-capitalize text-left text-dark border rounded-0" style="height: 102px;border-style: none;border-color: rgb(255,255,255);border-bottom-style: solid;font-family: 'Alegreya Sans', sans-serif;">Invoice
+
+        <img class="float-right" src="logof.png" width="200px" />
         <button class="btn btn-info" onclick="print()" type="button" style="padding: 3px;font-size: 16px;font-family: 'Alegreya Sans', sans-serif;margin-left: 33%;">Print Invoice</button></h1>
 </div>
 <div style="margin: 17px;">
@@ -63,15 +65,27 @@
                             <td class="text-right" style="padding: 0px;font-size: 24px;"><i class="fa fa-rupee"></i> {{data.security}}</td>
                         </tr>
                         <tr>
+                            <td style="padding: 0px;font-size: 24px;">Base Rent: </td>
+                            <td class="text-right" style="padding: 0px;font-size: 24px;"><i class="fa fa-rupee"></i> {{data.baseRent}}</td>
+                        </tr>
+                        <tr>
                             <td class="text-right" style="padding: 0px;font-size: 26px;border-style: none;border-top-style: solid;border-top-color: rgb(0,1,2);background-color: #cdcdcd;font-family: 'Archivo Black', sans-serif;" colspan="2">Total Rent: <i class="fa fa-rupee"></i> {{data.amount}}</td>
                         </tr>
-                        <tr></tr>
-                        <tr></tr>
+
                         </tbody>
                     </table>
                 </div>
                 <p>Payment Mode: Online</p><img class="d-block float-right" src="RentingLogo.png" width="300" />
-                <p class="text-muted" style="font-size: 20px;">*This is a online generated invoice, To verify go to https://www.renting.systems/tidcheck</p><span class="border rounded-0 border-dark d-block" style="border-width: 0px;width: 434px;">Printed ON: {{#convLocal}} {{now}} {{/convLocal}}</span></div>
+
+                <p class="text-muted" style="font-size: 20px;">*This is a online generated invoice, To verify go to https://www.renting.systems/tidcheck</p><span class="border rounded-0 border-dark d-block" style="border-width: 0px;width: 434px;">Printed ON: {{#convLocal}} {{now}} {{/convLocal}}</span>
+                {{#if data.paidON}}
+                    <span class="border float-right rounded-2 border-success d-block text-center" style="border-width: 6px;width: 15%;font-size: large;color: green"><b>Payment Recieved</b></span>
+                    <!--                    <img  class="float-right" src="paidgreen.png" style="margin-left: 20%" alt="paid" width="100px" height="100px" />-->
+                {{else}}
+                    <span class="border float-right rounded-2 border-danger d-block text-center" style="border-width: 6px;width:15%;color: red;"><b>Payment Pending</b></span>
+                    <!--                    <img class="float-right"  src="pending.png" style="margin-left: 20%" alt="uNpaid" width="300px" height="100px" />-->
+                {{/if}}
+                </div>
         </div>
     </div>
 </div>
