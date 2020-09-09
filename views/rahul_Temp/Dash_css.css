@@ -38,3 +38,9 @@ body {
   cursor: pointer;
   color: rgb(255, 255, 255)
 }
+.nav-link{
+  transition-duration: 0.4s;
+}
+.nav-link:hover{
+  font-size: 25px;
+}
