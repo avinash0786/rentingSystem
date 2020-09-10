@@ -982,7 +982,8 @@ router.get("/loadlast",function (req,res) {
 //moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
 router.post('/landlord-removeTenant',async (req,res)=>{
     console.log("Server tenant delete request");
-    tenant.findOne({tenantID:parseInt(req.body.val)},'tenantId room')
+    let tenID=parseInt(req.body.val)
+    tenant.findOne({tenantID:tenID},'tenantId room')
         .then(ten=>{
             console.log(ten.room)
             landlord.updateOne({landlordID:parseInt(req.session.userID)},{$push: {
@@ -992,26 +993,30 @@ router.post('/landlord-removeTenant',async (req,res)=>{
                     }
                 }})
                 .then(s=>{
-                    var newreq;
-                    notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
-                        .then((d)=>{
-                            console.log(d[0])
-                            newreq=d[0].maxid+1;
-                            var admmessage=new notifications({
-                                requestID:newreq,
-                                dateGenerated:Date(),
-                                message:"Tenant Id: "+req.body.val+" Removed Successfully! at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
-                                toLandlord:req.session.userID,
-                                from:"Admin"
-                            })
-                            admmessage.save()
-                        })
-
                     console.log("Pushed room to avail")
-                    tenant.deleteOne({tenantID:parseInt(req.body.val)}).then(aa=>{
-                        console.log("Deleted");
-                        return res.json({
-                            success:true
+                    tenant.deleteOne({tenantID:tenID}).then(aa=>{
+                        transaction.deleteMany({tenantID:tenID}).then(c=>{
+                            console.log(c.deletedCount);
+                            let countt=c.deletedCount;
+                            console.log("Deleted");
+                            var newreq;
+                            notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                                .then((d)=>{
+                                    console.log(d[0])
+                                    newreq=d[0].maxid+1;
+                                    var admmessage=new notifications({
+                                        requestID:newreq,
+                                        dateGenerated:Date(),
+                                        message:"Tenant Id: "+tenID+" Removed Successfully! at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL")+" and "+countt+" Transaction associated with it is removed.",
+                                        toLandlord:req.session.userID,
+                                        from:"Admin"
+                                    })
+                                    admmessage.save()
+                                    return res.json({
+                                        success:true
+                                    })
+                                })
+
                         })
                     })
                 })

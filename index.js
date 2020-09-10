@@ -66,6 +66,11 @@ app.get("/", async (req,res)=>{
     })
 })
 app.get("/test", async (req,res)=>{
+  // transaction.deleteMany({tenantID:5}).then(c=>{
+  //   console.log("Delete start: ")
+  //   console.log(c)
+  //     }
+  // )
   console.log("Testing get")
   console.log(Date.toString())
   var emailname=req.query.email;
