@@ -562,6 +562,49 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
             });
     }
 });
+router.post('/landlord-trans',redirectLogin,async(req, res)=> {
+    const user=parseInt(req.session.userID);
+    let idn=parseInt(req.body.name.toString().slice(4,6));
+    console.log(idn)
+
+    const ans= await transaction.aggregate([
+        {
+            $match:{
+                tenantID:idn,
+                landlordID:user,
+            }
+        },
+        {
+            $lookup:
+                {
+                    from: "tenant",
+                    localField: "tenantID",
+                    foreignField: "tenantID",
+                    as: "NameMatch"
+                }
+        },
+        {
+            $project:{
+                dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
+                datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
+                NameMatch: {fname:1},fname:1,
+                tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
+            }
+        },
+        { $sort : { _id: -1 } }
+    ])
+
+    return res.render("transactions",
+        {
+            type:'All',
+            land:req.session.userID,
+            trans:ans,
+            title:"Transaction",
+            fname:req.session.fname,
+            lname:req.session.lname,
+            id:req.session.userID
+        });
+});
 
 router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
 
@@ -578,6 +621,19 @@ router.get('/landlord-genBill',redirectLogin,function(req, res, next) {
 
 router.get('/landlord-tenant',redirectLogin,async (req, res, next)=> {
     const ans =await tenant.find({landlordID:req.session.userID}).sort({_id:-1}).lean()
+    console.log(req.query)
+    res.render("tenants",{
+        tenant:ans,
+        title:"Tenants",
+        fname:req.session.fname,
+        lname:req.session.lname,
+        id:req.session.userID
+    })
+});
+router.post('/landlord-tenant',redirectLogin,async (req, res, next)=> {
+    let idn=parseInt(req.body.name.toString().slice(4,6));
+    console.log(idn)
+    const ans =await tenant.find({tenantID:idn,landlordID:req.session.userID}).sort({_id:-1}).lean()
     res.render("tenants",{
         tenant:ans,
         title:"Tenants",

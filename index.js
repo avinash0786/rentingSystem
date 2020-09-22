@@ -71,28 +71,27 @@ app.get("/test", async (req,res)=>{
   //   console.log(c)
   //     }
   // )
-  console.log("Testing get")
-  console.log(Date.toString())
-  var emailname=req.query.email;
-  var text=req.query.text;
-  var arr=[...Array(50).keys()]
+  // console.log("Testing get")
+  // console.log(Date.toString())
+  // var emailname=req.query.email;
+  // var text=req.query.text;
+  // var arr=[...Array(50).keys()]
   res.render("test",{
     title:"Wroking",
-    send:"2020-08-20T06:39:16.811+00:00"
   })
 })
 
 app.get('/tenantGet',function (req,res) {
   console.log('Autocomplete get')
   var regx=new RegExp(req.query["term"],"i");
-  var tena=tenant.find({fname:regx},{fname:1,lname:1,_id:0}).sort({"updated_at": -1}).sort({"created_at":-1}).limit(5);
+  var tena=tenant.find({fname:regx,landlordID:parseInt(req.session.userID)},{fname:1,lname:1,_id:0,tenantID:1}).sort({"updated_at": -1}).sort({"created_at":-1}).limit(5);
   tena.exec(function (err,data) {
   var result=[];
   if(!err){
     if(data && data.length && data.length>0){
       data.forEach(user=>{
         let obj={
-          label:user.fname+" "+user.lname,
+          label:"ID: "+user.tenantID+" "+user.fname+" "+user.lname,
         };
         result.push(obj);
       });

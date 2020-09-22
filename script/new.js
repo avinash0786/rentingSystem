@@ -1,5 +1,40 @@
 console.log("Script for tenant login , landlord exist check")
 
+//document.ready.function
+$(function () {
+    $('#autotenant').autocomplete({
+        source:function (req,res) {
+            $.ajax({
+                url:'/tenantGet',
+                dataType:'jsonp',
+                type:"GET",
+                data:req,
+                success:function (data) {
+                    res(data)
+                },
+                error:function (err) {
+                    console.log("Error Tenant Fetch!")
+                }
+            });
+        },
+        minLength:1,
+        focus:function (event,ui) {
+            if(ui.items){
+                $("#autotenant").text(ui.items.label)
+            }
+        },
+        select:function (event,ui) {
+            if(ui.items){
+                $("#autotenant").text(ui.items.label)
+                $("#autotenant").val(ui.items.label)
+            }
+        },
+
+
+    });
+
+})
+
 async function deleteTenant(obj){
    console.log("Delete tenent: ")
     obj.innerText="Removed"

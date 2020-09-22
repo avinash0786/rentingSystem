@@ -1,30 +1,24 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!-- Google Maps JavaScript library -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBiiXOLkrpn0LHp7HnNrHc3APlHMYFh5sY"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-<p id="pda"></p>
-<p id="conv"></p>
-<p id="bb" ></p>
-
-<p>{{#makeBold}} {{send}} {{/makeBold}}</p>
+<!--&lt;!&ndash; Google Maps JavaScript library &ndash;&gt;-->
+<!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBiiXOLkrpn0LHp7HnNrHc3APlHMYFh5sY"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>-->
+<!--<p id="pda"></p>-->
+<!--<p id="conv"></p>-->
+<!--<p id="bb" ></p>-->
 
 <!--testing scripts-->
-<script>
-    console.log("Running testing script")
-    document.getElementById("pda").innerHTML=moment().format("LLLL");
-    document.getElementById("conv").innerHTML=moment.utc("2020-08-18T06:50:27.921+00:00").local().format("LLLL");
-    console.log(moment().format("LLLL"))
-    const availrooms=[...Array(20).keys()];
-    function convDate(obj) {
-        console.log("Date conv function called")
-        console.log(obj.textContent)
-        obj.textContent=moment.utc(obj.textContent).local().format("LLLL");
-    }
-</script>
+<!--<script>-->
+<!--    console.log("Running testing script")-->
+<!--    document.getElementById("pda").innerHTML=moment().format("LLLL");-->
+<!--    document.getElementById("conv").innerHTML=moment.utc("2020-08-18T06:50:27.921+00:00").local().format("LLLL");-->
+<!--    console.log(moment().format("LLLL"))-->
+<!--    const availrooms=[...Array(20).keys()];-->
+<!--    function convDate(obj) {-->
+<!--        console.log("Date conv function called")-->
+<!--        console.log(obj.textContent)-->
+<!--        obj.textContent=moment.utc(obj.textContent).local().format("LLLL");-->
+<!--    }-->
+<!--</script>-->
 
 
 <center><br><br><br><br>
@@ -33,42 +27,42 @@
 </center>
 
 
-<script>
-    //document.ready.function
-    $(function () {
+<!--<script>-->
+<!--    //document.ready.function-->
+<!--    $(function () {-->
 
-    $('#autotenant').autocomplete({
-        source:function (req,res) {
-            $.ajax({
-                url:'/tenantGet',
-                dataType:'jsonp',
-                type:"GET",
-                data:req,
-                success:function (data) {
-                res(data)
-                },
-                error:function (err) {
-                    console.log("Error Tenant Fetch!")
-                }
-            });
-        },
-        minLength:1,
-        focus:function (event,ui) {
-            if(ui.items){
-                $("#autotenant").text(ui.items.label)
-            }
-        },
-        select:function (event,ui) {
-            if(ui.items){
-                $("#autotenant").text(ui.items.label)
-            }
-        },
+<!--    $('#autotenant').autocomplete({-->
+<!--        source:function (req,res) {-->
+<!--            $.ajax({-->
+<!--                url:'/tenantGet',-->
+<!--                dataType:'jsonp',-->
+<!--                type:"GET",-->
+<!--                data:req,-->
+<!--                success:function (data) {-->
+<!--                res(data)-->
+<!--                },-->
+<!--                error:function (err) {-->
+<!--                    console.log("Error Tenant Fetch!")-->
+<!--                }-->
+<!--            });-->
+<!--        },-->
+<!--        minLength:1,-->
+<!--        focus:function (event,ui) {-->
+<!--            if(ui.items){-->
+<!--                $("#autotenant").text(ui.items.label)-->
+<!--            }-->
+<!--        },-->
+<!--        select:function (event,ui) {-->
+<!--            if(ui.items){-->
+<!--                $("#autotenant").text(ui.items.label)-->
+<!--            }-->
+<!--        },-->
 
 
-    });
+<!--    });-->
 
-    })
-</script>
+<!--    })-->
+<!--</script>-->
 
 
 
