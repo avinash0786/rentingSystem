@@ -1,0 +1,26 @@
+
+.cont{
+    height: fit-content;
+    width: 70vw;
+    margin: auto;
+    min-width: 410px;
+    padding: 1%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fff;
+}
+#message{
+    background-color: rgb(234, 245, 248);
+    margin: 1%;
+    font-size: large;
+    border: 1px solid  rgb(145, 142, 142);
+    padding: 1%;
+}
+@media (max-width:900px){
+    .cont{
+        width: 95vw;
+        font-size: small;
+    }
+    .rec{
+        font-size: smaller;
+    }
+}
