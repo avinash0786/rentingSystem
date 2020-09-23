@@ -1165,15 +1165,49 @@ router.get('/landlord-error',redirectLogin,function(req, res) {
     })
 });
 
+router.get("/checktid",function (req,res){
+    res.render("checktid",{
+        layout:false,
+    })
+})
+router.get("/verifytid",function (req,res){
+    console.log(req.query)
+    transaction.findOne({landlordID:parseInt(req.query.t),tid:parseInt(req.query.tid)})
+        .then(a=>{
+            if(a){
+                return res.send({
+                    respose:true
+                })
+            }
+            else {
+                return res.send({
+                    respose:false
+                })
+            }
+        })
+        .catch(e=>{
+            console.log(e)
+            return res.send({
+                respose:false
+            })
+        })
+})
+
 router.get('/landlord-invoice',function (req,res){
     let tid=parseInt(req.query.tid);
     console.log(req.query)
     console.log(tid)
+    let landlordID=parseInt(req.session.userID);
+    if(req.query.sec){
+        landlordID=parseInt(req.query.sec);
+        console.log("Verfy req")
+    }
+    console.log(landlordID)
     transaction.aggregate([
         {
             $match:{
                 tid:tid,
-                landlordID:parseInt(req.session.userID)
+                landlordID:landlordID
             }
         },
         {
