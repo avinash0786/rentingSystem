@@ -257,8 +257,8 @@ router.get('/landlord-landing',redirectLogin,async(req, res)=> {
         },
         { $sort : { _id: -1 } }
     ])
-    var recmonth=Math.abs((recieved.length/d5)*100);
-    var penmonth=Math.abs((pending.length/d5)*100);
+    var recmonth=Math.round((recieved.length/d5)*100);
+    var penmonth=Math.round((pending.length/d5)*100);
 
     var metricwise=await transaction.aggregate([
         {
