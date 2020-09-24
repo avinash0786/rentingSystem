@@ -875,6 +875,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
 });
 
 router.get('/landlord-send',redirectLogin,function (req, res, next) {
+    let sendto=parseInt(req.query.sendto)
     tenant.find({landlordID:req.session.userID}).lean()
         .then((doc)=>{
             res.render("landlordsend1",{
@@ -884,7 +885,8 @@ router.get('/landlord-send',redirectLogin,function (req, res, next) {
                 title:"Send Notification",
                 fname:req.session.fname,
                 lname:req.session.lname,
-                id:req.session.userID
+                id:req.session.userID,
+                sendto:sendto
             })
         })
         .catch((e)=>{
@@ -1245,7 +1247,7 @@ router.get('/landlord-invoice',function (req,res){
                         requestID:newreq,
                         dateGenerated:Date(),
                         message:"Invoice Generated for Transaction Id: "+tid+" at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
-                        toLandlord:req.session.userID,
+                        toLandlord:landlordID,
                         from:"Admin"
                     })
                     admmessage.save()

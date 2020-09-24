@@ -375,6 +375,8 @@
                                 <td align="center">
                                     <button type="button" value={{this.tenantID}} onclick="approve(this)" class="btn-primary-Action bg-dark" style="width: auto">Approve</button>
                                     <button type="button" value={{this.tenantID}} onclick="cancleapprove(this)" class="btn-primary-Action bg-danger" style="width: auto">Discard</button>
+                                    <a href="/landlord-send?sendto={{this.tenantID}}" class="btn btn-info" role="button" style="margin:0px;padding:2px 8px;width: auto;color: #FFFFFF;border-radius: 30px">Send Message</a>
+
                                 </td>
                             </tr>
                         {{/each}}
