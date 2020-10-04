@@ -154,12 +154,12 @@
     <div class="row row-content align-items-center ">
         <div class="col-xl-3 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 90%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;;margin-top: 5%">
-                <p class="d-inline" style="margin-left: 0px;width: 172px;">Recieved Payments</p><span class="float-right" style="margin-right: 12px;">{{rec}}%</span>
+                <p class="d-inline" style="margin-left: 0px;width: 172px;">Recieved Payments</p><span class="float-right" id="recCount" style="margin-right: 12px;">{{rec}}%</span>
                 <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
-                    <div class="progress-bar bg-success progress-bar-animated" aria-valuenow="{{rec}}" aria-valuemin="0" aria-valuemax="100" style="width: {{rec}}%;"></div>
+                    <div class="progress-bar bg-success progress-bar-animated" aria-valuenow="{{rec}}" aria-valuemin="0" aria-valuemax="100"  id="recBar" style="width: {{rec}}%;transition-duration: 5s;"></div>
                 </div>
                 <div class="table-responsive table-borderless" style="height: 86%;background-color: rgba(244,244,244,0);width: 100%;padding-right: 12px;">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id="recievedTable">
                         <tbody>
                         {{#each recpay}}
                         <tr style="height: 12px;font-size: 16px;">
@@ -177,33 +177,34 @@
                         </tbody>
                     </table>
                 </div>
-                <small class="form-text text-muted" style="margin-top: -65px;"><i>*Select month from the dropdown to get payment update of a Month</i><br> <div class="dropdup">
-                    <button class="btn-xs btn-dark dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" border-radius: 2rem;">Month</button>
-                    <div class="dropdown-menu" aria-labelledby="triggerId">
-                        <a class="dropdown-item" href="#">Jan</a>
-                        <a class="dropdown-item" href="#">Feb</a>
-                        <a class="dropdown-item" href="#">Mar</a>
-                        <a class="dropdown-item" href="#">Apr</a>
-                        <a class="dropdown-item" href="#">May</a>
-                        <a class="dropdown-item" href="#">Jun</a>
-                        <a class="dropdown-item" href="#">Jul</a>
-                        <a class="dropdown-item" href="#">Aug</a>
-                        <a class="dropdown-item" href="#">Sept</a>
-                        <a class="dropdown-item" href="#">Oct</a>
-                        <a class="dropdown-item" href="#">Nov</a>
-                        <a class="dropdown-item" href="#">Dec</a>
+                <small class="form-text text-muted"  style="margin-top: -65px;"><i id="infoRecMonth">Showing Recieved transactions of month: {{maxmo}}</i><br>
+                    <div class="dropdup">
+                    <button class="btn-xs btn-dark dropdown-toggle" type="button" id="recTrig" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" border-radius: 2rem;">Month</button>
+                    <div class="dropdown-menu" aria-labelledby="recTrig">
+                        <a class="dropdown-item" onclick="updateDropRec(0)">Jan</a>
+                        <a class="dropdown-item" onclick="updateDropRec(1)">Feb</a>
+                        <a class="dropdown-item" onclick="updateDropRec(2)">Mar</a>
+                        <a class="dropdown-item" onclick="updateDropRec(3)">Apr</a>
+                        <a class="dropdown-item" onclick="updateDropRec(4)">May</a>
+                        <a class="dropdown-item" onclick="updateDropRec(5)">Jun</a>
+                        <a class="dropdown-item" onclick="updateDropRec(6)">Jul</a>
+                        <a class="dropdown-item" onclick="updateDropRec(7)">Aug</a>
+                        <a class="dropdown-item" onclick="updateDropRec(8)">Sept</a>
+                        <a class="dropdown-item" onclick="updateDropRec(9)">Oct</a>
+                        <a class="dropdown-item" onclick="updateDropRec(10)">Nov</a>
+                        <a class="dropdown-item" onclick="updateDropRec(11)">Dec</a>
                     </div>
                 </div>
                 </small></div>
         </div>
         <div class="col-xl-3 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="height: 54vh;background-color: #ffffff;width: 90%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;margin-top: 5%">
-                <p class="d-inline" style="margin-left: 0px;width: 172px;font-size: 18px;">Pending Payments</p><span class="float-right" style="margin-right: 12px;">{{pen}}%</span>
+                <p class="d-inline" style="margin-left: 0px;width: 172px;font-size: 18px;">Pending Payments</p><span class="float-right" id="penCount" style="margin-right: 12px;">{{pen}}%</span>
                 <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
-                    <div class="progress-bar bg-danger progress-bar-animated" aria-valuenow="{{pen}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pen}}%;"><span class="sr-only"></span></div>
+                    <div class="progress-bar bg-danger progress-bar-animated" aria-valuenow="{{pen}}" id="pendBar" aria-valuemin="0" aria-valuemax="100" style="width: {{pen}}%;transition-duration: 5s;"><span class="sr-only"></span></div>
                 </div>
                 <div class="table-responsive table-borderless" style="height: 86%;background-color: rgba(244,244,244,0);width: 100%;padding-right: 11px;font-size: 21px;">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id="pendingTable">
                         <tbody>
                         {{#each pendpay}}
                         <tr style="height: 12px;font-size: 16px;">
@@ -222,21 +223,22 @@
                         </tbody>
                     </table>
                 </div>
-                <small class="form-text text-muted" style="margin-top: -65px;"> <i>*Select month from the dropdown to get payment update of a Month</i><br> <div class="dropdown">
-                    <button class="btn-xs btn-dark dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" border-radius: 2rem;">Month</button>
-                    <div class="dropdown-menu" aria-labelledby="triggerId">
-                        <a class="dropdown-item" href="#">Jan</a>
-                        <a class="dropdown-item" href="#">Feb</a>
-                        <a class="dropdown-item" href="#">Mar</a>
-                        <a class="dropdown-item" href="#">Apr</a>
-                        <a class="dropdown-item" href="#">May</a>
-                        <a class="dropdown-item" href="#">Jun</a>
-                        <a class="dropdown-item" href="#">Jul</a>
-                        <a class="dropdown-item" href="#">Aug</a>
-                        <a class="dropdown-item" href="#">Sept</a>
-                        <a class="dropdown-item" href="#">Oct</a>
-                        <a class="dropdown-item" href="#">Nov</a>
-                        <a class="dropdown-item" href="#">Dec</a>
+                <small class="form-text text-muted"  style="margin-top: -65px;"> <i id="infoPenMonth">Showing Pending transactions of month: {{maxmo}}</i><br> <div class="dropdown">
+                    <button class="btn-xs btn-dark dropdown-toggle" type="button" id="pendTrig" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" border-radius: 2rem;">Month</button>
+                    <span></span>
+                    <div class="dropdown-menu" aria-labelledby="pendTrig">
+                        <a class="dropdown-item" onclick="updateDropPen(0)" >Jan</a>
+                        <a class="dropdown-item" onclick="updateDropPen(1)" >Feb</a>
+                        <a class="dropdown-item" onclick="updateDropPen(2)" >Mar</a>
+                        <a class="dropdown-item" onclick="updateDropPen(3)"  >Apr</a>
+                        <a class="dropdown-item" onclick="updateDropPen(4)" >May</a>
+                        <a class="dropdown-item" onclick="updateDropPen(5)" >Jun</a>
+                        <a class="dropdown-item" onclick="updateDropPen(6)" >Jul</a>
+                        <a class="dropdown-item" onclick="updateDropPen(7)" >Aug</a>
+                        <a class="dropdown-item" onclick="updateDropPen(8)" >Sept</a>
+                        <a class="dropdown-item" onclick="updateDropPen(9)" >Oct</a>
+                        <a class="dropdown-item" onclick="updateDropPen(10)" >Nov</a>
+                        <a class="dropdown-item" onclick="updateDropPen(11)" >Dec</a>
                     </div>
                 </div> </small></div>
         </div>
@@ -357,7 +359,7 @@
                 </tbody>
             </table>
             <!-- </div> -->
-            <center> <a name="SetNew" id="SetNew" class="btn btn-primary bg-dark" href="#" role="button">Set New</a> </center>
+            <center> <a name="SetNew" id="SetNew" class="btn btn-primary bg-dark"  role="button">Set New</a> </center>
         </div>
     </div>
 
@@ -400,7 +402,7 @@
                     </table>
                 </div>
                 {{#if aprov}}
-                <center> <a name="ApproveAll" id="ApproveAll" class="btn btn-primary bg-dark" href="#" role="button">Approve All</a> <br>
+                <center> <a name="ApproveAll" id="ApproveAll" class="btn btn-primary bg-dark"  role="button">Approve All</a> <br>
                 </center>
                 {{/if}}
             </div>

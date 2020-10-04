@@ -6,6 +6,8 @@ require("./database");
 const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
+const notifications=require("./models/notifications")
+
 const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
 const path=require("path")
@@ -66,37 +68,13 @@ app.get("/", async (req,res)=>{
     })
 })
 app.get("/test", async (req,res)=>{
-  // transaction.deleteMany({tenantID:5}).then(c=>{
-  //   console.log("Delete start: ")
-  //   console.log(c)
-  //     }
-  // )
-  // console.log("Testing get")
-  // console.log(Date.toString())
-  // var emailname=req.query.email;
-  // var text=req.query.text;
-  // var arr=[...Array(50).keys()]
-  transaction.aggregate([
-    {
-      $match:{
-        tenantID:56,
-      }
-    },
-    {
-      $group:{
-        _id:null,
-        baseRent: { $sum : "$baseRent" },
-        water:{ $sum:"$water"},
-        electricity:{ $sum:"$electricity"},
-        security:{ $sum:"$security"},
-        maintenance:{ $sum:"$maintenance"},
-        amount:{$sum:"$amount"}
-      }
-    }
-  ]).then(data=>{
-    console.log("Tenent delete past data")
-    console.log(data)
-  })
+  // let first=new notifications({
+  //   requestID:1,
+  //   message:"hell first",
+  //   from:"Administrator",
+  //   toLandlord:1
+  // })
+  // first.save()
   res.render("test",{
     title:"Wroking",
   })

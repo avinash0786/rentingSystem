@@ -1,6 +1,92 @@
 console.log("Script for tenant login , landlord exist check")
 
 //document.ready.function
+async function updateDropRec(month){
+    console.log("Recieved Drop Req")
+    console.log("Month: "+month)
+    var returned=await fetch("/landlord-transDropdown?month="+(month+1)+"&select=true")
+    returned.json()
+        .then(d=>{
+            console.log(d)
+            let slect=$("#recievedTable > tbody")
+            console.log(d.total)
+            $("#recCount").text(d.total+" %")
+            $("#recBar").css("width",d.total+"%")
+            $("#recBar").attr("aria-valuenow",d.total)
+            if(d.load.length>0)
+            {
+                $("#infoRecMonth").text("Showing Recieved transactions of month: "+d.monName)
+                slect.empty();
+                console.log("Success")
+                d.load.forEach(dis=>{
+                    // console.log(`tid: ${dis.tid} Name: ${dis.NameMatch[0].fname}  amount:  ${dis.amount}`);
+                    slect.append(`
+                <tr style="height: 12px;font-size: 16px;"><td style="padding: 0px;height: 12px;width: 24%;">TID ${dis.tid}</td>
+                <td style="padding: 0px;height: 12px;width: 40%;">${dis.NameMatch[0].fname} </td>
+                <td style="padding: 0px;height: 12px;">
+                <i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;">
+                </i> ${dis.amount} <i class="fa fa-check-square-o float-right" style="color: rgb(43,116,31);margin-top: 5px;""></i>
+                </td></tr>`)
+                })
+            }
+            else {
+                    slect.empty();
+                    $("#infoRecMonth").text("Showing Recieved transactions of month: "+d.monName)
+                    $("#recCount").text("0 %")
+                    slect.append(`<tr style="height: 12px;font-size: 16px;">
+                                <td colspan="3" align="center">No recieved Transactions</td>
+                            </tr>`)
+            }
+        }).catch(e=>{
+        console.log("Error")
+        console.log(e)
+    })
+}
+async function updateDropPen(month){
+    console.log("Pending Drop Req")
+    console.log("Month: "+month)
+    // /landlord-transDropdown
+    var returned=await fetch("/landlord-transDropdown?month="+(month+1)+"&select=false")
+    returned.json()
+        .then(d=>{
+            console.log(d)
+            let slect=$("#pendingTable > tbody")
+            console.log(d.total)
+            $("#penCount").text(d.total+"%")
+            $("#pendBar").css("width",d.total+"%")
+            $("#pendBar").attr("aria-valuenow",d.total)
+            if(d.load.length>0)
+            {
+                $("#infoPenMonth").text("Showing Pending transactions of month: "+d.monName)
+                slect.empty();
+                console.log("Success")
+                console.log("Success")
+                d.load.forEach(dis=>{
+                    // console.log(`tid: ${dis.tid} Name: ${dis.NameMatch[0].fname}  amount:  ${dis.amount}`);
+                    slect.append(`
+                <tr style="height: 12px;font-size: 16px;"><td style="padding: 0px;height: 12px;width: 24%;">TID ${dis.tid}</td>
+                <td style="padding: 0px;height: 12px;width: 40%;">${dis.NameMatch[0].fname} </td>
+                <td style="padding: 0px;height: 12px;">
+                <i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;">
+                </i> ${dis.amount} <i class="fa fa-question-circle float-right" style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px;"></i>
+                </td></tr>`)
+                })
+
+            }
+            else {
+                    slect.empty();
+                    $("#penCount").text("0 %")
+                    $("#infoPenMonth").text("Showing Pending transactions of month: "+d.monName)
+                slect.append(`<tr style="height: 12px;font-size: 16px;">
+                                <td colspan="3" align="center">No recieved Transactions</td>
+                            </tr>`)
+            }
+        }).catch(e=>{
+        console.log("Error")
+        console.log(e)
+    })
+}
+
 $(function () {
     $('#autotenant').autocomplete({
         source:function (req,res) {

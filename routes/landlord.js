@@ -1171,6 +1171,85 @@ router.post('/landlord-discard',async (req,res)=> {
     })
 })
 
+router.get("/landlord-transDropdown",async (req,res)=>{
+    console.log(req.query)
+    let month=parseInt(req.query.month);
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let monthRecieved=months[month-1]
+    let recieved;
+    if(req.query.select==="true") {
+        console.log("Recieved trans req")
+        recieved = await transaction.aggregate([
+            {
+                $match: {
+                    landlordID: parseInt(req.session.userID),
+                    paidON: {$ne: null},
+                    month: month
+                }
+            },
+            {
+                $lookup:
+                    {
+                        from: "tenant",
+                        localField: "tenantID",
+                        foreignField: "tenantID",
+                        as: "NameMatch"
+                    }
+            },
+            {
+                $project: {
+                    NameMatch: {fname: 1},
+                    tid: 1,
+                    amount: 1
+                }
+            },
+            {$sort: {_id: -1}}
+        ])
+    }
+    else {
+        console.log("Pending trans req")
+        recieved = await transaction.aggregate([
+            {
+                $match: {
+                    landlordID: parseInt(req.session.userID),
+                    paidON: null,
+                    month: month
+                }
+            },
+            {
+                $lookup:
+                    {
+                        from: "tenant",
+                        localField: "tenantID",
+                        foreignField: "tenantID",
+                        as: "NameMatch"
+                    }
+            },
+            {
+                $project: {
+                    NameMatch: {fname: 1},
+                    tid: 1,
+                    amount: 1
+                }
+            },
+            {$sort: {_id: -1}}
+        ])
+    }
+    var d5=await transaction.countDocuments({landlordID:req.session.userID, month:month}).lean()
+    var recmonth
+    console.log(d5)
+    if (d5<=0 || !(d5)){
+        recmonth=0;
+    }else {
+        recmonth=Math.round((recieved.length/d5)*100);
+    }
+    return res.send({
+        load:recieved,
+        total:recmonth,
+        monName:monthRecieved
+    })
+})
+
 // router.post('/landlord-createTenant',redirectLogin,function(req, res, next) {
 //     res.render("createTenant",{
 //         tenantID:null
