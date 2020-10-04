@@ -10,13 +10,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
-      <p><i>*Select checkbox to generate bill for a Particular tenant </i></p>
-      <div class="row">
-        <div class="col-lg-12 col-sm-6">
+      <div class="row" >
+        <div class="col-lg-8 col-sm-6 " style="margin: auto">
     <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Check</th>
             <th scope="col">Tenant ID</th>
             <th scope="col">Tenant Name</th>
             <th scope="col">Initial Meter Reading</th>
@@ -25,23 +23,8 @@
         </thead>
         <tbody>
           <tr>
-            <td><div class="form-check"> <input type="checkbox" class="form-check-input" id="CheckT1"></div></td>
             <th scope="row">1</th>
             <td>Rahul</td>
-            <td><input class="form-control d-inline" type="number" style="width:200px ;margin-right: 1%;" name="initial{{this.tenantID}}" min="0" placeholder="Last Meter" required=""></td>
-            <td><input class="form-control d-inline" type="number" style="width: 200px;" name="current{{this.tenantID}}" min="0" placeholder="Current Meter" required=""></td>
-          </tr>
-          <tr>
-            <td> <div class="form-check"><input type="checkbox" class="form-check-input" id="CheckT2"></div></td>
-            <th scope="row">2</th>
-            <td>Avinash</td>
-            <td><input class="form-control d-inline" type="number" style="width:200px ;margin-right: 1%;" name="initial{{this.tenantID}}" min="0" placeholder="Last Meter" required=""></td>
-            <td><input class="form-control d-inline" type="number" style="width: 200px;" name="current{{this.tenantID}}" min="0" placeholder="Current Meter" required=""></td>
-          </tr>
-          <tr>
-            <td> <div class="form-check"><input type="checkbox" class="form-check-input" id="CheckT3"></div></td> 
-            <th scope="row">3</th>
-            <td>Tarun</td>
             <td><input class="form-control d-inline" type="number" style="width:200px ;margin-right: 1%;" name="initial{{this.tenantID}}" min="0" placeholder="Last Meter" required=""></td>
             <td><input class="form-control d-inline" type="number" style="width: 200px;" name="current{{this.tenantID}}" min="0" placeholder="Current Meter" required=""></td>
           </tr>

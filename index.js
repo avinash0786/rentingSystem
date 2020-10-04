@@ -76,6 +76,27 @@ app.get("/test", async (req,res)=>{
   // var emailname=req.query.email;
   // var text=req.query.text;
   // var arr=[...Array(50).keys()]
+  transaction.aggregate([
+    {
+      $match:{
+        tenantID:56,
+      }
+    },
+    {
+      $group:{
+        _id:null,
+        baseRent: { $sum : "$baseRent" },
+        water:{ $sum:"$water"},
+        electricity:{ $sum:"$electricity"},
+        security:{ $sum:"$security"},
+        maintenance:{ $sum:"$maintenance"},
+        amount:{$sum:"$amount"}
+      }
+    }
+  ]).then(data=>{
+    console.log("Tenent delete past data")
+    console.log(data)
+  })
   res.render("test",{
     title:"Wroking",
   })
