@@ -1,5 +1,30 @@
 console.log("Script for tenant login , landlord exist check")
+async function getTransInfo(tid,obj){
+    let name=obj.parentNode.parentNode.firstElementChild.nextElementSibling.innerHTML;
+    console.log("Get transaction info requested tid: "+tid)
+    console.log("Function called for tid: "+tid)
+    var returned=await fetch("/transinfo?tid="+tid)
+    returned.json()
+        .then(d=>{
+            console.log(d)
+            document.getElementById("Tid").textContent="Transaction ID: "+d.data.tid;
+            document.getElementById("Tname").textContent="Name: "+name;
+            document.getElementById("Tyr").textContent="Year: "+d.data.year;
+            document.getElementById("Tmnt").textContent="Month: "+d.data.month;
+            document.getElementById("Tpd").textContent="Paid on: "+d.data.paidON.slice(0,10);
+            document.getElementById("Tbr").textContent="Base Rent: Rs "+d.data.baseRent;
+            document.getElementById("Tcr").textContent="Created on: "+(d.data.dateGenerated).slice(0,-14);
+            document.getElementById("Twt").textContent="Water:Rs "+d.data.water;
+            document.getElementById("Tel").textContent="Electricity:Rs "+d.data.electricity;
+            document.getElementById("Tmn").textContent="Maintenance:Rs "+d.data.maintenance;
+            document.getElementById("Tini").textContent="Initial Unit: "+d.data.initialUnit;
+            document.getElementById("Tfin").textContent="Final Unit: "+d.data.finalUnit;
+            document.getElementById("Tene").textContent="Tenant ID: "+d.data.tenantID;
+            document.getElementById("Tsec").textContent="Security: "+d.data.security;
+            document.getElementById("Tamt").textContent="Total Amount:Rs "+d.data.amount;
 
+        })
+}
 //document.ready.function
 async function updateDropRec(month){
     console.log("Recieved Drop Req")
@@ -21,11 +46,11 @@ async function updateDropRec(month){
                 d.load.forEach(dis=>{
                     // console.log(`tid: ${dis.tid} Name: ${dis.NameMatch[0].fname}  amount:  ${dis.amount}`);
                     slect.append(`
-                <tr style="height: 12px;font-size: 16px;"><td style="padding: 0px;height: 12px;width: 24%;">TID ${dis.tid}</td>
-                <td style="padding: 0px;height: 12px;width: 40%;">${dis.NameMatch[0].fname} </td>
+                <tr style="height: 12px;font-size: 16px;"><td style="padding: 0px;height: 12px;width: 24%;">TID ${dis.tid} </td>
+                <td style="padding: 0px;height: 12px;width: 40%;">${dis.NameMatch[0].fname}</td>
                 <td style="padding: 0px;height: 12px;">
                 <i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;">
-                </i> ${dis.amount} <i class="fa fa-check-square-o float-right" style="color: rgb(43,116,31);margin-top: 5px;""></i>
+                </i> ${dis.amount} <i class="fa fa-check-square-o float-right" data-target="#transmodel" data-toggle="modal" onclick='getTransInfo(${dis.tid},this)' style="color: rgb(43,116,31);margin-top: 5px; cursor: pointer;""></i>
                 </td></tr>`)
                 })
             }
@@ -64,11 +89,11 @@ async function updateDropPen(month){
                 d.load.forEach(dis=>{
                     // console.log(`tid: ${dis.tid} Name: ${dis.NameMatch[0].fname}  amount:  ${dis.amount}`);
                     slect.append(`
-                <tr style="height: 12px;font-size: 16px;"><td style="padding: 0px;height: 12px;width: 24%;">TID ${dis.tid}</td>
-                <td style="padding: 0px;height: 12px;width: 40%;">${dis.NameMatch[0].fname} </td>
+                <tr style="height: 12px;font-size: 16px;"><td style="padding: 0px;height: 12px;width: 24%;">TID ${dis.tid }</td>
+                <td style="padding: 0px;height: 12px;width: 40%;">${dis.NameMatch[0].fname}</td>
                 <td style="padding: 0px;height: 12px;">
                 <i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;">
-                </i> ${dis.amount} <i class="fa fa-question-circle float-right" style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px;"></i>
+                </i> ${dis.amount} <i class="fa fa-question-circle float-right" data-target="#transmodel" data-toggle="modal" onclick='getTransInfo(${dis.tid},this)' style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px; cursor: pointer;"></i>
                 </td></tr>`)
                 })
 

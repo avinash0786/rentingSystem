@@ -165,8 +165,8 @@
                         <tr style="height: 12px;font-size: 16px;">
                             <td style="padding: 0px;height: 18px;width: 20%;">TID {{this.tid}}</td>
                             {{#each this.NameMatch}}
-                            <td style="padding: 0px;height: 17px;width: 40%;">{{this.fname}} </td>{{/each}}
-                            <td style="padding: 0px;height: 17px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}}  <i class="fa fa-check-square-o float-right" style="color: rgb(43,116,31);margin-top: 5px;"></i></td>
+                            <td style="padding: 0px;height: 17px;width: 40%;">{{this.fname}}</td>{{/each}}
+                            <td style="padding: 0px;height: 17px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}}  <i class="fa fa-check-square-o float-right" data-target="#transmodel" data-toggle="modal" onclick='getTransInfo({{this.tid}},this)' style="color: rgb(43,116,31);margin-top: 5px;; cursor: pointer;"></i></td>
                         </tr>
                         {{/each}}
                         {{#unless recpay}}
@@ -210,9 +210,9 @@
                         <tr style="height: 12px;font-size: 16px;">
                             <td style="padding: 0px;height: 12px;width: 24%;">TID {{this.tid}}</td>
                             {{#each this.NameMatch}}
-                            <td style="padding: 0px;height: 12px;width: 40%;">{{this.fname}} </td>
+                            <td style="padding: 0px;height: 12px;width: 40%;">{{this.fname}}</td>
                             {{/each}}
-                            <td style="padding: 0px;height: 12px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}} <i class="fa fa-question-circle float-right" style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px;"></i></td>
+                            <td style="padding: 0px;height: 12px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}} <i class="fa fa-question-circle float-right" data-target="#transmodel" data-toggle="modal" onclick='getTransInfo({{this.tid}},this)' style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px; cursor: pointer;"></i></td>
                         </tr>
                         {{/each}}
                         {{#unless pendpay}}
@@ -408,6 +408,56 @@
             </div>
         </div>
     </div>
-
+    <div role="dialog" id="transmodel" tabindex="-1" class="modal fade show" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-info" style="padding: 4px;">
+                    <h4 class="modal-title">Transaction Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body text-left" style="padding: 0px;height: 223px;background-color: #ffffff;width: 498px;">
+                    <div class="table-responsive table-borderless d-flex" style="width: 100%;height: 253px;padding: 0px;padding-left: 18px;margin-top: 1px;margin-left: 0px;padding-right: 18px;">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th id="Tid" style="width: 15%;height: 30px;padding: 2px;">Transaction ID :</th>
+                                <th id="Tname" style="width: 20%;padding: 0px;">Tenant Name :</th>
+                            </tr>
+                            </thead>
+                            <tbody style="height: 154px;">
+                            <tr style="height: 27px;">
+                                <td  id="Tyr" style="padding: 0px;padding-right: 0px;height: 24px;">Year : </td>
+                                <td  id="Tmnt" style="padding: 0px;">Month : </td>
+                            </tr>
+                            <tr style="height: 27px;">
+                                <td  id="Tpd" style="padding: 0px;padding-right: 0px;height: 24px;">Paid on : </td>
+                                <td id="Tbr"  style="padding: 0px;">Base Rent : </td>
+                            </tr>
+                            <tr>
+                                <td  id="Tcr" style="padding: 0px;padding-right: 0;">Created on :</td>
+                                <td  id="Twt" style="padding: 0px;height: 27px;">Water : </td>
+                            </tr>
+                            <tr>
+                                <td  id="Tel" style="padding: 0px;height: 27px;">Electricity : </td>
+                                <td  id="Tmn" style="padding: 0px;height: 27px;">Maintenance : </td>
+                            </tr>
+                            <tr>
+                                <td  id="Tini" style="padding: 0px;padding-right: 0px;">Initial Unit : </td>
+                                <td  id="Tfin" style="padding: 0px;height: 27px;">Final Unit : </td>
+                            </tr>
+                            <tr>
+                                <td  id="Tene" style="padding: 0px;padding-right: 0;">Tenant ID : </td>
+                                <td  id="Tsec" style="padding: 0px;height: 27px;">Security : </td>
+                            </tr>
+                            <tr>
+                                <th  id="Tamt" class="table-success text-center" style="padding: 0px;padding-right: 0;background-color: rgb(45,190,200); color: #FFFFFF" colspan="2">Total Amount : </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--            <div class="modal-footer" style="background-color: #ffffff;padding: 2px;">-->
+                <!--                <button class="btn btn-light " type="button" data-dismiss="modal">Close</button>-->
+                <!--            </div>-->
+            </div>
+        </div>
 
         {{>footerL}}

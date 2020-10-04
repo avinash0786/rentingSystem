@@ -75,6 +75,10 @@ app.get("/test", async (req,res)=>{
   //   toLandlord:1
   // })
   // first.save()
+ // transaction.updateMany({tid:{$mod : [2,0]}},{paidON:new Date()})
+ //     .then(d=>{
+ //       console.log(d)
+ //     })
   res.render("test",{
     title:"Wroking",
   })

@@ -26,6 +26,93 @@
     <input id="autotenant" type="text" placeholder="Tenant">
 </center>
 
+<button id="modelbutton" class="btn btn-success" data-target="#transmodel" value="111" data-toggle="modal" type="button" >
+        Open model
+</button>
+
+<script>
+    document.getElementById('modelbutton').addEventListener('click',getDetail);
+    var tid=document.getElementById('modelbutton').value;
+
+    async function getDetail() {
+        console.log("Function called for tid: "+tid)
+        var returned=await fetch("/transinfo?tid="+tid)
+        returned.json()
+                .then(d=>{
+                     console.log(d)
+                    document.getElementById("Tid").textContent="Transaction ID: "+d.data.tid;
+                    document.getElementById("Tname").textContent="Tenant Name: Waiting.."
+                    document.getElementById("Tyr").textContent="Year: "+d.data.year;
+                    document.getElementById("Tmnt").textContent="Month: "+d.data.month;
+                    document.getElementById("Tpd").textContent="Paid on: "+d.data.paidON;
+                    document.getElementById("Tbr").textContent="Base Rent: Rs "+d.data.baseRent;
+                    document.getElementById("Tcr").textContent="Created on: "+(d.data.dateGenerated).slice(0,-14);
+                    document.getElementById("Twt").textContent="Water:Rs "+d.data.water;
+                    document.getElementById("Tel").textContent="Electricity:Rs "+d.data.electricity;
+                    document.getElementById("Tmn").textContent="Maintenance:Rs "+d.data.maintenance;
+                    document.getElementById("Tini").textContent="Initial Unit: "+d.data.initialUnit;
+                    document.getElementById("Tfin").textContent="Final Unit: "+d.data.finalUnit;
+                    document.getElementById("Tene").textContent="Tenant ID: "+d.data.tenantID;
+                    document.getElementById("Tsec").textContent="Security: "+d.data.security;
+                    document.getElementById("Tamt").textContent="Total Amount:Rs "+d.data.amount;
+
+                })
+        console.log(res)
+    }
+</script>
+
+<div role="dialog" id="transmodel" tabindex="-1" class="modal fade show" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-info" style="padding: 4px;">
+                <h4 class="modal-title">Transaction Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+            <div class="modal-body text-left" style="padding: 0px;height: 223px;background-color: #ffffff;width: 498px;">
+                <div class="table-responsive table-borderless d-flex" style="width: 100%;height: 253px;padding: 0px;padding-left: 18px;margin-top: 1px;margin-left: 0px;padding-right: 18px;">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th id="Tid" style="width: 15%;height: 30px;padding: 2px;">Transaction ID :</th>
+                            <th id="Tname" style="width: 20%;padding: 0px;">Tenant Name :</th>
+                        </tr>
+                        </thead>
+                        <tbody style="height: 154px;">
+                        <tr style="height: 27px;">
+                            <td  id="Tyr" style="padding: 0px;padding-right: 0px;height: 24px;">Year : </td>
+                            <td  id="Tmnt" style="padding: 0px;">Month : </td>
+                        </tr>
+                        <tr style="height: 27px;">
+                            <td  id="Tpd" style="padding: 0px;padding-right: 0px;height: 24px;">Paid on : </td>
+                            <td id="Tbr"  style="padding: 0px;">Base Rent : </td>
+                        </tr>
+                        <tr>
+                            <td  id="Tcr" style="padding: 0px;padding-right: 0;">Created on :</td>
+                            <td  id="Twt" style="padding: 0px;height: 27px;">Water : </td>
+                        </tr>
+                        <tr>
+                            <td  id="Tel" style="padding: 0px;height: 27px;">Electricity : </td>
+                            <td  id="Tmn" style="padding: 0px;height: 27px;">Maintenance : </td>
+                        </tr>
+                        <tr>
+                            <td  id="Tini" style="padding: 0px;padding-right: 0px;">Initial Unit : </td>
+                            <td  id="Tfin" style="padding: 0px;height: 27px;">Final Unit : </td>
+                        </tr>
+                        <tr>
+                            <td  id="Tene" style="padding: 0px;padding-right: 0;">Tenant ID : </td>
+                            <td  id="Tsec" style="padding: 0px;height: 27px;">Security : </td>
+                        </tr>
+                        <tr>
+                            <th  id="Tamt" class="table-success text-center" style="padding: 0px;padding-right: 0;background-color: rgb(45,190,200); color: #FFFFFF" colspan="2">Total Amount : </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--            <div class="modal-footer" style="background-color: #ffffff;padding: 2px;">-->
+            <!--                <button class="btn btn-light " type="button" data-dismiss="modal">Close</button>-->
+            <!--            </div>-->
+        </div>
+    </div>
+
 
 <!--<script>-->
 <!--    //document.ready.function-->

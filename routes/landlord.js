@@ -701,8 +701,9 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
     var elecMetric=ans.electricity;
     console.log("Extras sum: "+extras)
     var ten=await tenant.find({landlordID:req.session.userID,verified:true})
-    var tidnew=await transaction.countDocuments({});
-    console.log(tidnew)
+    var tidnew;
+    var tempo=await transaction.aggregate([{ $group : { _id: null, maxid: { $max : "$tid" }}}])
+    tidnew=tempo[0].maxid;
     //console.log("Date: "+new Date(req.session.billGendate))
     ten.forEach((t)=>{
          tidnew+=1;
@@ -972,8 +973,8 @@ router.post('/landlord-send',redirectLogin,async (req, res, next)=> {
 
 router.get('/transinfo',async (req,res)=> {
     console.log("Tid recieved: "+req.query.tid)
-    var ans=await transaction.findOne({tid:req.query.tid})
-    //console.log("Ans: "+ans)
+    var ans=await transaction.findOne({tid:parseInt(req.query.tid)})
+    console.log("Ans: "+ans)
     return res.send({
         data:ans
     })
