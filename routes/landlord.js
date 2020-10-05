@@ -441,6 +441,38 @@ router.post("/landlord-updateInfo",redirectLogin,async (req,res)=>{
         })
 })
 
+router.post("/landlord-updateMetric",redirectLogin,async (req,res)=>{
+    console.log(req.body)
+    landlord.updateOne({landlordID:req.session.userID},{
+        baseRent:req.body.baserent,
+        water:req.body.water,
+        electricity:req.body.electricity,
+        security:req.body.security,
+        maintenance:req.body.maint,
+    })
+        .then((dta)=>{
+            notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                .then((d)=>{
+                    console.log(d[0])
+                    var newreq=d[0].maxid+1;
+                    var admmessage=new notifications({
+                        requestID:newreq,
+                        dateGenerated:Date(),
+                        message:"New rent metric set, Base Rent: "+req.body.baserent+", Water: "+req.body.water+",  Electricity: "+req.body.electricity+", Security: "+req.body.security+", Maintenance: "+req.body.maint,
+                        toLandlord:req.session.userID,
+                        from:"Admin"
+                    })
+                    admmessage.save()
+                })
+            res.redirect("/landlord-landing")
+        })
+        .catch((e)=>{
+            res.send("Update request Failed")
+            console.log("error in Update")
+            console.log(e)
+        })
+})
+
 router.get('/landlord-trans',redirectLogin,async(req, res)=> {
     const user=parseInt(req.session.userID);
     if(req.query.fetch==="paid")
@@ -564,6 +596,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
 });
 router.post('/landlord-trans',redirectLogin,async(req, res)=> {
     const user=parseInt(req.session.userID);
+    console.log(req.body)
     let idn=parseInt(req.body.name.toString().slice(4,6));
     console.log(idn)
 
@@ -842,7 +875,7 @@ router.get('/landlord-notification',redirectLogin,function(req, res, next) {
         console.log("Sent messages retieve")
         notifications.find({fromLandlord:req.session.userID}).sort({_id:-1}).lean()
             .then((not)=>{
-                return res.render("notifications",{
+                return res.render("sentNotif",{
                     notif:not,
                     title:"Notification",
                     fname:req.session.fname,

@@ -4,14 +4,20 @@ async function getTransInfo(tid,obj){
     console.log("Get transaction info requested tid: "+tid)
     console.log("Function called for tid: "+tid)
     var returned=await fetch("/transinfo?tid="+tid)
+    let tempoDate;
     returned.json()
         .then(d=>{
+            if(d.data.paidON==null){
+                tempoDate="Not Paid"
+            }else {
+                tempoDate=d.data.paidON.slice(0,10);
+            }
             console.log(d)
             document.getElementById("Tid").textContent="Transaction ID: "+d.data.tid;
             document.getElementById("Tname").textContent="Name: "+name;
             document.getElementById("Tyr").textContent="Year: "+d.data.year;
             document.getElementById("Tmnt").textContent="Month: "+d.data.month;
-            document.getElementById("Tpd").textContent="Paid on: "+d.data.paidON.slice(0,10);
+            document.getElementById("Tpd").textContent="Paid on: "+tempoDate;
             document.getElementById("Tbr").textContent="Base Rent: Rs "+d.data.baseRent;
             document.getElementById("Tcr").textContent="Created on: "+(d.data.dateGenerated).slice(0,-14);
             document.getElementById("Twt").textContent="Water:Rs "+d.data.water;
@@ -140,8 +146,6 @@ $(function () {
                 $("#autotenant").val(ui.items.label)
             }
         },
-
-
     });
 
 })

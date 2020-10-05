@@ -359,9 +359,40 @@
                 </tbody>
             </table>
             <!-- </div> -->
-            <center> <a name="SetNew" id="SetNew" class="btn btn-primary bg-dark"  role="button">Set New</a> </center>
+            <center> <button data-target="#updatemodal" data-toggle="modal" name="SetNew" id="SetNew" class="btn btn-primary bg-dark"  role="button">Set New</button> </center>
+<!--            <button class="btn btn-primary bg-dark" data-target="#updatemodal" data-toggle="modal" type="button" style="width: 33px;height: 34px;padding: 0px;">Update Metrics</button>-->
         </div>
     </div>
+    <div role="dialog" tabindex="-1" class="modal fade text-center shadow show" id="updatemodal" style="background-color: rgba(234,0,0,0);">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body text-left">
+                    <form method="post" action="/landlord-updateMetric">
+                        <fieldset class="d-block" style="border-width: 1px;border-style: solid;padding: 0px;padding-left: 10px;">
+                            <legend style="width: 143px;margin-left: 0px;">Rent Metrics</legend>
+                            <label class="d-inline" style="margin-right: 9px;" for="baserent">Base Rent: </label>
+                            <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="baserent" name="baserent" value={{baserent}} style="width: 25%;margin-bottom: 2%;" />
+                            <label class="d-inline" style="margin-right: 9px;margin-left: 53px;" for="water">Water: </label>
+                            <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="water" name="water" value={{water}} style="width: 25%;" />
+                            <label class="d-inline" style="margin-right: 6px;width: 80px;" for="electricity">Electricity:</label>
+                            <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="electricity" name="electricity" value={{electricity}} style="width: 25%;margin-bottom: 2%;" />
+                            <label style="margin-right: 9px;margin-left: 14px;" for="maint">Maintenence: </label>
+                            <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="maint" name="maint" value={{maintenance}} style="width: 25%;" />
+                            <label class="d-inline" style="margin-right: 9px;margin-left: 3px;" for="security">Security: </label>
+                            <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="security" name="security" value={{security}} style="width: 25%;margin-bottom: 2%;" />
+                        </fieldset>
+                        <small class="form-text text-muted">**Do not <strong>change field </strong> which you don&#39;t want to update.</small>
+                        <hr>
+                        <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-info float-right" type="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="container">
         <div class="row row-content align-items-center">
@@ -402,8 +433,8 @@
                     </table>
                 </div>
                 {{#if aprov}}
-                <center> <a name="ApproveAll" id="ApproveAll" class="btn btn-primary bg-dark"  role="button">Approve All</a> <br>
-                </center>
+                <div style="text-align: center;"> <a name="ApproveAll" id="ApproveAll" class="btn btn-primary bg-dark" role="button">Approve All</a> <br>
+                </div>
                 {{/if}}
             </div>
         </div>
@@ -459,5 +490,50 @@
                 <!--            </div>-->
             </div>
         </div>
+
+        <div role="dialog" tabindex="-1" class="modal fade text-center shadow show" id="updatemodal" style="background-color: rgba(200,17,17,0);">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Update Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <div class="modal-body text-left">
+                        <form method="post" action="/landlord-updateMetric">
+                            <fieldset class="d-table-row" style="border-width: 1px;border-style: solid;padding: 0px;padding-left: 10px;">
+                                <legend style="width: 143px;margin-left: 0px;">Basic Details</legend>
+                                <label class="d-inline" style="margin-right: 0px;" for="fname">First Name: </label>
+                                <input type="text" class="border rounded border-secondary form-control form-control-sm d-inline" id="fname" name="fname" value={{fname}} style="width: 22%;padding: 3px;margin-bottom: 2%;" autofocus />
+                                <label style="margin-right: -1px;margin-left: 15px;width: 84px;" for="lname">Last Name: </label>
+                                <input type="text" class="border rounded border-info form-control form-control-sm d-inline" id="lname" name="lname" value={{lname}} style="width: 27%;" /><label class="d-inline-flex" style="margin-right: 9px;" for="mobile">Mobile: </label>
+                                <input type="tel" class="border rounded border-info form-control form-control-sm d-inline-flex" id="mobile" name="mobile" value={{data.mobile}} style="width: 23%;" />
+                                <label id="email" style="margin-right: 9px;margin-bottom: 0px;margin-left: 30px;width: 40px;" for="email">Email: </label>
+                                <input type="email" class="border rounded border-info form-control form-control-sm d-inline" id="email" name="email" value={{data.email}} style="width: 42%;" />
+                                <label class="d-inline" id="address" style="margin-right: 9px;margin-bottom: 0px;margin-left: -1px;width: 59px;" for="address">Address: </label>
+                                <!--                        <input type="text" class="border rounded border-secondary form-control form-control-sm d-inline" id="address" name="address" value={{data.address}} style="width: 90%;margin-left: 21px;margin-bottom: 8px;" />-->
+                                <textarea class="form-control form-control-sm" id="address" name="address" rows="3" autocomplete="on" inputmode="verbatim" spellcheck="true" wrap="soft" style="margin-bottom: 9px">{{data.address}}</textarea>
+                            </fieldset>
+                            <fieldset class="d-block" style="border-width: 1px;border-style: solid;padding: 0px;padding-left: 10px;">
+                                <legend style="width: 143px;margin-left: 0px;">Rent Metrics</legend>
+                                <label class="d-inline" style="margin-right: 9px;" for="baserent">Base Rent: </label>
+                                <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="baserent" name="baserent" value={{data.baseRent}} style="width: 25%;margin-bottom: 2%;" />
+                                <label class="d-inline" style="margin-right: 9px;margin-left: 53px;" for="water">Water: </label>
+                                <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="water" name="water" value={{data.water}} style="width: 25%;" />
+                                <label class="d-inline" style="margin-right: 6px;width: 80px;" for="electricity">Electricity:</label>
+                                <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="electricity" name="electricity" value={{data.electricity}} style="width: 25%;margin-bottom: 2%;" />
+                                <label style="margin-right: 9px;margin-left: 14px;" for="maint">Maintenence: </label>
+                                <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="maint" name="maint" value={{data.maintenance}} style="width: 25%;" />
+                                <label class="d-inline" style="margin-right: 9px;margin-left: 3px;" for="security">Security: </label>
+                                <input type="number" class="border rounded border-info form-control form-control-sm d-inline" id="security" name="security" value={{data.security}} style="width: 25%;margin-bottom: 2%;" />
+                            </fieldset>
+                            <small class="form-text text-muted">**Do not <strong>change field </strong> which you don&#39;t want to update.</small>
+                            <hr>
+                            <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-info float-right" type="submit">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 
         {{>footerL}}
