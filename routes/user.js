@@ -18,22 +18,22 @@ router.use(express.static('css'));
 
 const redirectLanding=(req,res,next)=>{
     if(req.session.tenantID){
-        console.log("Redirected to dashboard");
+        console.log("Tenant Redirected to dashboard");
         res.redirect("/tenant-landing")
     }
     else {
-        console.log("Session uid  not exist")
+        console.log("Tenant Session uid  not exist")
         next()
     }
 }
 
 const redirectLogin=(req,res,next)=>{
     if(!req.session.tenantID){
-        console.log("Session not defined, loggin first");
+        console.log("Tenant Session not defined, loggin first");
         res.redirect("/tenant-login")
     }
     else {
-        console.log("Session uid: "+req.session.tenantID+" redirected")
+        console.log("Tenant Session uid: "+req.session.tenantID+" redirected")
         next()
     }
 }
@@ -81,6 +81,10 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
             res.send("Tenant found error !")
         })
 });
+
+router.get('/tenant-landing',redirectLogin,async (req,res)=>{
+    console.log("Landing page Requested")
+})
 
 router.post('/tenant-signup',async (req, res)=> {
     console.log(req.body)

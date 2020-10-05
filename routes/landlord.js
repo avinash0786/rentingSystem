@@ -827,7 +827,7 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
                     console.log("Success shift")
                 })
         })
-    var pswd=toString(req.body.password);
+    var pswd=req.body.password;
     bcrypt.hash(pswd,saltRound,async (err,hash) =>{
         if(err){
             console.log("Error Hashing Password! ")
@@ -853,7 +853,7 @@ router.post('/landlord-createTenant',redirectLogin,async (req, res)=> {
             var admmessage=new notifications({
                 requestID:newreq,
                 dateGenerated:Date(),
-                message:"New approved Tenant created by you Tenant ID: "+newTenantID+" At: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
+                message:"New approved Tenant created by you Tenant ID: "+newTenantID+" and pswd: "+pswd+" At: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
                 toLandlord:req.session.userID,
                 from:"Admin"
             })

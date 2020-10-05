@@ -68,22 +68,22 @@ app.get("/", async (req,res)=>{
     })
 })
 app.get("/test", async (req,res)=>{
-  let first=new transaction({
-    tid:1,
-    amount:0,
-    landlordID:1,
-    tenantID:6,
-    baseRent:1,
-    water:1,
-    electricity:1,
-    maintenance:1,
-    security:1,
-  })
-  first.save()
- // transaction.updateMany({tid:{$mod : [2,0]}},{paidON:new Date()})
- //     .then(d=>{
- //       console.log(d)
- //     })
+  // let first=new transaction({
+  //   tid:1,
+  //   amount:0,
+  //   landlordID:1,
+  //   tenantID:6,
+  //   baseRent:1,
+  //   water:1,
+  //   electricity:1,
+  //   maintenance:1,
+  //   security:1,
+  // })
+  // first.save()
+ transaction.updateMany({tid:{$mod : [2,0]}},{paidON:new Date()})
+     .then(d=>{
+       console.log(d)
+     })
  //  transaction.deleteMany({})
  //      .then(s=>{
  //        console.log(s)
