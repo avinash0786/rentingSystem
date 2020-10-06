@@ -142,24 +142,27 @@ router.post('/tenant-signup',async (req, res)=> {
     })
 });
 
-router.get('/tenant-landing',function(req, res, next) {
-    res.send("/tenant-landing Recieved request ")
-});
 
 router.get('/tenant-profile',function(req, res, next) {
-    res.send("/tenant-profile Recieved request ")
+    res.render("tenantProfile",{
+        layout:"tenantMain",
+    })
 });
 
 router.get('/tenant-trans',function(req, res, next) {
-    res.send("/tenant-trans Recieved request ")
+    res.render("tenantTransaction",{
+        layout:"tenantMain",
+    })
 });
 
 router.get('/tenant-payBill',function(req, res, next) {
     res.send("/tenant-payBill Recieved request ")
 });
 
-router.get('/tenant-maint',function(req, res, next) {
-    res.send("/tenant-maint Recieved request ")
+router.get('/tenant-notif',function(req, res, next) {
+    res.render("tenantNotification",{
+        layout:"tenantMain",
+    })
 });
 
 router.get('/tenant-logout',function(req, res, next) {
