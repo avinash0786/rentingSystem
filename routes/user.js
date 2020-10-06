@@ -67,7 +67,7 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
                     if(result){
                         req.session.tenantID=tenantid;
                         console.log("Tenant Session uid: "+req.session.tenantID)
-                        res.status(200).send("Auth Passed success");
+                        res.redirect("/tenant-landing")
                     }
                     else {
                         res.render("tenant",{
@@ -83,7 +83,12 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
 });
 
 router.get('/tenant-landing',redirectLogin,async (req,res)=>{
-    console.log("Landing page Requested")
+    res.render("tenantDash",{
+        layout:"tenantMain",
+        fname:"Apple",
+        lname:"Mango",
+        id:"121"
+    })
 })
 
 router.post('/tenant-signup',async (req, res)=> {
