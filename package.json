@@ -20,6 +20,8 @@
     "nodemailer": "^6.4.11",
     "nodemailer-mailgun-transport": "^2.0.0",
     "nodemon": "^2.0.4",
+    "passport": "^0.4.1",
+    "passport-google-oauth2": "^0.2.0",
     "saslprep": "^1.0.3"
   },
   "devDependencies": {

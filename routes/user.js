@@ -39,8 +39,14 @@ const redirectLogin=(req,res,next)=>{
 }
 
 router.get('/tenant-login',redirectLanding,function(req, res, next) {
+    req.session.landlordLog=false;
+    console.log("LandlordLog ->false")
+    console.log(req.session)
     res.render("tenant",{
-        layout: false
+        layout: false,
+        fname:req.session.tgiven_name,
+        lname:req.session.tfamily_name,
+        email:req.session.temail,
     })
 });
 

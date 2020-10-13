@@ -15,33 +15,25 @@
       <script src="new.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-secondary fixed-top">
-        <a class="navbar-brand mr-auto" href="#"><img src="logof.png" height="41" width="100"></a>
-          <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand mr-auto" href="#"><img src="logof.png" height="41" width="100"></a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
               aria-expanded="false" aria-label="Toggle navigation"></button>
-       <!--   <div class="collapse navbar-collapse" id="collapsibleNavId">
-              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                  <li class="nav-item active">
-                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                          <a class="dropdown-item" href="#">Action 1</a>
-                          <a class="dropdown-item" href="#">Action 2</a>
-                      </div> -->
-                  </li>
-              </ul>
-          </div>
-      </nav>
-      <div class="jumbotron">
-          <h1 class="display-3">LogIn / SignUp For Tenant</h1>
-<!--          <p class="lead">Create your Account or Log in if aready hade one!</p>-->
-<!--          <p class="lead">**For Landlord ID contact your Landlord.</p>-->
-          <hr class="my-2">
+      <h4 style="color: #FFFFFF">Login Signup For Tenant <span class="sr-only">(current)</span></h4>
+  </nav>
+    <div class="jumbotron jumbotron-fluid ">
+
+        <!--      Login with Google-->
+        <center>
+            <a id="googlelogin" href="/auth/google">
+                <div id="login">
+                    <div style="float:left;padding-right: 10px">
+                        <img src="google.png" alt="Google Logo" height="27px" width="27px">
+                    </div>
+                    <span>Login/Signup with Google</span>
+                </div>
+            </a>
+        </center>
       
       <div class="container login-container">
         <div class="row">
@@ -70,10 +62,10 @@
                 <h5 style="font-size: 20px;color: #FFFFFF;text-align: center ">{{message1}} </h5>
                 <form method="post" action="/tenant-signup">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder=" First Name *" name="fname" />
+                        <input type="text" class="form-control" placeholder=" First Name *" value={{fname}} name="fname" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder=" Last Name *" name="lname" />
+                        <input type="text" class="form-control" placeholder=" Last Name *" value={{lname}} name="lname" />
                     </div>
                     <div class="form-group">
                         <small class="form-text text-light" ID="exist" style="display: none; width: 115px;"><i class="fa fa-check bg-light border rounded-0" style="color: rgb(39,150,20);"></i>  Landlord <strong>exists</strong></small>
@@ -81,7 +73,7 @@
                         <input type="text" class="form-control" oninput="checkLandlord()" placeholder="Your Landlord ID *" id="landlordinp" name="id" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Email *" name="email" />
+                        <input type="text" class="form-control" placeholder="Your Email *" value={{email}} name="email" />
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Create Your Password *"  name="pswd"/>

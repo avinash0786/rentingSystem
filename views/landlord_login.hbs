@@ -5,46 +5,32 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="CSStenet.css">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="CSStenet.css">
   </head>
   <body>
       
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand mr-auto" href="#"><img src="Renting_Logo.png" height="41" width="80"></a>
-          {{!-- <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-              aria-expanded="false" aria-label="Toggle navigation"></button>  --}}
-       <!--   <div class="collapse navbar-collapse" id="collapsibleNavId">
-              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                  <li class="nav-item active">
-                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                          <a class="dropdown-item" href="#">Action 1</a>
-                          <a class="dropdown-item" href="#">Action 2</a>
-                      </div> -->
-                  </li>
-              </ul> 
-              <form class="form-inline my-2 my-lg-0">
-                 
-                <a name="" id="" class="btn btn-info" href="#" role="button">About Us</a>
-
-              </form>
-          </div>
-      </nav>
-      <br><br>
+        <a class="navbar-brand mr-auto" href="#"><img src="logof.png" height="41" width="100"></a>
+           <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+              aria-expanded="false" aria-label="Toggle navigation"></button>
+        <h4 style="color: #FFFFFF">Login Signup For Landlord <span class="sr-only">(current)</span></h4>
+    </nav>
       <div class="jumbotron jumbotron-fluid ">
-          <h1 class="display-4 text-center"> <i> Login/Singup For Landlord!</i></h1>
-<!--          <p class="lead">Create your Account or Log in if aready hade one!</p>-->
-<!--          <p class="lead">**For Landlord ID contact your Landlord.</p>-->
-          <hr class="my-2">
-      
+
+<!--      Login with Google-->
+          <center>
+              <a id="googlelogin" href="/auth/google">
+                  <div id="login">
+                      <div style="float:left;padding-right: 10px">
+                          <img src="google.png" alt="Google Logo" height="27px" width="27px">
+                      </div>
+                      <span>Login/Signup with Google</span>
+                  </div>
+              </a>
+          </center>
       <div class="container login-container">
         <div class="row">
             <div class="col-md-6 login-form-1">
@@ -72,13 +58,13 @@
                 <h3>Sign Up</h3>
                 <form method="post" action="/landlord-signup">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder=" First Name *" name="fname" required />
+                        <input type="text" class="form-control" placeholder=" First Name *" value={{fname}} name="fname" required />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder=" Last Name *" name="lname" required/>
+                        <input type="text" class="form-control" placeholder=" Last Name *" value={{lname}} name="lname" required/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder=" Email *" name="email" required  />
+                        <input type="text" class="form-control" placeholder=" Email *" value={{email}} name="email" required  />
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Create Your Password *" name="pswd" required />
