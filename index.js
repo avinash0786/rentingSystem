@@ -123,13 +123,12 @@ app.get("/auth/google/success",(req, res) => {
             return res.redirect("/landlord-login")
         }
         else {
-            console.log("Signup tenan")
+            console.log("Signup tenant")
             console.log(req.user)
             req.session.tgiven_name=req.user.given_name;
             req.session.tfamily_name=req.user.family_name
             req.session.temail=req.user.email
             return res.redirect("/tenant-login")
-
         }
     }
     if(req.user.tenantID){

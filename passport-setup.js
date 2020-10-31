@@ -26,6 +26,9 @@ passport.deserializeUser(function(userId, done) {
                 console.log(dat)
                 return done(null, dat);
             }
+            else {
+                console.log("Not in landlord")
+            }
         })
         .catch(err=>{
             return done(null, userId);
@@ -37,12 +40,15 @@ passport.deserializeUser(function(userId, done) {
                 console.log(dat)
                 return done(null, dat);
             }
+            else {
+                console.log("Not in tenant")
+            }
         })
         .catch(err=>{
             return done(null, userId);
         })
     console.log("DE-Serialize")
-
+    // return done(null, userId);
 });
 
 passport.use(new googleStrategy({
@@ -73,7 +79,7 @@ passport.use(new googleStrategy({
         }
         else {
             console.log("No user found")
-            return done(null, profile);
+            return done(null, profile.id);
         }
     }
     }
