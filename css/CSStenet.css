@@ -1,3 +1,21 @@
+#googlelogin{
+    text-decoration: none;
+    margin: 5%;
+}
+#login{
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    padding: 7px;
+    /* border: solid rgb(0, 0, 0) 1px; */
+    border-radius: 5px;
+    width: fit-content;
+    font-size:25px;
+    color: #939393;
+    box-shadow:0.3px 0.3px 1px 0.3px #939393;
+}
+#login:hover{
+    box-shadow:1px 1px 2px 1px #939393;
+}
 .login-container{
     margin-top: 0%;
     margin-bottom: 5%;

@@ -41,7 +41,15 @@ const redirectLogin=(req,res,next)=>{
 }
 
 router.get('/landlord-login',redirectLanding,function (req,res) {
-    res.render("landlord_login", {layout: false})
+    req.session.landlordLog=true;
+    console.log("LandlordLog ->true")
+    console.log(req.session)
+    res.render("landlord_login", {
+        layout: false,
+        fname:req.session.given_name,
+        lname:req.session.family_name,
+        email:req.session.email,
+    })
 })
 
 router.post('/landlord-login',

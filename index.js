@@ -3,10 +3,12 @@ const express=require("express");
 const bodyparser= require('body-parser');
 const session=require("express-session");
 require("./database");
+require("./passport-setup")
 const landlord=require("./models/landlord")
 const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
 const notifications=require("./models/notifications")
+const passport=require('passport');
 
 const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
@@ -61,7 +63,8 @@ app.use(express.static(path.join(__dirname,"./icons")));
 app.use(express.static(path.join(__dirname,"./js")));
 
 app.use(bodyparser.urlencoded({extended:true}));
-
+app.use(passport.initialize());
+app.use(passport.session())
 app.get("/", async (req,res)=>{
     res.render("first",{
       layout: false
@@ -91,6 +94,66 @@ app.get("/test", async (req,res)=>{
   res.render("test",{
     title:"Wroking",
   })
+})
+//Google auth 2.0
+app.get('/auth/google',
+    passport.authenticate('google', { scope:
+          [ 'email', 'profile' ] }
+    ));
+
+app.get( '/auth/google/callback',
+    passport.authenticate( 'google', {
+      successRedirect: '/auth/google/success',
+      failureRedirect: '/auth/google/failure'
+    }));
+
+app.get("/auth/google/success",(req, res) => {
+    console.log("Success")
+    console.log(req.session)
+    console.log(req.user)
+    if(req.user.provider){
+        console.log("Google user Signup required")
+        console.log(req.url)
+        if(req.session.landlordLog){
+            console.log("Signup landlord")
+            console.log(req.user)
+            req.session.given_name=req.user.given_name;
+            req.session.family_name=req.user.family_name
+            req.session.email=req.user.email
+            return res.redirect("/landlord-login")
+        }
+        else {
+            console.log("Signup tenant")
+            console.log(req.user)
+            req.session.tgiven_name=req.user.given_name;
+            req.session.tfamily_name=req.user.family_name
+            req.session.temail=req.user.email
+            return res.redirect("/tenant-login")
+        }
+    }
+    if(req.user.tenantID){
+        console.log("Existing Tenant user LOGIN")
+        req.session.tenantID=req.user.tenantID;
+        req.session.tenantFname=req.user.fname;
+        req.session.tanantLname=req.user.lname;
+        return res.redirect('/tenant-landing')
+    }
+    if(req.user.landlordID){
+        console.log("Existing Landlord user LOGIN")
+        req.session.userID=req.user.landlordID;
+        req.session.fname=req.user.fname;
+        req.session.lname=req.user.lname;
+        return res.redirect('/landlord-landing')
+    }
+
+    res.send("Error occured contact admin")
+})
+app.get("/auth/google/failure",(req, res) => {
+    console.log("Failed")
+    console.log(req.user)
+    console.log(req.session)
+    console.log(req.isAuthenticated())
+  res.send("login Failed XXXXX")
 })
 
 app.get('/tenantGet',function (req,res) {
