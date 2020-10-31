@@ -62,10 +62,10 @@
                 <h5 style="font-size: 20px;color: #FFFFFF;text-align: center ">{{message1}} </h5>
                 <form method="post" action="/tenant-signup">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder=" First Name *" value={{fname}} name="fname" />
+                        <input type="text" class="form-control" placeholder=" First Name *"  name="fname" value={{fname}} />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder=" Last Name *" value={{lname}} name="lname" />
+                        <input type="text" class="form-control" placeholder=" Last Name *"  name="lname" value={{lname}} />
                     </div>
                     <div class="form-group">
                         <small class="form-text text-light" ID="exist" style="display: none; width: 115px;"><i class="fa fa-check bg-light border rounded-0" style="color: rgb(39,150,20);"></i>  Landlord <strong>exists</strong></small>
@@ -73,13 +73,13 @@
                         <input type="text" class="form-control" oninput="checkLandlord()" placeholder="Your Landlord ID *" id="landlordinp" name="id" />
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Email *" value={{email}} name="email" />
+                        <input type="text" class="form-control" placeholder="Your Email *"  name="email" value={{email}} />
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Create Your Password *"  name="pswd"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Confirm Your Password *"/>
+                        <input type="password" class="form-control" placeholder="Confirm Your Password *"/>
                     </div>
                     <div class="form-group">
                          <button class="btnSubmit" type="submit" class="subm" value="submit">SignUp</button>
