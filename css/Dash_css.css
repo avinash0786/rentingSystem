@@ -11,7 +11,8 @@
 .footer {
   width: 100%;
   margin: 0px auto;
-  padding: 20px 0px; }
+  padding: 20px 0px;
+background-color: rgb(177, 177, 177); }
 
 .jumbotron {
   margin: 0px auto;
@@ -31,6 +32,15 @@ body {
   border: none;
   cursor: pointer;
   margin-top: 10px;
+}
+.btn-dark{
+  width: 25%;
+  border-radius: 2rem;
+  padding: 1.5%;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  
 }
 .btn-primary-Action{
   width: 35%;
