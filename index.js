@@ -83,6 +83,7 @@ app.get("/test", async (req,res)=>{
   //   security:1,
   // })
   // first.save()
+    //ok
  transaction.updateMany({tid:{$mod : [2,0]}},{paidON:new Date()})
      .then(d=>{
        console.log(d)
