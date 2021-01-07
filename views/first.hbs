@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
   </head>
+  
   <body>
       <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
         <a class="navbar-brand mr-auto" href="#"><img src="logof.png" height="41" width="100"></a>
@@ -19,12 +20,12 @@
       </nav>
       <br>
       <div class="jumbotron">
-           <h1 class="display-3">Connecting Landlord With Tenants</h1>
+           <h1 class="display-3"><i><badge class="badge">Connecting Landlord With Tenants</i></badge></h1>
           <p class="lead">Let's get Started!</p>
           <hr class="my-2">
          
-             <div class="container">
-               <div class="row-1">
+             <div class="container"  >
+               <div  class="row-1" >
                 <div class="col-lg-6 col-sm-12">
                     <div class= " align-self-left">
                         <h1 class="display-4">For Landlord</h1>
@@ -33,12 +34,11 @@
                           <div class="card-body">
                             <h4 class="card-title" style="color: whitesmoke;">Login/Signup to get Started as landlord!</h4>
                             <p class="card-text" style="color: whitesmoke;">Manage tenants , generate bills, recieve payments and numerous features within...</p>
-                            <a name="" id="" class="btn btn-primary" href="/landlord-login" role="button">I am a Landlord</a>
+                            <a name="" id="" class="btn btn-primary" href="/landlord-login" role="button">I'm a Landlord</a>
                           </div>
                         </div>   
                     </div>
                 </div>
-
              </div>
                 <div class="col-lg-6 col-sm-12">
                     <div class=" align-self-left">
@@ -48,58 +48,19 @@
                             <div class="card-body">
                               <h4 class="card-title" style="color: whitesmoke;">Login/Signup to get Started as Tenant!</h4>
                               <p class="card-text" style="color: whitesmoke;">Pay bill,generate maintenance requests and many more features to unlock...</p>
-                              <a name="" id="" class="btn btn-primary" href="/" role="button" disabled="true">Under Maintenance</a>
+                              <a name="" id="" class="btn btn-primary" href="/tenant-login" role="button">I'm a Tenant</a>
                             </div>
                           </div>   
                     </div>
                 </div>
              </div>
              </div>
- <footer class="footer">
-    <div class="container">
-        <div class="row">             
-            <div class="col-5 offset-1 col-sm-2">
-                <h5>Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="./aboutus.html">About</a></li>
-                    <li><a href="./contactus.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-sm-5"> 
-                <h5>Our Address</h5>
-                <address>
-                  Lovely Professional University<br>
-                  Phagwara, Punjab<br>
-                  India<br>
-                  <i class="fa fa-phone fa-lg"></i>: +91 45678913<br>
-                  <i class="fa fa-fax fa-lg"></i>: +91 445577521<br>
-                  <i class="fa fa-envelope fa-lg"></i>: 
-                  <a href="mailto:renting.system@gmail.com">renting.system@gmail.com</a>
-               </address>
-            </div>
-            <div class="col col-sm-4 align-self-center">
-                <div style="text-align:center">
-                    <a class="btn btn-social-icon btn-google-plus" href="http://google.com/+"><i class="fa fa-google-plus"></i></a>
-                    <a class="btn btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id="><i class="fa fa-facebook"></i></a>
-                    <a class="btn btn-social-icon btn-linkedin" href="http://www.linkedin.com/in/"><i class="fa fa-linkedin"></i></a>
-                    <a class="btn btn-social-icon btn-twitter" href="http://twitter.com/"><i class="fa fa-twitter"></i></a>
-                    <a class="btn btn-social-icon btn-youtube" href="http://youtube.com/"><i class="fa fa-youtube"></i></a>
-                    <a class="btn btn-social-icon" href="mailto:"><i class="fa fa-envelope-o"></i></a>
-                </div>
-            </div>
-       </div>
-       <div class="row justify-content-center">             
-            <div class="col-auto">
-                <p>© Copyright 2020 Renting Management System</p>
-            </div>
-       </div>
-    </div>
-</footer>
+             
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {{>footerL}}
   </body>
 </html>
