@@ -14,7 +14,7 @@
         </div>
     </div>
 </header>
-<div class="container-fluid">
+<div class="container-fluid shadow">
      <div class="row row-content align-items-center ">
          <div class="col-xl-2 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="margin-top: 5%;background-color: rgba(248,159,159,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-info-circle" style="font-size: 37px;color: rgb(164,13,13);background-color: rgba(206,111,122,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 11px;padding-top: 9px;"></i>
@@ -94,7 +94,7 @@
                        
                    ],
                    datasets: [{
-                       label: 'Month Revenue',
+                       label: 'Month Expenditure',
                        data:  [
                                 "88092",
                                 "59316",
@@ -145,4 +145,160 @@
            </div>
      </div>
 </div>
+<div class="container-fluid shadow">
+    <div class="row row-content align-items-center">
+        <div class="col-xl-4 col-lg-8 col-sm-12 order-sm-last col-md-8">
+           <div class="chart-container" >
+               <canvas id="myChart3" height="500" width="550" style="display: block; height: 100%; width: 100%;"></canvas>
+           </div>
+           <script>
+               var ctx = document.getElementById('myChart3').getContext('2d');
+               var myChart = new Chart(ctx, {
+                   type: 'line',
+                   data: {
+                       labels: ["Jan",
+                                "Feb",
+                                "Mar",
+                                "Apr",
+                                "May",
+                                "Jun",
+                                "Jul",
+                                "Aug",
+                                "Sept",
+                                "Oct",
+                                "Nov",
+                                "Dec",
+                          
+                       ],
+                       datasets: [{
+                           label: 'Month Electricity Unit',
+                           data:  [
+                                    "55",
+                                    "41",
+                                    "62",
+                                    "65",
+                                    "43",
+                                    "69",
+                                    "65",
+                                    "51",
+                                    "82",
+                                    "75",
+                                    "63",
+                                    "59",
+                           ],
+                           backgroundColor:"rgba(231,88,117,0.55)",
+                           pointBackgroundColor:"#52db09",
+                           borderColor:"rgba(165,11,11,0.97)"
+                       }]
+                   },
+                   options: {
+                       responsive:true,
+                       maintainAspectRatio:true,
+                       legend:{
+                           display:true,
+                           position:'bottom',
+                           labels:{
+                               fontSize:15,
+                           },
+                       },
+                       title:{
+                           display:true,
+                           text:"Tenants Electricity Unit Consumption",
+                           fontSize:20
+                       },
+                       scales: {
+                           yAxes: [{
+                               ticks: {
+                                   callback: function(value, index, values) {
+                                       return  value+' kwh';
+                                   }
+                               }
+                           }]
+                       },
+
+                   }
+               });
+           </script>
+           
+       </div>
+       <div class="col-xl-3 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
+            <div class="shadow" style="height: 52vh;background-color: #dddada;width: 290%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;margin-top: -20%">
+                <p class="d-inline" style="margin-left: 340px;width: 172px;font-size: 18px;"><strong>Expenditure List</strong></p><span class="float-right" id="penCount" style="margin-right: 12px;"></span>
+                <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
+                    <div class="progress-bar bg-danger progress-bar-animated" aria-valuenow="{{pen}}" id="pendBar" aria-valuemin="0" aria-valuemax="100" style="width: {{pen}}%;transition-duration: 5s;"><span class="sr-only"></span></div>
+                </div>
+                <div class="table-responsive table-borderless" style="height: 86%;background-color: rgba(244,244,244,0);width: 100%;padding-right: 11px;font-size: 21px;">
+                    <table class="table table-bordered table-hover" id="pendingTable">
+                        <tbody>
+                        {{#each pendpay}}
+                        <tr style="height: 12px;font-size: 16px;">
+                            <td style="padding: 0px;height: 12px;width: 24%;">TID {{this.tid}}</td>
+                            {{#each this.NameMatch}}
+                            <td style="padding: 0px;height: 12px;width: 40%;">{{this.fname}}</td>
+                            {{/each}}
+                            <td style="padding: 0px;height: 12px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}} <i class="fa fa-question-circle float-right" data-target="#transmodel" data-toggle="modal" onclick='getTransInfo({{this.tid}},this)' style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px; cursor: pointer;"></i></td>
+                        </tr>
+                        {{/each}}
+                        {{#unless pendpay}}
+                            <tr style="height: 12px;font-size: 16px;">
+                                <td colspan="3" align="center">No pending Transactions</td>
+                            </tr>
+                        {{/unless}}
+                        </tbody>
+                    </table>
+                </div>
+                <small class="form-text text-muted"  style="margin-top: -65px;"> <i id="infoPenMonth">  </i><br> 
+                <a href="#" class="previous" style="color: whitesmoke; text-decoration: none;">&laquo; Previous</a>
+                <a href="#" class="next" style="margin-left: 650px; text-decoration: none; color: whitesmoke;">Next &raquo;</a>
+                    
+                </div> </small></div>
+        </div>
+        </div>
+        <div class="container-fluid" style="width: 85%">
+   <div class="row row-content align-items-center">
+       <div class="col-sm-4 col-md-3">
+           <h3 class="display-4">Rent Metric</h3>
+       </div>
+       <div class="col-sm col-md ">
+           <table class="table table-bordered table-striped mb-0 shadow">
+               <thead class="bg-dark" style="color: floralwhite;">
+               <tr>
+                   <th scope="col">Sl.No</th>
+                   <th scope="col">Metric Name</th>
+                   <th scope="col">Rent (In Rs.)</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr>
+                   <th scope="row">1.</th>
+                   <td class="lead">Base Rent</td>
+                   <td class="lead">Rs 15000</td>
+               </tr>
+               <tr>
+                   <th scope="row">2.</th>
+                   <td class="lead">Water</td>
+                   <td class="lead">Rs 450</td>
+               </tr>
+               <tr>
+                   <th scope="row">3.</th>
+                   <td class="lead">Electricity</td>
+                   <td class="lead">Rs 15 (per Unit)</td>
+               </tr>
+               <tr>
+                   <th scope="row">4.</th>
+                   <td class="lead">Security</td>
+                   <td class="lead">Rs 1500</td>
+               </tr>
+               <tr>
+                   <th scope="row">5.</th>
+                   <td class="lead">Maintainance</td>
+                   <td class="lead">Rs 600</td>
+               </tr>
+               </tbody>
+           </table>
+           
+       </div>
+   </div>
+</div>
+
 {{>footerL}}

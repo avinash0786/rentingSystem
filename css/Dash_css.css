@@ -48,3 +48,19 @@ body {
   cursor: pointer;
   color: rgb(255, 255, 255)
 }
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+
+
+.previous {
+  background-color: #3b3b3b;
+  color: rgb(255, 255, 255);
+}
+.next {
+  background-color: #3b3b3b;
+  color: rgb(253, 253, 253);
+}
