@@ -7,6 +7,7 @@ const tenant=require("../models/tenant")
 const transaction=require("../models/transaction")
 const notifications=require("../models/notifications")
 const val = require("express-validator")
+var moment = require('moment');
 var bcrypt =require('bcrypt');
 const saltRound=2312;
 
@@ -50,7 +51,7 @@ router.get('/tenant-login',redirectLanding,function(req, res, next) {
     })
 });
 
-router.post('/tenant-login',redirectLanding,function(req, res) {
+router.post('/tenant-login',redirectLanding,async (req, res)=> {
     console.log("Running tenant login")
     let tenantid=req.body.tenantID;
     console.log("User id:  "+tenantid)
@@ -63,7 +64,7 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
                 })
             }
             else {
-                bcrypt.compare(req.body.tenantpswd,user[0].pswd,function (err,result) {
+                bcrypt.compare(req.body.tenantpswd,user[0].pswd,async (err,result)=> {
                     if(err)
                     {
                         return res.render("tenant",{
@@ -71,6 +72,21 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
                         })
                     }
                     if(result){
+                        var newreq;
+                        await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+                            .then((d)=>{
+                                console.log(d[0])
+                                newreq=d[0].maxid+1;
+                            })
+                        var loginmessage=new notifications({
+                            requestID:newreq,
+                            dateGenerated:Date(),
+                            message:"New User login Detected at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
+                            toTenant:tenantid,
+                            from:"Admin"
+                        })
+                        console.log("Notif send to tenant")
+                        loginmessage.save()
                         req.session.tenantID=tenantid;
                         req.session.tenantFname=user[0].fname;
                         req.session.tenantLname=user[0].lname;
@@ -331,7 +347,7 @@ router.get('/tenant-trans',redirectLogin,async (req, res, next)=> {
                 $project:{
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
+                    tid:1,amount:1,landlordID:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
             { $sort : { _id: -1 } }
@@ -362,7 +378,7 @@ router.get('/tenant-trans',redirectLogin,async (req, res, next)=> {
                 $project:{
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
+                    tid:1,amount:1,landlordID:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
             { $sort : { _id: -1 } }
@@ -392,7 +408,7 @@ router.get('/tenant-trans',redirectLogin,async (req, res, next)=> {
                 $project:{
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1,initialUnit:1,finalUnit:1
+                    tid:1,amount:1,landlordID:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
             { $sort : { _id: -1 } }

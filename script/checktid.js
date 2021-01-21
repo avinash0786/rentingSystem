@@ -22,7 +22,7 @@ async function checktid(){
                 console.log("Success")
                 document.getElementById("success").style.display="block";
                 document.getElementById("failed").style.display="none";
-                location.replace(`/landlord-invoice?tid=${tid}&sec=${tenant}`)
+                location.replace(`/invoice?tid=${tid}&sec=${tenant}`)
             }
             else {
                 console.log("Fail")

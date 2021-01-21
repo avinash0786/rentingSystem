@@ -506,7 +506,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
+                    tid:1,amount:1,landlordID:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
             { $sort : { _id: -1 } }
@@ -546,7 +546,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
+                    tid:1,amount:1,landlordID:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
             { $sort : { _id: -1 } }
@@ -585,7 +585,7 @@ router.get('/landlord-trans',redirectLogin,async(req, res)=> {
                     dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
                     datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
                     NameMatch: {fname:1},fname:1,
-                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1,initialUnit:1,finalUnit:1
+                    tid:1,amount:1,tenantID:1,landlordID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1,initialUnit:1,finalUnit:1
                 }
             },
             { $sort : { _id: -1 } }
@@ -695,7 +695,7 @@ router.get("/landlord-genBillPopulateTenant",redirectLogin,async (req,res)=> {
     console.log(month)
     console.log(date)
     var year=d.getFullYear();
-    req.session.year=parseInt(year);
+    req.session.year=parseInt(2020);
     console.log("Year: "+req.session.year)
     var monthName=months[month-1];
     req.session.monthname=monthName
@@ -746,6 +746,12 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
     var tempo=await transaction.aggregate([{ $group : { _id: null, maxid: { $max : "$tid" }}}])
     tidnew=tempo[0].maxid;
     //console.log("Date: "+new Date(req.session.billGendate))
+    let notifID;
+    await notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
+        .then((d)=>{
+            console.log(d[0])
+            notifID=d[0].maxid+1;
+        })
     ten.forEach((t)=>{
          tidnew+=1;
         // var ini="initial"+t.tenantID;
@@ -768,6 +774,15 @@ router.post("/landlord-finalBill",redirectLogin,async (req,res)=> {
             initialUnit:req.body["initial"+t.tenantID],
             finalUnit:req.body["current"+t.tenantID]
         })
+
+        var admmessage=new notifications({
+            requestID:notifID++,
+            dateGenerated:Date(),
+            message:"Dear Tenant Bill for month: "+req.session.monthname+" of Rs "+ (eleAmount+extras)+" has been added generated kindly pay before next bill.",
+            toTenant:t.tenantID,
+            from:"Admin"
+        })
+        admmessage.save()
         transac.save()
             .then((d)=>{
                 console.log("Data saved successfully")
@@ -1072,8 +1087,8 @@ router.get("/loadlast",function (req,res) {
         { $sort : { _id: 1 } }
     ])
         .then(data=>{
-            // console.log("Load data")
-            // console.log(data);
+            console.log("Load data")
+            console.log(data);
             return res.send({
                 load:data
             })
@@ -1345,15 +1360,12 @@ router.get("/verifytid",function (req,res){
         })
 })
 
-router.get('/landlord-invoice',function (req,res){
+router.get('/invoice',function (req,res){
     let tid=parseInt(req.query.tid);
     console.log(req.query)
     console.log(tid)
-    let landlordID=parseInt(req.session.userID);
-    if(req.query.sec){
-        landlordID=parseInt(req.query.sec);
-        console.log("Verfy req")
-    }
+    landlordID=parseInt(req.query.sec);
+    console.log("Verfy req")
     console.log(landlordID)
     transaction.aggregate([
         {
@@ -1388,7 +1400,8 @@ router.get('/landlord-invoice',function (req,res){
             }
         }
     ])
-        .then(d=>{
+        .then(data=>{
+            console.log(data)
             notifications.aggregate([{ $group : { _id: null, maxid: { $max : "$requestID" }}}])
                 .then((d)=>{
                     console.log(d[0])
@@ -1401,13 +1414,22 @@ router.get('/landlord-invoice',function (req,res){
                         from:"Admin"
                     })
                     admmessage.save()
+                    var tenmessage=new notifications({
+                        requestID:newreq+1,
+                        dateGenerated:Date(),
+                        message:"Invoice Generated for Transaction Id: "+tid+" at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
+                        toTenant:data[0].tenantID,
+                        from:"Admin"
+                    })
+                    tenmessage.save()
                 })
 
             res.render("recipt",{
-                data:d[0],
-                landlord:d[0].landlordname[0],
-                tenant:d[0].NameMatch[0],
-                now:Date()
+                data:data[0],
+                landlord:data[0].landlordname[0],
+                tenant:data[0].NameMatch[0],
+                now:Date(),
+                title:"Invoice"
             })
         })
         .catch(e=>{
