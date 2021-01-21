@@ -52,7 +52,13 @@ helper.convLocal=function(option){
 helper.makeBold=function(option){
   return "<strong>"+ option.fn(this)+"<strong>";
 }
-
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+helper.getMonth=function(option){
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var num=option.fn(this);
+    return months[num-1];
+}
 app.use(userRoute);
 app.use(landlordRoute);
 app.use(express.static(path.join(__dirname,"./images")));

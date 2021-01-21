@@ -72,6 +72,8 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
                     }
                     if(result){
                         req.session.tenantID=tenantid;
+                        req.session.tenantFname=user[0].fname;
+                        req.session.tenantLname=user[0].lname;
                         console.log("Tenant Session uid: "+req.session.tenantID)
                         res.redirect("/tenant-landing")
                     }
@@ -92,8 +94,6 @@ router.get('/tenant-landing',redirectLogin,async (req,res)=>{
     /*  DATA
     total pending mount
     total paid amount
-    expense donught chart
-    total month wise expenses
      */
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -108,7 +108,7 @@ router.get('/tenant-landing',redirectLogin,async (req,res)=>{
     var totalelec=await transaction.aggregate([
         {
             $match:{
-                landlordID:parseInt(req.session.tenantID)
+                tenantID:parseInt(req.session.tenantID)
             }
         },
         {
@@ -120,15 +120,44 @@ router.get('/tenant-landing',redirectLogin,async (req,res)=>{
             }
         }
     ]);
-    if(totalelec[0]!==undefined)
-    {
-        totalelec=totalelec[0].total
-    }
-    else {
-        totalelec=0;
-    }
+    totalelec=(totalelec[0]!==undefined)?totalelec[0].total:0;
+
     console.log(totalelec);
 
+    var totalpaid=await transaction.aggregate([
+        {
+            $match:{
+                tenantID:parseInt(req.session.tenantID),
+                paidON:{$ne:null},
+            }
+        },
+        {
+            $group:{
+                _id: null,
+                total: {
+                    $sum:"$amount"
+                }
+            }
+        }
+    ]);
+    totalpaid=(totalpaid[0]!==undefined)?totalpaid[0].total:0;
+    var totalPending=await transaction.aggregate([
+        {
+            $match:{
+                tenantID:parseInt(req.session.tenantID),
+                paidON:null,
+            }
+        },
+        {
+            $group:{
+                _id: null,
+                total: {
+                    $sum: "$amount"
+                }
+            }
+        }
+    ]);
+    totalPending=(totalPending[0]!==undefined)?totalPending[0].total:0;
     var metricwise=await transaction.aggregate([
         {
             $match:{
@@ -220,7 +249,11 @@ router.get('/tenant-landing',redirectLogin,async (req,res)=>{
         landMobile:land.mobile,
         landEmail:land.email,
         landAddress:land.address,
-        metricwise:metricwise[0]
+        metricwise:metricwise[0],
+        title:"Tenant Dashboard",
+        totalelec:totalelec,
+        totalpaid:totalpaid,
+        totalPending:totalPending,
     })
 })
 
@@ -276,26 +309,244 @@ router.post('/tenant-signup',async (req, res)=> {
 });
 
 
-router.get('/tenant-profile',function(req, res, next) {
+router.get('/tenant-profile',redirectLogin,function(req, res, next) {
     res.render("tenantProfile",{
         layout:"tenantMain",
     })
 });
 
-router.get('/tenant-trans',function(req, res, next) {
-    res.render("tenantTransaction",{
-        layout:"tenantMain",
-    })
+router.get('/tenant-trans',redirectLogin,async (req, res, next)=> {
+    const user=parseInt(req.session.tenantID);
+    if(req.query.fetch==="paid")
+    {
+        const ans= await transaction.aggregate([
+            {
+                $match:{
+                    tenantID:user,
+                    paidON:{$ne:null}
+                }
+            },
+            {
+                $project:{
+                    dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
+                    datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
+                }
+            },
+            { $sort : { _id: -1 } }
+        ])
+
+        res.render("tenantTransaction",
+            {
+                layout:"tenantMain",
+                type:'Only Paid',
+                land:req.session.userID,
+                trans:ans,
+                title:"Transaction",
+                fname:req.session.tenantFname,
+                lname:req.session.tenantLname,
+                id:req.session.tenantID
+            });
+    }
+    else if(req.query.fetch==="unpaid")
+    {
+        const ans= await transaction.aggregate([
+            {
+                $match:{
+                    tenantID:user,
+                    paidON:null
+                }
+            },
+            {
+                $project:{
+                    dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
+                    datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,month:1,year:1,initialUnit:1,finalUnit:1
+                }
+            },
+            { $sort : { _id: -1 } }
+        ])
+
+        res.render("tenantTransaction",
+            {
+                layout:"tenantMain",
+                type:'Only UnPaid',
+                land:req.session.userID,
+                trans:ans,
+                title:"Transaction",
+                fname:req.session.tenantFname,
+                lname:req.session.tenantLname,
+                id:req.session.tenantID
+            });
+    }
+    else
+    {
+        const ans= await transaction.aggregate([
+            {
+                $match:{
+                    tenantID:user,
+                }
+            },
+            {
+                $project:{
+                    dateGen:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$dateGenerated"}},
+                    datePaid:{$dateToString: {format: "%Y-%m-%d %H:%M:%S", date: "$paidON"}},
+                    tid:1,amount:1,tenantID:1,baseRent:1,water:1,electricity:1,maintenance:1,security:1,paidON:1,month:1,year:1,initialUnit:1,finalUnit:1
+                }
+            },
+            { $sort : { _id: -1 } }
+        ])
+        res.render("tenantTransaction",
+            {
+                layout:"tenantMain",
+                type:'All',
+                land:req.session.userID,
+                trans:ans,
+                title:"Transaction",
+                fname:req.session.tenantFname,
+                lname:req.session.tenantLname,
+                id:req.session.tenantID
+            });
+    }
 });
 
 router.get('/tenant-payBill',function(req, res, next) {
     res.send("/tenant-payBill Recieved request ")
 });
 
-router.get('/tenant-notif',function(req, res, next) {
-    res.render("tenantNotification",{
-        layout:"tenantMain",
-    })
+router.get('/tenant-notification',redirectLogin,function(req, res, next) {
+    if(req.query.type==="sent")
+    {
+        console.log("Sent messages retieve")
+        notifications.find({fromLandlord:req.session.userID}).sort({_id:-1}).lean()
+            .then((not)=>{
+                return res.render("sentNotif",{
+                    notif:not,
+                    title:"Notification",
+                    fname:req.session.fname,
+                    lname:req.session.lname,
+                    id:req.session.userID
+                })
+            })
+            .catch((E)=>{
+                console.log("error db notification"+E)
+                res.redirect("/landlord-error");
+            })
+    }
+    else {
+        console.log("REcieved messages retieve")
+        notifications.find({toLandlord:req.session.userID}).sort({_id:-1}).lean()
+            .then((not)=>{
+                return res.render("notifications",{
+                    notif:not,
+                    title:"Notifications",
+                    fname:req.session.fname,
+                    lname:req.session.lname,
+                    id:req.session.userID
+                })
+            })
+            .catch((E)=>{
+                console.log("error db rec"+E)
+                res.redirect("/landlord-error");
+            })
+
+    }
+});
+
+router.get('/tenant-send',redirectLogin,function (req, res, next) {
+    let sendto=parseInt(req.query.sendto)
+    tenant.find({landlordID:req.session.userID}).lean()
+        .then((doc)=>{
+            res.render("landlordsend1",{
+                tenants:doc,
+                error:false,
+                message:false,
+                title:"Send Notification",
+                fname:req.session.fname,
+                lname:req.session.lname,
+                id:req.session.userID,
+                sendto:sendto
+            })
+        })
+        .catch((e)=>{
+            res.redirect("/landlord-error");
+        })
+});
+
+router.post('/tenant-send',redirectLogin,async (req, res, next)=> {
+    var newID=await notifications.countDocuments({})+1;
+    if(req.body.broad)
+    {
+        console.log("broadcasting")
+        var mes=req.body.message;
+        tenant.find({landlordID:req.session.userID,verified:true}).lean()
+            .then((doc)=>{
+                doc.forEach((tenant)=>{
+                    var notif=new notifications({
+                        requestID:newID++,
+                        message:mes,
+                        dateGenerated:Date(),
+                        fromLandlord:req.session.userID,
+                        toTenant:tenant.tenantID
+                    })
+                    notif.save()
+                })
+                tenant.find({landlordID:req.session.userID}).lean()
+                    .then((dc)=>{
+                        res.render("landlordsend1",{
+                            tenants:dc,
+                            error:false,
+                            message:"broadcasted"
+                        })
+                    })
+            })
+    }
+    else
+    {
+        console.log(req.body)
+        var tid=req.body.id;
+        tenant.find({landlordID:req.session.userID,tenantID:tid}).lean()
+            .then((doc)=>{
+                console.log(doc)
+                if(doc.length>0)
+                {
+                    console.log("Tenant found")
+                    var notif=new notifications({
+                        requestID:newID++,
+                        dateGenerated:Date(),
+                        message:req.body.message,
+                        fromLandlord:req.session.userID,
+                        toTenant:tid
+                    })
+                    notif.save()  //saving notifications
+                        .then(()=>{
+                            tenant.find({landlordID:req.session.userID}).lean()
+                                .then((dc)=>{
+                                    res.render("landlordsend1",{
+                                        tenants:dc,
+                                        error:false,
+                                        message:"sent"
+                                    })
+                                })
+                        })
+                }
+                else {
+                    console.log("Tenant not  found")
+                    tenant.find({landlordID:req.session.userID}).lean()
+                        .then((dc)=>{
+                            res.render("landlordsend1",{
+                                tenants:dc,
+                                error:true,
+                                message:""
+                            })
+                        })
+                }
+            })
+            .catch(()=>{
+                console.log("Fetch error!")
+                res.redirect("/landlord-error");
+            })
+    }
 });
 
 router.get('/tenant-logout',function(req, res, next) {

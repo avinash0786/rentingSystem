@@ -18,13 +18,13 @@
      <div class="row row-content align-items-center ">
          <div class="col-xl-2 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
             <div class="shadow" style="margin-top: 5%;background-color: rgba(248,159,159,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-info-circle" style="font-size: 37px;color: rgb(164,13,13);background-color: rgba(206,111,122,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 11px;padding-top: 9px;"></i>
-                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">2500</strong>
-                    <p style="font-size: 1.1em;">Total Pending Amount</p>
+                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">{{totalPending}}</strong>
+                    <p style="font-size: 1.1em;">Total Amount Pending</p>
                 </div>
             </div>
             <div class="shadow" style="margin-top: 15%;background-color: rgba(241,135,237,0.55);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-rupee" style="font-size: 37px;color: rgb(207,14,118);background-color: rgba(224,119,236,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 19px;padding-top: 9px;"></i>
-                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">10000</strong>
-                    <p style="font-size: 1.1rem;">Total Payed Amount</p>
+                <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 2rem;">{{totalpaid}}</strong>
+                    <p style="font-size: 1.1rem;">Total Amount Paid</p>
                 </div>
             </div>
         </div>
@@ -137,13 +137,18 @@
                    <p style="font-size: 1.1em;">Room Number </p>
                </div>
            </div>
+           <div class="shadow" style="margin-top: 15%;background-color: rgba(154,170,227,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-flash" style="font-size: 37px;color: rgb(7,4,137);background-color: rgba(155,149,223,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 1px;margin-top: 24px;margin-left: 16px;padding-bottom: 0px;padding-left: 19px;padding-top: 10px;"></i>
+               <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;">{{totalelec}}</strong>
+                   <p>Total Electricity Unit consumed</p>
+               </div>
+           </div>
      </div>
 </div>
 <div class="container-fluid shadow">
     <div class="row row-content align-items-center">
-        <div class="col-xl-4 col-lg-8 col-sm-12 order-sm-last col-md-8">
+        <div class="col-xl-6 col-lg-6 col-sm-12 col-md-8">
            <div class="chart-container" >
-               <canvas id="myChart3" height="500" width="550" style="display: block; height: 100%; width: 100%;"></canvas>
+               <canvas id="myChart3" height="250" width="400" style="display: block; height: 100%; width: 100%;"></canvas>
            </div>
            <script>
                var ctx = document.getElementById('myChart3').getContext('2d');
@@ -197,7 +202,7 @@
            </script>
            
        </div>
-       <div class="col-xl-3 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
+       <div class="col-xl-4 col-lg-4 col-sm-12  col-md-4 ">
            <div class="shadow" style="height: fit-content;background-color: #ffffff;width: 20vw;border-radius: 7px;margin-left: 204px;padding-left: 13px;padding-right: 2px;padding-top: 4px;">
                <p class="d-inline" style="margin-left: 0px;width: 172px;">Month: January</p><span class="float-right" style="margin-right: 12px;"><i class="fa fa-rupee" style="color: var(--blue);"></i> 56491</span>
                <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: #1d8f30;font-size: 12px;border-style: none;">
