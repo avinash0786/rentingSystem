@@ -1341,6 +1341,7 @@ router.get("/verifytid",function (req,res){
     console.log(req.query)
     transaction.findOne({landlordID:parseInt(req.query.t),tid:parseInt(req.query.tid)})
         .then(a=>{
+            console.log(a)
             if(a){
                 return res.send({
                     respose:true
