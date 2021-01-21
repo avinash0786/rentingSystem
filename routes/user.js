@@ -89,11 +89,138 @@ router.post('/tenant-login',redirectLanding,function(req, res) {
 });
 
 router.get('/tenant-landing',redirectLogin,async (req,res)=>{
+    /*  DATA
+    total pending mount
+    total paid amount
+    expense donught chart
+    total month wise expenses
+     */
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    let tenUser=await tenant.findOne({tenantID:parseInt(req.session.tenantID),verified:true})
+    console.log(tenUser);
+    let fname=tenUser.fname;
+    let lname=tenUser.lname;
+    let room=tenUser.room;
+    let land=await landlord.findOne({landlordID:parseInt(tenUser.landlordID)})
+
+    var totalelec=await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.tenantID)
+            }
+        },
+        {
+            $group:{
+                _id: null,
+                total: {
+                    $sum: {$subtract:["$finalUnit","$initialUnit"]}
+                }
+            }
+        }
+    ]);
+    if(totalelec[0]!==undefined)
+    {
+        totalelec=totalelec[0].total
+    }
+    else {
+        totalelec=0;
+    }
+    console.log(totalelec);
+
+    var metricwise=await transaction.aggregate([
+        {
+            $match:{
+                landlordID:parseInt(req.session.tenantID)
+            }
+        },
+        {
+            $group:{
+                _id:null,
+                baseRent: { $sum : "$baseRent" },
+                water:{ $sum:"$water"},
+                electricity:{ $sum:"$electricity"},
+                security:{ $sum:"$security"},
+                maintenance:{ $sum:"$maintenance"},
+                amount:{$sum:"$amount"}
+            }
+        }
+    ])
+    console.log(metricwise)
+    var monthunits=await transaction.aggregate([
+        {
+            $match:{
+                tenantID:parseInt(req.session.tenantID)
+            }
+        },
+        {
+            $group:{
+                _id: {month:"$month"},
+                elec:{$sum:{$subtract:["$finalUnit","$initialUnit"]}}
+            }
+        },
+        {
+            $sort:{
+                _id: 1
+            }
+        },
+        {
+            $project:{
+                elec:1,
+                month:"$_id.month",
+                _id:0
+            }
+        }
+    ]);
+    monthunits.forEach(d=>{
+        d['month']=months[d.month-1]
+    })
+    console.log(monthunits)
+
+    var monthSpend=await transaction.aggregate([
+        {
+            $match:{
+                tenantID:parseInt(req.session.tenantID)
+            }
+        },
+        {
+            $group:{
+                _id: { month : "$month" },
+                profit: { $sum : "$amount" },
+                month:{$max:"$month"},
+                eleUnit:{ $sum: { $subtract: ["$finalUnit","$initialUnit"] } }
+            }
+        },
+        {
+            $sort:{
+                month:1
+            }
+        }
+    ]);
+    monthSpend.forEach(d=>{
+        d['month']=months[d.month-1]
+    })
+    console.log(monthSpend)
     res.render("tenantDash",{
+        monthSpend:monthSpend,
+        monthUnit:monthunits,
         layout:"tenantMain",
-        fname:"Apple",
-        lname:"Mango",
-        id:"121"
+        fname:fname,
+        lname:lname,
+        id:req.session.tenantID,
+        roomno:room,
+        baseRent:land.baseRent,
+        water:land.water,
+        elec:land.electricity,
+        security:land.security,
+        maint:land.maintenance,
+        landFname:land.fname,
+        landLname:land.lname,
+        landMobile:land.mobile,
+        landEmail:land.email,
+        landAddress:land.address,
+        metricwise:metricwise[0]
     })
 })
 

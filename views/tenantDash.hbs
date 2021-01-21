@@ -39,7 +39,7 @@
                data: {
                    labels: ['BaseRent', 'Water', 'Electricity', 'Security', 'Maintenance'],
                    datasets: [{
-                       data: [81000, 576, 185204, 4005, 63594],
+                       data: [{{metricwise.baseRent}}, {{metricwise.water}}, {{metricwise.electricity}}, {{metricwise.security}}, {{metricwise.maintenance}}],
                        backgroundColor: [
                            '#EA4335',
                            '#3c7ef1',
@@ -85,23 +85,17 @@
            var myChart = new Chart(ctx, {
                type: 'line',
                data: {
-                   labels: ["January",
-                            "February",
-                            "March",
-                            "April",
-                            "May",
-                            "June",
-                       
+                   labels: [
+                       {{#forEach monthSpend}}
+                           "{{this.month}}",
+                       {{/forEach}}
                    ],
                    datasets: [{
                        label: 'Month Expenditure',
                        data:  [
-                                "88092",
-                                "59316",
-                                "53430",
-                                "75012",
-                                "23704",
-                                "34825",
+                           {{#forEach monthSpend}}
+                               "{{this.profit}}",
+                           {{/forEach}}
                        ],
                        backgroundColor:"rgba(17,138,178,0.55)",
                        pointBackgroundColor:"#ee6c4d",
@@ -139,7 +133,7 @@
        </div>
        <div class="col-xl-2 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
            <div class="shadow" style="margin-top: 5%;background-color: rgba(163,194,173,0.5);width: 100%;height: 109px;border-radius: 14px;"><span></span><i class="fa fa-arrow-circle-o-down" style="font-size: 37px;color: rgb(34,119,37);background-color: rgba(118,206,111,0.66);border-radius: 27px;border-width: 0px;margin: 0px;width: 54px;height: 54px;padding: 8px;margin-top: 24px;margin-left: 16px;padding-left: 11px;padding-top: 9px;"></i>
-               <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;">12</strong>
+               <div class="float-right" style="height: 100%;background-color: rgba(255,255,255,0);width: 60%;"><strong style="font-size: 31px;">{{roomno}}</strong>
                    <p style="font-size: 1.1em;">Room Number </p>
                </div>
            </div>
@@ -156,35 +150,17 @@
                var myChart = new Chart(ctx, {
                    type: 'line',
                    data: {
-                       labels: ["Jan",
-                                "Feb",
-                                "Mar",
-                                "Apr",
-                                "May",
-                                "Jun",
-                                "Jul",
-                                "Aug",
-                                "Sept",
-                                "Oct",
-                                "Nov",
-                                "Dec",
-                          
+                       labels: [
+                           {{#forEach monthUnit}}
+                               "{{this.month}}",
+                           {{/forEach}}
                        ],
                        datasets: [{
                            label: 'Month Electricity Unit',
                            data:  [
-                                    "55",
-                                    "41",
-                                    "62",
-                                    "65",
-                                    "43",
-                                    "69",
-                                    "65",
-                                    "51",
-                                    "82",
-                                    "75",
-                                    "63",
-                                    "59",
+                               {{#forEach monthUnit}}
+                                   "{{this.elec}}",
+                               {{/forEach}}
                            ],
                            backgroundColor:"rgba(231,88,117,0.55)",
                            pointBackgroundColor:"#52db09",
@@ -222,37 +198,62 @@
            
        </div>
        <div class="col-xl-3 col-lg-4 col-sm-12 order-sm-last col-md-4 ">
-            <div class="shadow" style="height: 52vh;background-color: #dddada;width: 290%;border-radius: 7px;padding-left: 13px;padding-right: 2px;padding-top: 6px;margin-top: -20%">
-                <p class="d-inline" style="margin-left: 340px;width: 172px;font-size: 18px;"><strong>Expenditure List</strong></p><span class="float-right" id="penCount" style="margin-right: 12px;"></span>
-                <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: rgba(255,255,255,0);font-size: 12px;border-style: none;">
-                    <div class="progress-bar bg-danger progress-bar-animated" aria-valuenow="{{pen}}" id="pendBar" aria-valuemin="0" aria-valuemax="100" style="width: {{pen}}%;transition-duration: 5s;"><span class="sr-only"></span></div>
-                </div>
-                <div class="table-responsive table-borderless" style="height: 86%;background-color: rgba(244,244,244,0);width: 100%;padding-right: 11px;font-size: 21px;">
-                    <table class="table table-bordered table-hover" id="pendingTable">
-                        <tbody>
-                        {{#each pendpay}}
-                        <tr style="height: 12px;font-size: 16px;">
-                            <td style="padding: 0px;height: 12px;width: 24%;">TID {{this.tid}}</td>
-                            {{#each this.NameMatch}}
-                            <td style="padding: 0px;height: 12px;width: 40%;">{{this.fname}}</td>
-                            {{/each}}
-                            <td style="padding: 0px;height: 12px;"><i class="fa fa-rupee" style="color: rgb(25,119,187);border-color: rgb(13,67,171);margin-left: 0px;"></i> {{this.amount}} <i class="fa fa-question-circle float-right" data-target="#transmodel" data-toggle="modal" onclick='getTransInfo({{this.tid}},this)' style="color: rgb(208,37,37);padding-top: 2px;margin-top: 2px; cursor: pointer;"></i></td>
-                        </tr>
-                        {{/each}}
-                        {{#unless pendpay}}
-                            <tr style="height: 12px;font-size: 16px;">
-                                <td colspan="3" align="center">No pending Transactions</td>
-                            </tr>
-                        {{/unless}}
-                        </tbody>
-                    </table>
-                </div>
-                <small class="form-text text-muted"  style="margin-top: -65px;"> <i id="infoPenMonth">  </i><br> 
-                <a href="#" class="previous" style="color: whitesmoke; text-decoration: none;">&laquo; Previous</a>
-                <a href="#" class="next" style="margin-left: 650px; text-decoration: none; color: whitesmoke;">Next &raquo;</a>
-                    
-                </div> </small></div>
-        </div>
+           <div class="shadow" style="height: fit-content;background-color: #ffffff;width: 20vw;border-radius: 7px;margin-left: 204px;padding-left: 13px;padding-right: 2px;padding-top: 4px;">
+               <p class="d-inline" style="margin-left: 0px;width: 172px;">Month: January</p><span class="float-right" style="margin-right: 12px;"><i class="fa fa-rupee" style="color: var(--blue);"></i> 56491</span>
+               <div class="progress border rounded" style="height: 7px;margin-top: -1px;width: 94%;color: rgba(255,255,255,0);background-color: #1d8f30;font-size: 12px;border-style: none;">
+                   <div class="progress-bar bg-success progress-bar-animated" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+               </div>
+               <div class="table-responsive table-borderless" style="height: fit-content;background-color: rgba(244,244,244,0);width: 103%;padding-right: 3px;margin-left: -4px;">
+                   <table class="table table-bordered">
+                       <tbody>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">TID</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;">213</td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Paid On</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;">23 December 2020 </td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Base Rent</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;"><i class="fa fa-rupee" style="color: var(--blue);"></i> 23133</td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Maintenance</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;"><i class="fa fa-rupee" style="color: var(--blue);"></i> 3134 </td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Security</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;"><i class="fa fa-rupee" style="color: var(--blue);"></i> 7831</td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Water</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;"><i class="fa fa-rupee" style="color: var(--blue);"></i> 3133</td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Electricity</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;"><i class="fa fa-rupee" style="color: var(--blue);"></i> 469</td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Initial Unit</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;"> 2122</td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Final Unit</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;"> 3131</td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;">Date Gen</td>
+                           <td style="padding: 0px;height: 17px;width: 40%;">23 December 2020 </td>
+                       </tr>
+                       <tr style="height: 18px;font-size: 16px;margin-top: 1px;">
+                           <td style="padding: 0px;height: 18px;width: 20%;padding-left: 3px;"><button class="btn btn-primary btn-sm" type="button" style="color: var(--cyan);background: rgb(167,184,202);width: 53px;"><i class="fa fa-chevron-left" style="color: rgb(255,255,255);font-size: 18px;"></i></button></td>
+                           <td class="float-right" style="padding: 0px;height: 17px;width: 40%;"><button class="btn btn-primary btn-sm" type="button" style="width: 53px;background: rgb(167,184,202);"><i class="fa fa-chevron-right" style="font-size: 18px;"></i></button></td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div><small class="form-text text-muted" style="margin-top: 0px;">*Transactions details of month: January</small>
+           </div>
         </div>
         <div class="container-fluid" style="width: 85%">
    <div class="row row-content align-items-center">
@@ -272,27 +273,27 @@
                <tr>
                    <th scope="row">1.</th>
                    <td class="lead">Base Rent</td>
-                   <td class="lead">Rs 15000</td>
+                   <td class="lead">Rs {{baseRent}}</td>
                </tr>
                <tr>
                    <th scope="row">2.</th>
                    <td class="lead">Water</td>
-                   <td class="lead">Rs 450</td>
+                   <td class="lead">Rs {{water}}</td>
                </tr>
                <tr>
                    <th scope="row">3.</th>
                    <td class="lead">Electricity</td>
-                   <td class="lead">Rs 15 (per Unit)</td>
+                   <td class="lead">Rs {{elec}} (per Unit)</td>
                </tr>
                <tr>
                    <th scope="row">4.</th>
                    <td class="lead">Security</td>
-                   <td class="lead">Rs 1500</td>
+                   <td class="lead">Rs {{security}}</td>
                </tr>
                <tr>
                    <th scope="row">5.</th>
                    <td class="lead">Maintainance</td>
-                   <td class="lead">Rs 600</td>
+                   <td class="lead">Rs {{maint}}</td>
                </tr>
                </tbody>
            </table>
