@@ -1410,7 +1410,7 @@ router.get('/invoice',function (req,res){
                     var admmessage=new notifications({
                         requestID:newreq,
                         dateGenerated:Date(),
-                        message:"Invoice Generated for Transaction Id: "+tid+" at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
+                        message:"Invoice Generated for Transaction Id: "+tid+" by tenant id: "+data[0].tenantID+ "at: "+moment(Date().toString()).tz('Asia/Kolkata').format("LLLL"),
                         toLandlord:landlordID,
                         from:"Admin"
                     })
