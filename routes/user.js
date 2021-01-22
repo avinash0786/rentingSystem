@@ -473,7 +473,7 @@ router.get('/tenant-notification',redirectLogin,function(req, res, next) {
 });
 
 router.get('/tenant-send',redirectLogin,function (req, res, next) {
-    res.render("tenantsend",{
+    res.render("tenantSend",{
         error:false,
         message:false,
         title:"Send Notification",
