@@ -500,7 +500,7 @@ router.post('/tenant-send',redirectLogin,async (req, res, next)=> {
     notif.save()  //saving notifications
         .then(re=>{
             console.log(re)
-            res.render("tenantsend",{
+            res.render("tenantSend",{
                 tenants:"Landlord",
                 error:false,
                 message:"sent"
