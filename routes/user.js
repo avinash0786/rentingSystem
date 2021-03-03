@@ -427,9 +427,19 @@ router.get('/tenant-trans',redirectLogin,async (req, res, next)=> {
     }
 });
 
-router.get('/tenant-payBill',function(req, res, next) {
-    res.send("/tenant-payBill Recieved request ")
+router.get('/tenant-showPendPay',function(req, res, next) {
+    res.render("tenantBillPay",{
+        layout:"tenantMain"
+    })
 });
+
+router.get('/tenant-finalPay',function(req, res, next) {
+    res.render('tenantFinalPay',{
+        layout:"tenantMain"
+    })
+});
+
+
 
 router.get('/tenant-notification',redirectLogin,function(req, res, next) {
     if(req.query.type==="sent")

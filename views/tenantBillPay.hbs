@@ -1,0 +1,60 @@
+{{>tenantNav}}
+<div class="jumbotron">
+    <h3>
+       <center> <span class="badge badge-secondary">Total Pending Payments</span> </center>
+        
+    </h3><br>
+    
+    <center>  
+        <div class="table-responsive d-flex table-striped table-dark" style="width: 60%;height: 70%;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 30%; color:rgb(255, 255, 255)">Transaction ID:&nbsp; {{this.tid}}</th>
+                        <th style="width: 20%; color:rgb(255, 255, 255)">Total Amount:&nbsp; Rs {{this.amount}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding-right: 0; color:rgb(255, 255, 255)">Year: {{this.year}}</td>
+                        <td style="color:rgb(255, 255, 255)">Month: {{#getMonth}} {{this.month}} {{/getMonth}}</td>
+                    </tr>
+                    <tr>
+                        {{#if this.datePaid}}
+                        <td style="color:rgb(255, 255, 255)">Paid ON: {{#convLocal}} {{this.datePaid}} {{/convLocal}}</td>
+                        {{else}}
+                        <td style="color:rgb(255, 255, 255)">Paid ON: Unpaid</td>
+                        {{/if}}
+                        <td style="color:rgb(255, 255, 255)">Base Rent: Rs {{this.baseRent}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 0;color:rgb(255, 255, 255)">Created on: {{#convLocal}} {{this.dateGen}} {{/convLocal}}</td>
+                        <td style="color:rgb(255, 255, 255)">Water: Rs {{this.water}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px;padding-right: 0px;color:rgb(255, 255, 255)">Initial Unit: {{this.initialUnit}}</td>
+                        <td style="color:rgb(255, 255, 255)">Final Unit: {{this.finalUnit}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 0;color:rgb(255, 255, 255)">Tenant ID: {{this.tenantID}}</td>
+                        <td style="color:rgb(255, 255, 255)">Security: Rs {{this.security}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 0;color:rgb(255, 255, 255)">Electricity: Rs {{this.electricity}}</td>
+                        <td style="color:rgb(255, 255, 255)">Maintenance: Rs {{this.maintenance}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <a class="btn btn-success" role="button"
+                                style="padding: 8px;font-size: 20px;font-family: 'Alegreya Sans', sans-serif;"
+                                target="_blank" href="/tenant-finalPay">Pay Bill</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </center>
+</div>
+
+
+{{>footerL}}
