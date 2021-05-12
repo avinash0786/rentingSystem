@@ -17,7 +17,7 @@
     "moment-timezone": "^0.5.31",
     "mongodb": "^3.6.0",
     "mongoose": "^5.9.26",
-    "nodemailer": "^6.4.11",
+    "nodemailer": "^6.4.16",
     "nodemailer-mailgun-transport": "^2.0.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
