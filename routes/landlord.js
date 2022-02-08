@@ -41,7 +41,7 @@ const redirectLogin=(req,res,next)=>{
 }
 router.post("/payuNotify", (req, res) => {
     console.log("post notify");
-    console.log(req);
+    req.body.order.products=JSON.parse(JSON.stringify(req.body.order.products))
     console.log(req.body);
     console.log(req.headers);
     res.status(200).json({
