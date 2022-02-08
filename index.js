@@ -71,6 +71,7 @@ app.use(express.static(path.join(__dirname,"./js")));
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(passport.initialize());
 app.use(passport.session())
+
 app.get("/", async (req,res)=>{
     res.render("first",{
       layout: false
