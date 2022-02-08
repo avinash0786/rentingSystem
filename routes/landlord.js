@@ -39,16 +39,9 @@ const redirectLogin=(req,res,next)=>{
         next()
     }
 }
-router.get("/payuNotify", (req, res) => {
-    console.log(" get notify");
-    console.log(req.body);
-    console.log(req.headers);
-    res.status(200).json({
-        info:"GET: /payuNotify"
-    })
-})
 router.post("/payuNotify", (req, res) => {
     console.log("post notify");
+    console.log(req);
     console.log(req.body);
     console.log(req.headers);
     res.status(200).json({
