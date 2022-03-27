@@ -49,6 +49,33 @@ router.post("/payuNotify", (req, res) => {
         info:"POST: /payuNotify"
     })
 })
+
+router.get("/checkNgCookie", (req, res) => {
+    console.log("Check angular cookie: ",req.cookies.testing);
+    res.cookie('testing','testing cookie value',{
+        secure:true,
+        sameSite:'none',
+        httpOnly:false
+    })
+    res.status(200).json({
+        info:"Cookie set",
+        cookie:req.cookies.testing
+    })
+})
+
+router.get("/getNgCookie", (req, res) => {
+    console.log("GEt cookie cookie");
+    // res.cookie('testing','testing cookie value',{
+    //     secure:true,
+    //     sameSite:'none',
+    //     httpOnly:false
+    // })
+    res.status(200).json({
+        info:"Cookie get",
+        cookie:req.cookies
+    })
+})
+
 router.get('/landlord-login',redirectLanding,function (req,res) {
     req.session.landlordLog=true;
     console.log("LandlordLog ->true")

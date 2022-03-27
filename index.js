@@ -9,6 +9,8 @@ const tenant=require("./models/tenant")
 const transaction=require("./models/transaction")
 const notifications=require("./models/notifications")
 const passport=require('passport');
+const cookieParser = require("cookie-parser");
+
 
 const userRoute=require('./routes/landlord');
 const landlordRoute=require('./routes/user');
@@ -34,6 +36,7 @@ app.use(session({
   saveUninitialized:false,
   maxAge:3600000}
   ))
+app.use(cookieParser());
 
 var hbs=expHbs.create({
   extname:"hbs",
